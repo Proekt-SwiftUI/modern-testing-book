@@ -1,0 +1,14 @@
+[book]
+authors = ["Nick Rossik"]
+language = "ru"
+multilingual = false
+src = "src"
+title = "Современное тестирование Swift Testing"
+
+[build]
+build-dir = "docs"
+create-missing = false
+
+[output.html.code.hidelines]
+swift = "#"
+cpp = "#"
