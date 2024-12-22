@@ -2,8 +2,12 @@
 
 - [Welcome](welcome.md)
 - [Базовые макросы](basic_macro.md)
+- [Кортежи]()
+    - [@Test]()
+    - [@Suit]()
+    - [Issue]()
 - [Условия](condition.md)
-- [О тегах](sort_by_tag.md)
+- [О тегах](tags.md)
 <!-- - [Advanced]()
     - [Производительность]()
     - [Внутрь исходного кода]()
