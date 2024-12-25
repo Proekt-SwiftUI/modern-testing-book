@@ -12,3 +12,5 @@ create-missing = false
 [output.html.code.hidelines]
 swift = "#"
 cpp = "#"
+
+[preprocessor.alerts]
