@@ -1,6 +1,6 @@
 # Summary
 
-- [Введение](welcome.md)
+- [Введение](welcome.md)  <!-- ✅ -->
 - [Макросы сравнения](basic_macro.md)
 - [Макросы @Test, @Suit и @Tag]()
     - [@Test]()
@@ -10,16 +10,16 @@
     - [Comment]()
     - [ConditionTrait]()
     - [HiddenTrait]()
-    - [TimeLimitTrait]()
+    - [TimeLimitTrait](./Traits/TimeLimitTrait.md)
     - [Bug]()
-    - [Issue]()
+    - [Issue](./Traits/IssueTrait.md)
     - [ParallelizationTrait]()
     - [Tag]()
 - [Условия](condition.md)
-- [О тегах](tags.md)
+- [Теги везде](tags.md)
 - [Добавляем собственный кортеж]()
 - [Best practice](best_practice_short.md)
 - [Сравнение с XCTest](compare_xctest_and_modern_aproach.md)
 - [Мета информация и обозначения](xcode_meta.md)
-- [Runner](runner.md)
+- [Кто управляет тестами](runner.md)
 <!-- - [Вывод]() -->
