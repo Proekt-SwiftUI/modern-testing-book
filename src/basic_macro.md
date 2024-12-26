@@ -1,6 +1,7 @@
 # Базовые макросы сравнения
 
 В этой главе мы изучим базовые макросы сравнения. Вы можете использовать проект из этой книги или создать пустой проект, добавив в таргет новую систему тестирования.
+<!-- Скрин добавления новой системы тестирования -->
 Рассмотрим функцию, импортировав новый фреймворк `Testing`:
 
 ```swift
@@ -84,12 +85,27 @@ func calcWithEmptyValues() async {
 
 #### Макрос сравнения #require
 
+Иногда необходимо закончить выполнение теста заранее и вернуть ошибку. Для этого можем использовать макрос `#require`:
+
+```swift
+@Test("Правильная проверка опционального города")
+func userHaveCity() async throws {
+	let profileData = ProfileData()
+	await profileData.getProfile(id: 1)
+
+	let city: String = try #require(profileData.user?.city) // ❌ Expectation failed
+	
+	#expect(city == "Ísafjörður")
+	await profileData.updateUserProfile()
+}
+```
+
+> ❌ Expectation failed: (profileData.user → UserProfile(id: 1, firstName: "Nick", lastName: "Rossik", email: nil, city: nil)).city → nil → nil
+
+Города данного пользователя равен `nil`, поэтому тест завершилась неудачей, сравнение города ниже и метод `await profileData.updateUserProfile()` не был выполнен.
 
 <!--
 Написать другой пример и показать, почему второе сравнения не имеет смысла, если значение равно nil
-
-1. Пример с enum
-2. Пример с Optional
 -->
 
 Макрос обязательного сравнения (required expectations) схож с предыдущим за исключением 2 деталей.
@@ -100,41 +116,52 @@ func calcWithEmptyValues() async {
 > [!TIP]
 > `try #require` идеально подходил для получения опционального значения и раннего выхода функции.
 
+Попробуем получить профиль пользователя. Заранее скажу, что при передаче в метод нулевого айди `getProfile(id: )`, пользователь не будет найден,
+и поэтому вернется `nil`.
+Воспользуемся оператором `guard let` и попытается развернуть опциональное значение:
 
-### Группировка тестов
+```swift
+@Test("❌ Неправильная проверка опционального города")
+func userProfileHaveCity() async {
+	let profileData = ProfileData()
+	await profileData.getProfile(id: .zero)
+
+	// Юзера с айди .zero не существует.
+	guard let user = profileData.user else {
+		return
+	}
+
+	#expect(user.city != nil)
+	#expect(user.city == "Moscow")
+}
+```
+
+Значение `profileData.user` равно `nil` и остальная часть теста зависит от этого свойства.
+В результате тест должен был завершиться ошибкой, но этого не происходит. Логика в тесте не верная!
+
+> [!IMPORTANT]
+> Старайтесь использовать `#require` вместо `guard` или `guard let`.
 
 
+### Организация тестов
 
+Тесты, которые ты ранее встречал, были глобальными, т.е. не принадлежали к какому-либо типу данных.
+Для организации тестов можем использовать любой тип данных существующий в Swift, например структуру:
+
+```swift
+ struct UserProfileTest {
+	 @Test("❌ Неправильная проверка опционального города")
+	 func userProfileHaveCity() async {}
+
+	 @Test("Правильная проверка опционального города")
+	 func userHaveCity() async throws {}
+
+	 // … другие тесты
+ }
+```
+
+Навигация тестов содержит название типа данных. Про @Suite упомянуть…
 
 
 И в самом конце написать: более подробно про макрос expect в главе, про макрос require в другой главе.
 А как делать группировку с помощью макрос `@Suite`, можно узнать в главе.
-
-<!--
-### Макрос #expect(1 == 2) подробно
-Возможно вынести в отдельный файл и сделать более детальный разбор ?
-
-Здесь пример с throws и прочее.
-
-В простом варианте принимает 3 параметра:
-
-1. Некоторое условие `condition: Bool`
-2. Кортеж `Testing.Comment`, являющийся одиночным комментарием
-3. Кортеж `Testing.SourceLocation`, указывающий нахождение макроса в коде
-
-```swift
-@freestanding(expression)
-public macro expect(
-    _ condition: Bool,
-    _ comment: @autoclosure () -> Testing.Comment? = nil, sourceLocation: Testing.SourceLocation = #_sourceLocation
-    ) = #externalMacro(module: "TestingMacros", type: "ExpectMacro")
-```
-
-### Макрос #require(value = nil)
-!todo Идеально подходит для опциональных значений и раннего выхода.
-
-
-#### На примере
-
-Сделать запрос в сеть на примере API.
--->
