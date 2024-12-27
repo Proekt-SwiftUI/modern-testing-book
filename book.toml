@@ -9,8 +9,5 @@ title = "Современное тестирование Swift Testing"
 build-dir = "docs"
 create-missing = false
 
-[output.html.code.hidelines]
-swift = "#"
-cpp = "#"
 
 [preprocessor.alerts]
