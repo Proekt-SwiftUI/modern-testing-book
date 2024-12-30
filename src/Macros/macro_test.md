@@ -1,5 +1,87 @@
 # @Test(…)
 
+В этой главе я раскрою все возможности макроса, посмотрим на распространенные проблемы в тестировании и узнаем как решить их.
+
+
+## Common workflow
+
+- тесты с условием
+- тесты имеющие общие характеристики
+- повторный запуск с различными аргументами
+
+
+### Runtime condition
+
+Во-первых, тесты с условием.
+Некоторые тесты должны выполняться только при определённых обстоятельствах — например, на конкретных устройствах или в определённом окружении (environments).
+
+Для этого, ты можешь применить кортеж условия (`ConditionTrait`) `.enabled(if: ...)`:
+
+```swift
+@Test(.enabled(if: Backport.isRemoteVersion))
+func backportVersion() async {
+	// ...
+}
+```
+
+Ты передаешь _некоторое_ условие, которое будет оцениваться перед запуском теста и если условие ложно, тест помечается как пропущенный и не выполняется.
+
+> → Test 'backportVersion()' skipped
+
+В других случаях необходимо полностью отключить выполнение теста (чтобы тест никогда не выполнялся). Для этого используй кортеж `.disabled(...)`:
+
+```swift
+@Test(.disabled("Известный баг, отключаем до фикса #PR-3781"))
+func fetchFeatureFlag() async {
+  // ...
+}
+```
+
+> → Test 'fetchFeatureFlag()' skipped: Известный баг, отключаем до фикса #PR-3781
+
+Использование кортежа `.disabled(...)` является предпочтительнее комментирования тела функции, поскольку в закомментированном состоянии — тело функции компилируется:
+<!-- TODO: Добавить этот кейс в лучшие практики!!! -->
+```swift
+// Избегайте такого способа отключения теста
+@Test("Закомментирую на время фикса #PR-3781")
+func fetchAnotherFlag() {
+// try await Task(priority: .background) {
+//	...
+// }
+}
+```
+
+Тебе может показаться, что одного комментария недостаточно и по-хорошему нужно указать **причину** отключения: баг, ожидание PR (пулл реквеста) или иное условие. Что ж, в дополнение к комментарию ты можешь использовать кортеж `.bug(...)`, чтобы явно указать на проблему:
+
+```swift
+@Test(
+	"Проверка валидности поля именя",
+	.disabled("Бекендер исправляет модель"),
+	.bug("https://github.com/issue/7329", "Сломанная валидация имени и модель")
+)
+func validateNameProperty() async throws {
+	// ...
+}
+```
+
+Данный баг будет отображаться в отчете и вы сможете перейти по ссылке, которая ассоциируется с ним:
+
+![Отчет в Xcode 16][validate_name_property_report]
+
+<!-- Let’s now apply those building blocks to some common problems in testing and discuss workflows for addressing them.
+
+- We’ll discuss controlling when tests run;
+- associating tests which have things in common;
+- and repeating tests more than once with different arguments each time.
+
+First, tests with conditions. Some tests should only be run in certain circumstances — such as on specific devices or environments.
+For those, you can apply a condition trait such as .enabled(if: ...).
+You pass it a condition to be evaluated before the test runs, and if the condition is false, the test will be marked as skipped.
+Other times, you might want a test to never run. For this, you can use the .disabled(...) trait. Disabling a test is preferable over other techniques, like commenting out the test function, since it verifies the code inside the test still compiled. The .disabled(...) trait accepts a comment, which you can use to explain the reason why the test is disabled. And comments always appear in the structured results, so they can be shown in your CI system for visibility. Oftentimes, the reason a test is disabled is because of an issue which is tracked in a bug-tracking system. In addition to a comment, you can include a .bug(...) trait along with any other trait to reference related issues with a URL. Then, you can see that bug trait in the Test Report in Xcode 16 and click to open its URL. -->
+
+
+
+
 ### Изоляция на глобальном акторе
 
 ```swift
@@ -60,7 +142,7 @@ if let returnType = function.signature.returnClause?.type, !returnType.isVoid {
 
 ### Неподдерживаемые ключевые слова
 
-На момент выхода книги в типе данных [TestDeclarationMacro][test_declaration], который реализует макрос `@Test` существуют неподдерживаемые ключевые слова:
+На момент выхода книги, в структуре данных [TestDeclarationMacro][test_declaration], которая реализует макрос `@Test`, существуют неподдерживаемые ключевые слова:
 
 ```swift
 struct TestDeclarationMacro: PeerMacro, Sendable {
@@ -129,3 +211,5 @@ if Syntax(decl) != Syntax(genericDecl), genericDecl.isProtocol((any DeclGroupSyn
 }
 }
 ```
+
+[validate_name_property_report]: ../assets/validateNameProperty_link.png
