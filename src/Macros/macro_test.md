@@ -1,16 +1,16 @@
 # @Test(…)
 
-В этой главе я раскрою все возможности макроса, посмотрим на распространенные проблемы в тестировании и узнаем как решить их.
+Глава про макрос @Test разделена на 4 сценария:
 
+- [Условие](#условие-или-runtime-condition)
+- [Общие характеристики или тэги](#общие-характеристики-или-тэги)
+- [Запуск с различными аргументами](#аргументы)
+- [Тонкости успользования](#тонкости)
 
-## Common workflow
+Здесь ты столкнешься с распространенными проблемами в тестировании и узнаешь как их решить.
+Помимо этого, я расскажу о тонкостях работы макроса.
 
-- тесты с условием
-- тесты имеющие общие характеристики
-- повторный запуск с различными аргументами
-
-
-### Runtime condition
+### Условие или runtime condition
 
 Во-первых, тесты с условием.
 Некоторые тесты должны выполняться только при определённых обстоятельствах — например, на конкретных устройствах или в определённом окружении (environments).
@@ -57,7 +57,7 @@ func fetchAnotherFlag() {
 @Test(
 	"Проверка валидности поля именя",
 	.disabled("Бекендер исправляет модель"),
-	.bug("https://github.com/issue/7329", "Сломанная валидация имени и модель")
+	.bug("https://github.com/issue/7329", "Сломанная валидация имени и модель #7329")
 )
 func validateNameProperty() async throws {
 	// ...
@@ -68,21 +68,42 @@ func validateNameProperty() async throws {
 
 ![Отчет в Xcode 16][validate_name_property_report]
 
-<!-- Let’s now apply those building blocks to some common problems in testing and discuss workflows for addressing them.
+Когда необходимо запустить тест только на конкретной версии ОС (операционной системы), можешь использовать [атрибут @available(...)][api_availability], чтобы указать на какой версии доступен тест.
+Атрибут `@available(...)` позволяет понимать, что у теста есть условие, связанное с версией операционной системы и точнее отражать это в результатах.
 
-- We’ll discuss controlling when tests run;
-- associating tests which have things in common;
-- and repeating tests more than once with different arguments each time.
+```swift
+@Test
+@available(macOS 15, *)
+func usesNewAPIs() {
+  // ...
+}
+```
 
-First, tests with conditions. Some tests should only be run in certain circumstances — such as on specific devices or environments.
-For those, you can apply a condition trait such as .enabled(if: ...).
-You pass it a condition to be evaluated before the test runs, and if the condition is false, the test will be marked as skipped.
-Other times, you might want a test to never run. For this, you can use the .disabled(...) trait. Disabling a test is preferable over other techniques, like commenting out the test function, since it verifies the code inside the test still compiled. The .disabled(...) trait accepts a comment, which you can use to explain the reason why the test is disabled. And comments always appear in the structured results, so they can be shown in your CI system for visibility. Oftentimes, the reason a test is disabled is because of an issue which is tracked in a bug-tracking system. In addition to a comment, you can include a .bug(...) trait along with any other trait to reference related issues with a URL. Then, you can see that bug trait in the Test Report in Xcode 16 and click to open its URL. -->
+Избегайте использования проверки доступности с помощью макросов `#available` и `#unavailable`:
 
+```swift
+// ❌ Избегайте использования проверки доступности в рантайме с помощью #available и #unavailable
+@Test
+func hasRuntimeVersionCheck() {
+  guard #available(macOS 15, *) else { return }
+  // ...
+}
 
+// ✅ Используйте атрибут @available для функции или метода
+@Test
+@available(macOS 15, *)
+func usesNewAPIs() {
+  // ...
+}
+```
 
+> @available(...) используется для обозначения доступности типа данных или функции, а #available используется когда необходимо выполнить часть кода только в определенной версии ОС.
 
-### Изоляция на глобальном акторе
+### Общие характеристики или тэги
+
+### Аргументы
+
+### Тонкости
 
 ```swift
 @Test("Как определить, функция для теста изолирована на глобальном акторе ?")
@@ -113,34 +134,53 @@ func determineGlobalActor() async {
 // detecting isolation to other global actors.
 
 ```swift
-    lazy var isMainActorIsolated = !functionDecl.attributes(named: "MainActor", inModuleNamed: "_Concurrency").isEmpty
-    var forwardCall: (ExprSyntax) -> ExprSyntax = {
-      "try await Testing.__requiringTry(Testing.__requiringAwait(\($0)))"
+lazy var isMainActorIsolated = !functionDecl.attributes(named: "MainActor", inModuleNamed: "_Concurrency").isEmpty
+var forwardCall: (ExprSyntax) -> ExprSyntax = {
+  "try await Testing.__requiringTry(Testing.__requiringAwait(\($0)))"
+}
+
+let forwardInit = forwardCall
+
+if functionDecl.noasyncAttribute != nil {
+  if isMainActorIsolated {
+    forwardCall = {
+      "try await MainActor.run { try Testing.__requiringTry(\($0)) }"
     }
-    let forwardInit = forwardCall
-    if functionDecl.noasyncAttribute != nil {
-      if isMainActorIsolated {
-        forwardCall = {
-          "try await MainActor.run { try Testing.__requiringTry(\($0)) }"
-        }
-      } else {
-        forwardCall = {
-          "try { try Testing.__requiringTry(\($0)) }()"
-        }
-      }
+  } else {
+    forwardCall = {
+      "try { try Testing.__requiringTry(\($0)) }()"
     }
+  }
+}
 ```
 
-### Нет необходимости возвращать тип данных
+#### Нет необходимости возвращать тип данных
 
-// Disallow functions with return types. We could conceivably support
-// arbitrary return types in the future, but we do not have a use case for
-// them at this time.
+Если ты внимательно читал код, то обратил внимание что ни одна функция не возвращает конкретный тип данных.
+Указание возвращаемого типа данных не является ошибкой, проверка с помощью макросов выполняется, но в этом случае ты получишь предупреждение:
+
+```swift
+@Test
+func checkReturnType() -> any Collection {
+  let collection = Array(1...10)
+  #expect(collection.contains(10))
+
+  return collection
+}
+```
+
+> ⚠️ The result of this function will be discarded during testing
+
+Возможно в будущем, инженеры Apple добавят такую возможность, но на данный момент они не нашли подходящего сценария, когда необходимо возвращать тип данных.
+Такая проверка возможна с помощью сравнения сигнатуры возвращаемого типа:
+
+```swift
 if let returnType = function.signature.returnClause?.type, !returnType.isVoid {
     diagnostics.append(.returnTypeNotSupported(returnType, on: function, whenUsing: testAttribute))
 }
+```
 
-### Неподдерживаемые ключевые слова
+#### Неподдерживаемые ключевые слова
 
 На момент выхода книги, в структуре данных [TestDeclarationMacro][test_declaration], которая реализует макрос `@Test`, существуют неподдерживаемые ключевые слова:
 
@@ -167,7 +207,7 @@ func parameterCanBeSupported(value: isolated (any Actor)? = #isolation) {}
 [test_declaration]: https://github.com/swiftlang/swift-testing/blob/main/Sources/TestingMacros/TestDeclarationMacro.swift#L84
 
 
-### Test только ключевого слова func
+#### Test только для func
 
 
 Или иными словам, ты можешь применить атрибут только для функций или методов.
@@ -180,7 +220,7 @@ guard let function = declaration.as(FunctionDeclSyntax.self) else {
 }
 ```
 
-### 1 атрибут для 1 функции
+#### 1 атрибут для 1 функции
 
 ```swift
 // Only one @Test attribute is supported.
@@ -190,7 +230,7 @@ if suiteAttributes.count > 1 {
 }
 ```
 
-### Не приминим для Generics
+#### Не приминим для Generics
 
 /// Create a diagnostic message stating that the `@Test` or `@Suite` attribute
 /// cannot be applied to a generic declaration.
@@ -213,3 +253,4 @@ if Syntax(decl) != Syntax(genericDecl), genericDecl.isProtocol((any DeclGroupSyn
 ```
 
 [validate_name_property_report]: ../assets/validateNameProperty_link.png
+[api_availability]: https://docs.swift.org/swift-book/documentation/the-swift-programming-language/controlflow#Checking-API-Availability
