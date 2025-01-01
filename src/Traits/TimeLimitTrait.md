@@ -34,11 +34,11 @@ struct TimeLimitExample {
 }
 ```
 
-> ❌ Time limit was exceeded: 0.000 seconds
-
 Наследование времени просходит от родительского `@Suite`.
 Если макрос `@Test` или `@Suit` принимают более 2 кортежей с ограничением времени, то за максимальное время выполнения будет взято наменьшее значение.
 В примере с `TimeLimitExample` наименьшее время выполнения 0 минут, поэтому тест завершается неудачей.
+
+> ❌ Time limit was exceeded: 0.000 seconds
 
 Попробуйте запустить тест ниже:
 
@@ -54,8 +54,8 @@ func maxTimeLimit() async throws {
 }
 ```
 
+
+
+Когда тест или suite не успевают выполнится в установленное время, вызывается ошибка из кортежа `Issue.Kind.timeLimitExceeded(timeLimitComponents:)`. В таком случае тест завершается неудачей.
+
 > ❌ Time limit was exceeded: 60.000 seconds
-
-Когда тест или suite не успевают выполнится в установленное время, вызывается ошибка из кортежа `Issue`. В таком случае тест завершается неудачей.
-
-> Issue.Kind.timeLimitExceeded(timeLimitComponents:)
