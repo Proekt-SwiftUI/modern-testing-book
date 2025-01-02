@@ -15,7 +15,6 @@
     - [Issue](./Traits/IssueTrait.md)
     - [ParallelizationTrait]()
     - [Tag]()
-- [Условия](condition.md)
 - [Теги везде](tags.md)
 - [Добавляем собственный кортеж]()
 - [Best practice](best_practice_short.md)
