@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
 
-
 # Nick Rossik
 # @wmorgue 2025
 
