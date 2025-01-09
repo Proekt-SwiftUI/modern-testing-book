@@ -27,7 +27,12 @@ public protocol Trait : Sendable {}
 
 ### Реализация собственного кортежа
 
-Каждый макрос `@Test` принимает 0 и более `TestTrait`. Это возможно благодаря экзестенциальному `any` и вариадичному параметру (3 точки) `...`
+Каждый макрос `@Test` принимает 0 и более `TestTrait`. Это возможно благодаря:
+- экзестенциальному `any <#constraint#>` 
+- вариативному (variadic) параметру (3 точки) `...`
+
+https://docs.swift.org/swift-book/documentation/the-swift-programming-language/types/#Boxed-Protocol-Type
+https://docs.swift.org/swift-book/documentation/the-swift-programming-language/functions/#Variadic-Parameters
 
 <!-- Убрать отсюда и перенести в Macros/Test ? -->
 
