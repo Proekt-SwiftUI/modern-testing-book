@@ -89,6 +89,8 @@ func hasRuntimeVersionCheck() {
   // ...
 }
 
+<!-- TODO: Пример с unavailable -->
+
 // ✅ Используйте атрибут @available для функции или метода
 @Test
 @available(macOS 15, *)
@@ -97,45 +99,62 @@ func usesNewAPIs() {
 }
 ```
 
+<!-- Проверить для типа данных: @available struct NewAPI {...} -->
+
 ![Available attribute](../assets/available.png)
 
 > @available(...) используется для обозначения доступности типа данных или функции, а #available используется когда необходимо выполнить часть кода только в определенной версии ОС.
 
 ### Общие характеристики или тэги
 
-Давай обсудим, как ты можешь объединять тесты, которые имеют общие свойства, даже если они находятся в разных типах данных или файлах. Swift Testing поддерживает создание пользовательских тэгов для тестов.
-Я уже начал использовать теги в этом проекте. В Test Navigator все теги отображаются внизу.
-Чтобы увидеть тесты, к которым применены теги, мы можем переключиться в новый режим: группировка по тэгам (Group By: Tag).
+Давай обсудим, как ты можешь объединять тесты, которые имеют общие свойства, даже если они находятся в разных типах данных или файлах.
+Swift Testing поддерживает создание пользовательских тэгов для тестов.
 
-Давайте применим тег к одному из тестов, которые мы писали ранее. Для этого мы добавим кортеж tags в атрибут @Test. Этот тест проверяет логику форматирования данных. В этом проекте уже есть другой тест, связанный с форматированием, поэтому давайте добавим тег formatting и к этому тесту.
+<!-- TODO: Дать определение что такое теги и в контексте тестирования -->
 
-После этого он отобразится в Test Navigator под соответствующим тегом. Я написал еще один тест, который также проверяет форматирование данных, и добавлю его сюда. Поскольку оба теста связаны с форматированием информации о видео, давайте сгруппируем их в поднабор.
+> [!NOTE]
+> Тег (или тэг) — это ключевое слово для обозначения общих свойств в тестах.
 
-Теперь мы можем переместить тег formatting на уровень @Suite, чтобы он наследовался всеми содержащимися тестами. После этого можно удалить теги из каждого отдельного метода с атрибутом @Test, так как они теперь наследуются.
+В моём проект я уже использовал теги. Найти их можно в навигационном меню Xcode, а именно в Test Navigator снизу.
+
+<!-- TODO: скриншот тегов -->
+
+Чтобы увидеть тесты, к которым применены теги, ты можешь переключиться в новый режим группировки — по тегам.
+
+<!-- TODO: скрин: группировка по тегам -->
+
+Давайте применим тег к одному из тестов, которые мы писали ранее. Для этого мы добавим кортеж `.tags(...)` в атрибут @Test:
+
+```swift
+// пример кода 
+```
+
+Этот тест проверяет логику форматирования данных. В этом проекте уже есть другой тест, связанный с форматированием, 
+поэтому давайте добавим тэг `formattingData` и к этому тесту.
+
+После применения, тэг отобразится в Test Navigator под соответствующим тэгом.
+Я написал еще один тест, который также проверяет форматирование данных, и добавлю его сюда.
+Поскольку оба теста связаны с форматированием информации о видео, давайте сгруппируем их в поднабор.
+
+Теперь мы можем переместить тег formattingData на уровень @Suite, чтобы тэг применялся ко всем тестам в этом @Suite. Далее можно удалить теги из каждого отдельного метода с атрибутом @Test, так как он (кто они?) наследуются.
 
 Вы можете ассоциировать теги с тестами, которые имеют общие черты. Например, вы можете применить общий тег ко всем тестам, которые проверяют определенную функцию или подсистему. Это позволяет запускать все тесты с конкретным тегом, фильтровать их в Test Report и даже видеть аналитические данные, например, когда несколько тестов с одним и тем же тегом начинают падать.
 
-Теги могут применяться к тестам в разных файлах, наборах или таргетах и даже делиться между несколькими проектами. При использовании Swift Testing предпочтительнее использовать теги вместо имен тестов для их включения или исключения из тестового плана. Чтобы добиться наилучших результатов, всегда выбирайте наиболее подходящий тип свойства для каждой ситуации. Не все сценарии должны использовать теги. Например, если вы хотите выразить условие выполнения во время выполнения, используйте .enabled(if ...), как мы обсуждали ранее.
+Теги могут применяться к тестам в разных файлах, типам данных, макросу @Suite и даже использоваться в нескольких проектах.
 
-<!-- Next, let’s talk about how you can associate tests which have characteristics in common, even if they’re in different suites or files. Swift Testing supports assigning custom tags to tests. I've already begun using tags in this project. The Test Navigator shows all the tags at the bottom. To view the tests which each of these tags have been applied to, we can switch to the new Group By: Tag mode.
-Let’s apply a tag to one of the tests we wrote earlier. To do this, we’ll add a tags trait to the test via the @Test attribute. This test is validating some data formatting logic. There’s already another test in this project which relates to formatting, so let’s add the formatting tag to this test too.
-Once we do that, it shows in the Test Navigator under that tag.
-I wrote another test which also validates data formatting, which I’ll add here.
-Since these two tests are about the formatting of Video information, let’s group them into a sub-suite.
+При использовании Swift Testing предпочтительнее использовать теги вместо имен тестов для их включения или исключения из тестового плана. Чтобы добиться наилучших результатов, всегда выбирайте наиболее подходящий тип свойства для каждой ситуации. Не все сценарии должны использовать теги. Например, если вы хотите выразить условие выполнения во время выполнения, используйте .enabled(if ...), как мы обсуждали ранее.
 
-Now, we can move the formatting tag up to the @Suite, so it will be inherited by all the tests it contains. Finally, we can delete the tags from each individual @Test function, since they’re now inherited.
-
-You can associate tags with tests which have things in common. As an example, you might apply a common tag to all the tests which validate a particular feature or subsystem. This lets you run all the tests with a particular tag. It also lets you filter them in the Test Report, and even see insights there such as when multiple tests with the same tag begin failing. Tags themselves can be applied to tests in different files, suites, or targets. They can even be shared among multiple projects.
-When using Swift Testing, prefer tags over specific names of tests when including or excluding them from a test plan. For best results, always use the most appropriate type of trait for each circumstance. Not every scenario should use tags. For example, if you’re trying to express a runtime condition, use .enabled(if ...) as we discussed earlier. -->
+<!-- TODO Скриншот: Recommended practies -->
 
 В главе про @Test я не буду рассказывать о том как создать собсвенный тэг и в целом об этом кортеже, только совместное использование.
 Узнать о макросе @Tag можно здесь.
 
-
-
 ### Аргументы
 
-The last workflow I’d like to show is my favorite. Repeating tests with different arguments each time. Here's an example of why that can be useful. In this project there are several tests which check the number of continents that various videos mention. Each of them follows a similar pattern: it creates a fresh videoLibrary, looks up a video by name, and then uses the #expect macro to check how many continents it mentions.
+The last workflow I’d like to show is my favorite. Repeating tests with different arguments each time. 
+Here's an example of why that can be useful.
+In this project there are several tests which check the number of continents that various videos mention.
+Each of them follows a similar pattern: it creates a fresh videoLibrary, looks up a video by name, and then uses the #expect macro to check how many continents it mentions.
 
 ### Тонкости
 
@@ -271,18 +290,17 @@ if suiteAttributes.count > 1 {
 
 ```swift
 static func genericDeclarationNotSupported(_ decl: some SyntaxProtocol, whenUsing attribute: AttributeSyntax, becauseOf genericClause: some SyntaxProtocol, on genericDecl: some SyntaxProtocol) -> Self {
-if Syntax(decl) != Syntax(genericDecl), genericDecl.isProtocol((any DeclGroupSyntax).self) {
-    return .containingNodeUnsupported(genericDecl, genericBecauseOf: Syntax(genericClause), whenUsing: attribute, on: decl)
-} else {
-    // Avoid using a syntax node from a lexical context (it won't have source
-    // location information.)
-    let syntax = (genericClause.root != decl.root) ? Syntax(decl) : Syntax(genericClause)
-    return Self(
-    syntax: syntax,
-    message: "Attribute \(_macroName(attribute)) cannot be applied to a generic \(_kindString(for: decl))",
-    severity: .error
-    )
-}
+  if Syntax(decl) != Syntax(genericDecl), genericDecl.isProtocol((any DeclGroupSyntax).self) {
+      return .containingNodeUnsupported(genericDecl, genericBecauseOf: Syntax(genericClause), whenUsing: attribute, on: decl)
+  } else {
+      // Avoid using a syntax node from a lexical context (it won't have source location information.)
+      let syntax = (genericClause.root != decl.root) ? Syntax(decl) : Syntax(genericClause)
+      return Self(
+      syntax: syntax,
+      message: "Attribute \(_macroName(attribute)) cannot be applied to a generic \(_kindString(for: decl))",
+      severity: .error
+      )
+  }
 }
 ```
 
