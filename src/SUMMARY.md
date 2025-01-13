@@ -2,7 +2,7 @@
 
 - [Введение](welcome.md)  <!-- ✅ -->
 - [Макросы сравнения](basic_macro.md) <!-- ✅ -->
-- [Макросы @Test, @Suite и @Tag](Macros/intro.md)
+- [Детальное знакомство с макросами тестирования](Macros/intro.md)
     - [@Test](Macros/macro_test.md)
     - [@Suite](Macros/macro_suite.md)
     - [@Tag](Macros/macro_tag.md)

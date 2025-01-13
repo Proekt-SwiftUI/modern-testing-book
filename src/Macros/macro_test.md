@@ -103,7 +103,7 @@ func usesNewAPIs() {
 
 ![Available attribute](../assets/available.png)
 
-> @available(...) используется для обозначения доступности типа данных или функции, а #available используется когда необходимо выполнить часть кода только в определенной версии ОС.
+> Атрибут @available(...) используется для обозначения доступности типа данных или функции, а макрос #available используется когда необходимо выполнить часть кода только в определенной версии ОС.
 
 ### Общие характеристики или теги
 
@@ -249,6 +249,8 @@ Swift Testing интегрирован в основные инструмент�
 
 ### Тонкости
 
+Последний параграф познакомит тебя с особенностями использования макроса `@Test`, которые доступны при детальном чтении исходного кода, который реализует сам макрос. За это отвечает структура данных `TestDeclarationMacro`.
+
 <!-- Дать определение, о чем именно тонкости -->
 
 ```swift
@@ -317,8 +319,8 @@ func checkReturnType() -> any Collection {
 
 > ⚠️ The result of this function will be discarded during testing
 
-Возможно в будущем, инженеры Apple добавят такую возможность, но на данный момент они не нашли подходящего сценария, когда необходимо возвращать тип данных.
-Такая проверка возможна с помощью сравнения сигнатуры возвращаемого типа:
+Возможно в будущем, инженеры Apple добавят такую возможность, но на данный момент они не нашли подходящего сценария, при котором необходимо возвращать тип данных.
+Такая проверка возможна с помощью проверки сигнатуры возвращаемого типа:
 
 ```swift
 if let returnType = function.signature.returnClause?.type, !returnType.isVoid {
@@ -350,13 +352,10 @@ func parameterCanBeSupported(value: isolated (any Actor)? = #isolation) {}
 
 > ❌ Attribute `Test` cannot be applied to a function with a parameter marked `isolated`
 
-[test_declaration]: https://github.com/swiftlang/swift-testing/blob/main/Sources/TestingMacros/TestDeclarationMacro.swift#L84
-
-
 #### Test только для func
 
-
-Или иными словам, ты можешь применить атрибут только для функций или методов.
+Возможно тебе захочется применить атрибут для теста замыкания, но ничего не выйдет. При сборке таргета с тестами, кнопки запуска не появится.
+Или иными словам, ты можешь применить атрибут только для функций или методов:
 
 ```swift
 // The @Test attribute is only supported on function declarations.
@@ -368,9 +367,12 @@ guard let function = declaration.as(FunctionDeclSyntax.self) else {
 
 #### 1 атрибут для 1 функции
 
+Да, для кого-то это покажется слишком очевидным, но применить атрибут `@Test` можно только 1 раз:
+
 ```swift
 // Only one @Test attribute is supported.
 let suiteAttributes = function.attributes(named: "Test")
+
 if suiteAttributes.count > 1 {
     diagnostics.append(.multipleAttributesNotSupported(suiteAttributes, on: declaration))
 }
@@ -378,10 +380,11 @@ if suiteAttributes.count > 1 {
 
 #### Не приминим для Generics
 
+```swift
+
 /// Create a diagnostic message stating that the `@Test` or `@Suite` attribute
 /// cannot be applied to a generic declaration.
 
-```swift
 static func genericDeclarationNotSupported(_ decl: some SyntaxProtocol, whenUsing attribute: AttributeSyntax, becauseOf genericClause: some SyntaxProtocol, on genericDecl: some SyntaxProtocol) -> Self {
   if Syntax(decl) != Syntax(genericDecl), genericDecl.isProtocol((any DeclGroupSyntax).self) {
       return .containingNodeUnsupported(genericDecl, genericBecauseOf: Syntax(genericClause), whenUsing: attribute, on: decl)
@@ -397,5 +400,6 @@ static func genericDeclarationNotSupported(_ decl: some SyntaxProtocol, whenUsin
 }
 ```
 
+[test_declaration]: https://github.com/swiftlang/swift-testing/blob/main/Sources/TestingMacros/TestDeclarationMacro.swift#L84
 [validate_name_property_report]: ../assets/validateNameProperty_link.png
 [api_availability]: https://docs.swift.org/swift-book/documentation/the-swift-programming-language/controlflow#Checking-API-Availability
