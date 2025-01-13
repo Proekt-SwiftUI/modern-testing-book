@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../welcome.html"><strong aria-hidden="true">1.</strong> Введение</a></li><li class="chapter-item expanded "><a href="../basic_macro.html"><strong aria-hidden="true">2.</strong> Макросы сравнения</a></li><li class="chapter-item expanded "><a href="../Macros/intro.html"><strong aria-hidden="true">3.</strong> Макросы @Test, @Suite и @Tag</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Macros/macro_test.html"><strong aria-hidden="true">3.1.</strong> @Test</a></li><li class="chapter-item expanded "><a href="../Macros/macro_suite.html" class="active"><strong aria-hidden="true">3.2.</strong> @Suite</a></li><li class="chapter-item expanded "><a href="../Macros/macro_tag.html"><strong aria-hidden="true">3.3.</strong> @Tag</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol_Trait.html"><strong aria-hidden="true">4.</strong> Кортежи</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Comment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> ConditionTrait</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> HiddenTrait</div></li><li class="chapter-item expanded "><a href="../Traits/TimeLimitTrait.html"><strong aria-hidden="true">4.4.</strong> TimeLimitTrait</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.5.</strong> Bug</div></li><li class="chapter-item expanded "><a href="../Traits/IssueTrait.html"><strong aria-hidden="true">4.6.</strong> Issue</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.7.</strong> ParallelizationTrait</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.8.</strong> Tag</div></li></ol></li><li class="chapter-item expanded "><a href="../tags.html"><strong aria-hidden="true">5.</strong> Теги везде</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Добавляем собственный кортеж</div></li><li class="chapter-item expanded "><a href="../best_practice_short.html"><strong aria-hidden="true">7.</strong> Best practice</a></li><li class="chapter-item expanded "><a href="../runner.html"><strong aria-hidden="true">8.</strong> Кто управляет тестами</a></li><li class="chapter-item expanded "><a href="../compare_xctest_and_modern_aproach.html"><strong aria-hidden="true">9.</strong> Сравнение с XCTest</a></li><li class="chapter-item expanded "><a href="../xcode_meta.html"><strong aria-hidden="true">10.</strong> Мета информация и обозначения</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../welcome.html"><strong aria-hidden="true">1.</strong> Введение</a></li><li class="chapter-item expanded "><a href="../basic_macro.html"><strong aria-hidden="true">2.</strong> Макросы сравнения</a></li><li class="chapter-item expanded "><a href="../Macros/intro.html"><strong aria-hidden="true">3.</strong> Детальное знакомство с макросами тестирования</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Macros/macro_test.html"><strong aria-hidden="true">3.1.</strong> @Test</a></li><li class="chapter-item expanded "><a href="../Macros/macro_suite.html" class="active"><strong aria-hidden="true">3.2.</strong> @Suite</a></li><li class="chapter-item expanded "><a href="../Macros/macro_tag.html"><strong aria-hidden="true">3.3.</strong> @Tag</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol_Trait.html"><strong aria-hidden="true">4.</strong> Кортежи</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Comment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> ConditionTrait</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> HiddenTrait</div></li><li class="chapter-item expanded "><a href="../Traits/TimeLimitTrait.html"><strong aria-hidden="true">4.4.</strong> TimeLimitTrait</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.5.</strong> Bug</div></li><li class="chapter-item expanded "><a href="../Traits/IssueTrait.html"><strong aria-hidden="true">4.6.</strong> Issue</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.7.</strong> ParallelizationTrait</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.8.</strong> Tag</div></li></ol></li><li class="chapter-item expanded "><a href="../tags.html"><strong aria-hidden="true">5.</strong> Теги везде</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Добавляем собственный кортеж</div></li><li class="chapter-item expanded "><a href="../best_practice_short.html"><strong aria-hidden="true">7.</strong> Best practice</a></li><li class="chapter-item expanded "><a href="../runner.html"><strong aria-hidden="true">8.</strong> Кто управляет тестами</a></li><li class="chapter-item expanded "><a href="../compare_xctest_and_modern_aproach.html"><strong aria-hidden="true">9.</strong> Сравнение с XCTest</a></li><li class="chapter-item expanded "><a href="../xcode_meta.html"><strong aria-hidden="true">10.</strong> Мета информация и обозначения</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -241,33 +241,100 @@
 
 </style>
 <h1 id="suite"><a class="header" href="#suite">@Suite</a></h1>
-<!-- Перевод -->
-<p>/// Declare a test suite.
-///
-/// - Parameters:
-///   - traits: Zero or more traits to apply to this test suite.
-///
-/// A test suite is a type that contains one or more test functions. Any
-/// copyable type (that is, any type that is not marked <code>~Copyable</code>) may be a
-/// test suite.
-///
-/// The use of the <code>@Suite</code> attribute is optional; types are recognized as test
-/// suites even if they do not have the <code>@Suite</code> attribute applied to them.
-///
-/// When adding test functions to a type extension, do not use the <code>@Suite</code>
-/// attribute. Only a type's primary declaration may have the <code>@Suite</code> attribute
-/// applied to it.
-///
-/// ## See Also
-///
-/// - <a href="doc:OrganizingTests">doc:OrganizingTests</a></p>
-<pre><code class="language-swift">@attached(member) @attached(peer)
-@_documentation(visibility: private)
-public macro Suite(
-  _ traits: any SuiteTrait...
-) = #externalMacro(module: "TestingMacros", type: "SuiteDeclarationMacro")
+<p>Что приходит на ум при работе с большим количеством функций?
+Правильно, возможность упорядочить их с помощью чего-либо, а ещё лучше объединить их в один тип данных.
+Макрос @Suite идеально подходит не только для объединения в один тип данных, а так же для использования кортежей.</p>
+<p>Вообще, такая группировка возможна в 2ух сценариях:</p>
+<ul>
+<li>С помощью пользовательских типов данных</li>
+<li>Применяя атрибут @Suite для пользовательских типов данных</li>
+</ul>
+<p>К таким типам данных относят: <code>struct</code>, <code>class</code>, <code>actor</code> и <code>enum</code>.</p>
+<pre><code class="language-swift">@Suite
+struct SingleProfile {...}
 
+@Suite
+class SharedService {...}
+
+@Suite
+actor DatabaseProvider {...}
+
+@Suite
+enum SwaggerAPI {...}
 </code></pre>
+<div class="mdbook-alerts mdbook-alerts-tip">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  tip
+</p>
+<p><code>@Suite</code> не является обязательным атрибутом для применения, но позволяет использовать кортежи, подобные в макросе <code>@Test</code>, для расширения функционала.</p>
+</div>
+<p>Атрибут @Suite не является обязательным для распознавания тестовых функций, содержащихся в типе, но его использование позволяет настраивать отображение тестового набора в IDE и в командной строке. Если к тестовому набору применён атрибут, такой как tags(<em>:) или disabled(</em>:sourceLocation:), он автоматически наследуется всеми тестами, содержащимися в наборе.</p>
+<p>Тестовые наборы могут содержать не только тестовые функции, но и другие члены типа Swift. Также они могут содержать вложенные тестовые наборы. Чтобы добавить вложенный тестовый набор, нужно объявить дополнительный тип внутри основного тестового набора.</p>
+<p>По умолчанию тесты в рамках одного набора выполняются параллельно. Подробнее о параллелизации можно узнать в разделе Запуск тестов последовательно или параллельно.</p>
+<p>Настройка имени набора</p>
+<p>Чтобы задать имя тестового набора, передайте строковый литерал в качестве аргумента для атрибута @Suite:</p>
+<p>@Suite("Food truck tests")
+struct FoodTruckTests {
+@Test func foodTruckExists() {
+// Тестовая логика
+}
+}</p>
+<p>Для дальнейшей настройки внешнего вида и поведения тестовой функции можно использовать атрибуты, такие как tags(_:).</p>
+<p>Тестовые функции в типах Suite</p>
+<p>Если тестовая функция объявлена как метод экземпляра (без использования ключевых слов static или class), библиотека тестирования вызывает эту функцию, создавая экземпляр типа, а затем вызывает метод на этом экземпляре. Например:</p>
+<p>@Suite struct FoodTruckTests {
+@Test func foodTruckExists() {
+// Логика теста
+}
+}</p>
+<p>Эквивалентно следующему:</p>
+<p>@Suite struct FoodTruckTests {
+func foodTruckExists() {
+// Логика теста
+}</p>
+<pre><code>@Test static func staticFoodTruckExists() {
+    let instance = FoodTruckTests()
+    instance.foodTruckExists()
+}
+</code></pre>
+<p>}</p>
+<p>Ограничения для типов Suite</p>
+<p>При использовании типа как тестового набора накладываются дополнительные ограничения:</p>
+<p>Необходимость наличия инициализатора</p>
+<p>Если тип содержит тестовые функции, объявленные как методы экземпляра, он должен быть инициализирован с помощью инициализатора без аргументов. Инициализатор может быть:
+•	явным или неявным;
+•	синхронным или асинхронным;
+•	бросающим или небросающим исключения;
+•	любого уровня доступа (private, internal, public).</p>
+<p>Пример:</p>
+<p>@Suite struct FoodTruckTests {
+var batteryLevel = 100</p>
+<pre><code>@Test func foodTruckExists() { } // ✅ OK: есть неявный инициализатор.
+</code></pre>
+<p>}</p>
+<p>@Suite struct CashRegisterTests {
+private init(cashOnHand: Decimal = 0.0) async throws { }</p>
+<pre><code>@Test func calculateSalesTax() { } // ✅ OK: доступен явный инициализатор.
+</code></pre>
+<p>}</p>
+<p>struct MenuTests {
+var foods: [Food]
+var prices: [Food: Decimal]</p>
+<pre><code>@Test static func specialOfTheDay() { } // ✅ OK: функция статическая.
+@Test func orderAllFoods() { } // ❌ Ошибка: типу требуется инициализатор.
+</code></pre>
+<p>}</p>
+<p>Компилятор выдаст ошибку, если тип набора не удовлетворяет этому требованию.</p>
+<p>Постоянная доступность типов Suite</p>
+<p>Атрибут @available можно применять к тестовой функции, чтобы ограничить её доступность во время выполнения. Однако тип тестового набора и любые содержащие его типы не могут быть аннотированы этим атрибутом:</p>
+<p>@Suite struct FoodTruckTests { } // ✅ OK: тип всегда доступен.</p>
+<p>@available(macOS 11.0, *) // ❌ Ошибка: тип набора должен быть всегда доступен.
+@Suite struct CashRegisterTests { }</p>
+<p>@available(macOS 11.0, *) struct MenuItemTests { // ❌ Ошибка: содержащий тип должен быть доступен.
+@Suite struct BurgerTests { }
+}</p>
+<p>Компилятор выдаст ошибку, если тип набора нарушает это правило.</p>
 
                     </main>
 
@@ -298,22 +365,6 @@ public macro Suite(
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

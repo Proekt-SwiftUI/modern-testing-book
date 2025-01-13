@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Макросы @Test, @Suite и @Tag - Современное тестирование Swift Testing</title>
+        <title>Детальное знакомство с макросами тестирования - Современное тестирование Swift Testing</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../welcome.html"><strong aria-hidden="true">1.</strong> Введение</a></li><li class="chapter-item expanded "><a href="../basic_macro.html"><strong aria-hidden="true">2.</strong> Макросы сравнения</a></li><li class="chapter-item expanded "><a href="../Macros/intro.html" class="active"><strong aria-hidden="true">3.</strong> Макросы @Test, @Suite и @Tag</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Macros/macro_test.html"><strong aria-hidden="true">3.1.</strong> @Test</a></li><li class="chapter-item expanded "><a href="../Macros/macro_suite.html"><strong aria-hidden="true">3.2.</strong> @Suite</a></li><li class="chapter-item expanded "><a href="../Macros/macro_tag.html"><strong aria-hidden="true">3.3.</strong> @Tag</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol_Trait.html"><strong aria-hidden="true">4.</strong> Кортежи</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Comment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> ConditionTrait</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> HiddenTrait</div></li><li class="chapter-item expanded "><a href="../Traits/TimeLimitTrait.html"><strong aria-hidden="true">4.4.</strong> TimeLimitTrait</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.5.</strong> Bug</div></li><li class="chapter-item expanded "><a href="../Traits/IssueTrait.html"><strong aria-hidden="true">4.6.</strong> Issue</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.7.</strong> ParallelizationTrait</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.8.</strong> Tag</div></li></ol></li><li class="chapter-item expanded "><a href="../tags.html"><strong aria-hidden="true">5.</strong> Теги везде</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Добавляем собственный кортеж</div></li><li class="chapter-item expanded "><a href="../best_practice_short.html"><strong aria-hidden="true">7.</strong> Best practice</a></li><li class="chapter-item expanded "><a href="../runner.html"><strong aria-hidden="true">8.</strong> Кто управляет тестами</a></li><li class="chapter-item expanded "><a href="../compare_xctest_and_modern_aproach.html"><strong aria-hidden="true">9.</strong> Сравнение с XCTest</a></li><li class="chapter-item expanded "><a href="../xcode_meta.html"><strong aria-hidden="true">10.</strong> Мета информация и обозначения</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../welcome.html"><strong aria-hidden="true">1.</strong> Введение</a></li><li class="chapter-item expanded "><a href="../basic_macro.html"><strong aria-hidden="true">2.</strong> Макросы сравнения</a></li><li class="chapter-item expanded "><a href="../Macros/intro.html" class="active"><strong aria-hidden="true">3.</strong> Детальное знакомство с макросами тестирования</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Macros/macro_test.html"><strong aria-hidden="true">3.1.</strong> @Test</a></li><li class="chapter-item expanded "><a href="../Macros/macro_suite.html"><strong aria-hidden="true">3.2.</strong> @Suite</a></li><li class="chapter-item expanded "><a href="../Macros/macro_tag.html"><strong aria-hidden="true">3.3.</strong> @Tag</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol_Trait.html"><strong aria-hidden="true">4.</strong> Кортежи</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Comment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> ConditionTrait</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> HiddenTrait</div></li><li class="chapter-item expanded "><a href="../Traits/TimeLimitTrait.html"><strong aria-hidden="true">4.4.</strong> TimeLimitTrait</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.5.</strong> Bug</div></li><li class="chapter-item expanded "><a href="../Traits/IssueTrait.html"><strong aria-hidden="true">4.6.</strong> Issue</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.7.</strong> ParallelizationTrait</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.8.</strong> Tag</div></li></ol></li><li class="chapter-item expanded "><a href="../tags.html"><strong aria-hidden="true">5.</strong> Теги везде</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Добавляем собственный кортеж</div></li><li class="chapter-item expanded "><a href="../best_practice_short.html"><strong aria-hidden="true">7.</strong> Best practice</a></li><li class="chapter-item expanded "><a href="../runner.html"><strong aria-hidden="true">8.</strong> Кто управляет тестами</a></li><li class="chapter-item expanded "><a href="../compare_xctest_and_modern_aproach.html"><strong aria-hidden="true">9.</strong> Сравнение с XCTest</a></li><li class="chapter-item expanded "><a href="../xcode_meta.html"><strong aria-hidden="true">10.</strong> Мета информация и обозначения</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -247,6 +247,21 @@
 <p>Разница между атрибутом и макросом состоит в контексте.</p>
 </blockquote>
 <p>В следующих главах, я расскажу более подробно про использование макросов.</p>
+<h2 id="Справка-о-макросах-и-ключевых-словах"><a class="header" href="#Справка-о-макросах-и-ключевых-словах">Справка о макросах и ключевых словах</a></h2>
+<!--
+Идея: расписать здесь информацию о том, что такое макрос, виды и ключевые слова.
+Чтобы читатель понимал суть происходящего. Упомянуть, что с данной реализацией читать столкнется далее.
+
+-->
+<p>https://docs.swift.org/swift-book/documentation/the-swift-programming-language/macros/</p>
+<p>Возможно, некоторые ключевые слова ты видишь впервые, поэтому я расскажу о каждом из них.</p>
+<ol>
+<li><code>@attached(member)</code> —</li>
+<li><code>@attached(peer)</code> —</li>
+<li><code>@_documentation(visibility: private)</code> —</li>
+<li>macro Suite(_ traits: any SuiteTrait...) — ключевое слово macro используется для объявления типа данных макрос, который принимает variadic параметр с <code>any SuiteTrait</code></li>
+<li><code>#externalMacro(module: "TestingMacros", type: "SuiteDeclarationMacro")</code> — ещё один макрос</li>
+</ol>
 
                     </main>
 
@@ -277,22 +292,6 @@
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 
