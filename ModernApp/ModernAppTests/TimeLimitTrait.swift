@@ -3,7 +3,7 @@
 
 import Testing
 
-@Suite("Кортеж TimeLimit", .timeLimit(.minutes(0)))
+@Suite("Трейт TimeLimit", .timeLimit(.minutes(0)))
 struct TimeLimitExample {
 	@Test
 	func takeYourTime() {

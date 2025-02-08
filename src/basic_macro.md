@@ -207,4 +207,4 @@ struct UserProfileTest {
 ---
 
 [macros_intro]: Macros/intro.md
-<a name="traits"><sup>[1]</sup>Типаж (trait, трейт) — это набор методов, определенных для тестов</a>
+<a name="traits"><sup>[1]</sup>Трейт (trait, типаж) — это набор методов, определенных для тестов</a>

@@ -1,33 +1,32 @@
 # protocol Trait
 
-1671 Line:
-`public protocol Trait : Sendable {}`
-
-A protocol describing traits that can be added to a test function or to a test suite.
-
-The testing library defines a number of traits that can be added to test functions and to test suites. Developers can define their own traits by creating types that conform to `TestTrait` and/or `SuiteTrait`.
-
-When creating a custom trait type, the type should conform to ``TestTrait`` if it can be added to test functions, ``SuiteTrait`` if it can be added to test suites, and both ``TestTrait`` and ``SuiteTrait`` if it can be added to both test functions _and_ test suites.
-
-В переводе на русский, trait — это Кортёж.
+В переводе на русский, **trait — это Типаж**, но в книге я чаще употребляю простой вариант — **Трейт**.
 Перед тем, как я расскажу для чего он нужен, попробуем переместиться в язык программирования Rust, который содержит ключевое слово `trait`. Trait необходим для объявления набора правил, которые будут реализованы. Данная концепция очень схожа с ключевым словом `protocol` в swift.
 
-Причина, по которой я рассказал о кортежах тривиальна — макросы `@Test` и `@Suite` принимают кортежи, которые представляют собой протокол:
+```swift
+public protocol Trait : Sendable {}
+```
+
+Данный протокол описывает, какие трейты могут быть добавлены к макросам @Test и @Suite. Помимо этого протокол `Trait` является корневым (главным).
+Библиотека Swift Testing содержит готовые трейты, созданные инженерами Apple. Помимо этого, ты сам вправе добавить собственный трейт.
+О создании собственных трейтов [сказано ниже](#Реализация-собственного-трейта).
+
+Причина, по которой я рассказал о трейтах тривиальна — макросы `@Test` и `@Suite` принимают трейты, которые представляют собой протокол:
 
 TestTrait.Comment и перечислить их.
 
 > [!NOTE]
-> Кортёж в новой системе тестирования — есть протокол, подписанный на основной протокол Trait.
+> Трейт в новой системе тестирования — есть протокол, подписанный на основной протокол Trait.
 
 ```swift
-// Внутри новой системы тестирований находится основной кортеж
+// Внутри новой системы тестирований находится основной трейт
 // Он же Testing.Trait
 public protocol Trait : Sendable {}
 ```
 
-### Реализация собственного кортежа
+## Реализация собственного трейта
 
-Каждый макрос `@Test` принимает ноль и более кортежей. Это возможно благодаря:
+Каждый макрос `@Test` принимает ноль и более трейтов. Это возможно благодаря:
 - экзестенциальному `any <#constraint#>`
 - вариативному (variadic) параметру (3 точки) `...`
 
@@ -35,7 +34,7 @@ https://docs.swift.org/swift-book/documentation/the-swift-programming-language/t
 https://docs.swift.org/swift-book/documentation/the-swift-programming-language/functions/#Variadic-Parameters
 
 <!--
-Убрать отсюда и перенести в Macros/Test или упомянуть в Macros/Test, что реализация доступна в главе про кортежи ?
+Убрать отсюда и перенести в Macros/Test или упомянуть в Macros/Test, что реализация доступна в главе про трейты ?
 
 Думаю 2-ой вариант, в главах про Макрос показать сценарии использования и особенности, но ознакомить
 с реализаций лучше в именно в этом файле.
@@ -49,7 +48,7 @@ public protocol TestTrait : Testing.Trait {}
 public macro Test(_ traits: any Testing.TestTrait...) = #externalMacro(module: "TestingMacros", type: "TestDeclarationMacro")
 ```
 
-Каждый макрос `@Suite` принимает ноль и более кортежей `SuiteTrait`:
+Каждый макрос `@Suite` принимает ноль и более трейтов `SuiteTrait`:
 
 ```swift
 public protocol SuiteTrait : Testing.Trait {
