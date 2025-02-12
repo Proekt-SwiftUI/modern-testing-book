@@ -164,7 +164,7 @@ struct UserProfileTest {
 	@Test("Правильная проверка опционального города")
 	func userHaveCity() async throws {}
 
-	// … другие тесты
+	// ... другие тесты
 }
 ```
 
