@@ -2,15 +2,15 @@
 
 - [Введение](welcome.md)  <!-- ✅ -->
 - [Макросы сравнения](basic_macro.md) <!-- ✅ -->
-- [Детальное знакомство с макросами тестирования](Macros/intro.md)
-    - [@Test](Macros/macro_test.md)
-    - [@Suite](Macros/macro_suite.md)
+- [Детальное знакомство c макросами тестирования](Macros/intro.md) <!-- ✅ -->
+    - [@Test](Macros/macro_test.md) <!-- 🛠️ -->
+    - [@Suite](Macros/macro_suite.md) <!-- ✅ -->
     - [@Tag](Macros/macro_tag.md)
-- [Трейты](protocol_Trait.md)
+- [Трейты](protocol_Trait.md) <!-- 🛠️ -->
     - [Comment]()
     - [ConditionTrait]()
     - [HiddenTrait]()
-    - [TimeLimitTrait](./Traits/TimeLimitTrait.md)
+    - [TimeLimitTrait](./Traits/TimeLimitTrait.md) <!-- ✅ -->
     - [Bug]()
     - [Issue](./Traits/IssueTrait.md)
     - [ParallelizationTrait]()
@@ -22,3 +22,7 @@
 - [Сравнение с XCTest](compare_xctest_and_modern_aproach.md)
 - [Мета информация и обозначения](xcode_meta.md)
 <!-- - [Вывод]() -->
+
+<!-- Предварительный черновик готов ✅ -->
+<!-- Работа в процесса 🛠️ -->
+<!-- Без комментария — пусто -->
