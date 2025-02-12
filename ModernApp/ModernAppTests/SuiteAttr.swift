@@ -7,7 +7,7 @@
 
 import Testing
 
-@Suite
+@Suite(.tags(.weather))
 struct ColdWeather {
 	func dressWarm() {
 		#expect(-10 + -3 == -13)

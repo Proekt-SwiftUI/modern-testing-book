@@ -14,4 +14,7 @@ extension Tag {
 	
 	@Tag
 	static var cityFinder: Self
+
+	@Tag
+	static var weather: Self
 }
