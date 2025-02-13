@@ -51,7 +51,7 @@ extension Tag {
 
 extension Tag.api_V3 {
 	@Tag
-	static var backportVersion: Self
+	static var backportVersion: Tag
 }
 ```
 
@@ -75,6 +75,9 @@ struct BackportedAPI {
 extension Tag {
 	@Tag
 	static var calculator: Self // ✅ OK: Создали новый тег
+
+	@Tag
+	static let
 
 	static var programmerCalculator: Self // ❌ Ошибка: тег не распознан в runtime
 
@@ -111,18 +114,3 @@ struct SingleProfile {
 @attached(peer)
 public macro Tag() = #externalMacro(module: "TestingMacros", type: "TagMacro")
 ``` -->
-
-<!-- 
-extension Tag {
-	/// Все, что связано с калькулятором
-	@Tag
-	static var calculator: Self
-	
-	/// Тесты относящиеся к путям профиля
-	@Tag
-	static var profilePath: Self
-	
-	@Tag
-	static var cityFinder: Self
-}
- -->

@@ -6,15 +6,15 @@
     - [@Test](Macros/macro_test.md) <!-- 🛠️ -->
     - [@Suite](Macros/macro_suite.md) <!-- ✅ -->
 - [Трейты](protocol_Trait.md) <!-- 🛠️ -->
-    - [Comment]()
-    - [ConditionTrait]()
-    - [HiddenTrait]()
-    - [TimeLimitTrait](./Traits/TimeLimitTrait.md) <!-- ✅ -->
+    - [Comment](Traits/CommentTrait.md) <!-- 🛠️ -->
+    - [Condition]()
+    - [TimeLimit](Traits/TimeLimitTrait.md) <!-- ✅ -->
     - [Bug]()
-    - [Issue](./Traits/IssueTrait.md)
-    - [ParallelizationTrait]()
+    - [Issue](Traits/IssueTrait.md)
+    - [Parallelization]()
+    - [Hidden]()
     - [Tag]()
-- [Теги везде](tags.md)
+- [Теги везде](tags.md) <!-- 🛠️ -->
 - [Добавляем собственный трейт]()
 - [Best practice](best_practice_short.md)
 - [Кто управляет тестами](runner.md)
