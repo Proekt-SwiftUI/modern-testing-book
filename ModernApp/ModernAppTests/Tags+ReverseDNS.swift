@@ -13,7 +13,7 @@ extension Tag {
 
 extension Tag.api_V3 {
 	@Tag
-	static var backportVersion: Self
+	static var backportVersion: Tag
 }
 
 @Suite("Unsupported API V3", .tags(.api_V3.backportVersion))
