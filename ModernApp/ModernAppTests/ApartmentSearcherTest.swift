@@ -9,11 +9,19 @@ import Testing
 @testable
 import ModernApp
 
-// Проверям предложения на рынке и ищем только 2-комнатную квартиру
-@Test()
-func availableApartment() async {
-	let roomForOne = ApartmentSearcher(criteria: [.single, .studio])
-	let result = await roomForOne.result()
+/*
+ Максимально оптимизированный поиск по рынкам РФ и РБ.
+ Без дополнительных фильтров.
+*/
+@Suite
+struct FastApartmentSearcher {
 
-	#expect(result.contains { $0.type == .twoBedroom })
+	// Проверям предложения на рынке и ищем только 2-комнатную квартиру
+	@Test()
+	func availableApartment() async {
+		let roomForOne = ApartmentSearcher(criteria: [.single, .studio])
+		let result = await roomForOne.result()
+
+		#expect(result.contains { $0.type == .twoBedroom })
+	}
 }
