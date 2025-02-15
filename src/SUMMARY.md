@@ -5,12 +5,13 @@
 - [Детальное знакомство c макросами](Macros/intro.md) <!-- ✅ -->
     - [@Test](Macros/macro_test.md) <!-- 🛠️ -->
     - [@Suite](Macros/macro_suite.md) <!-- ✅ -->
+    - [Скрытый макрос](Macros/secret_macro.md) <!-- ✅ -->
 - [Трейты](protocol_Trait.md) <!-- 🛠️ -->
     - [Comment](Traits/CommentTrait.md) <!-- 🛠️ -->
     - [Condition]()
     - [TimeLimit](Traits/TimeLimitTrait.md) <!-- ✅ -->
     - [Bug]()
-    - [Issue](Traits/IssueTrait.md)
+    - [Issue](Traits/IssueTrait.md) <!-- 🛠️ -->
     - [Parallelization]()
     - [Hidden]()
     - [Tag]()
