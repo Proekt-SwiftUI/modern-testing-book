@@ -10,7 +10,7 @@
     - [Comment](Traits/CommentTrait.md) <!-- ✅ -->
     - [Condition]()
     - [TimeLimit](Traits/TimeLimitTrait.md) <!-- ✅ -->
-    - [Bug]()
+    - [Bug](Traits/BugTrait.md) <!-- 🛠️ -->
     - [Issue](Traits/IssueTrait.md) <!-- 🛠️ -->
     - [Parallelization]()
     - [Hidden]()
