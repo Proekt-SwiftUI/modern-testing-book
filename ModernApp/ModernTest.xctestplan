@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "48C457DE-C960-417B-B313-EC55617D8BE3",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ModernApp.xcodeproj",
+      "identifier" : "7368812D2D16BBD10005F6B6",
+      "name" : "ModernApp"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:ModernApp.xcodeproj",
+        "identifier" : "736881432D16BC3F0005F6B6",
+        "name" : "ModernAppTests"
+      }
+    }
+  ],
+  "version" : 1
+}

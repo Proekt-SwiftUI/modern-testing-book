@@ -19,6 +19,7 @@
 /* Begin PBXFileReference section */
 		7368812E2D16BBD10005F6B6 /* ModernApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModernApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		736881442D16BC3F0005F6B6 /* ModernAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModernAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0DD78DC2D648C60007D3C6A /* ModernTest.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ModernTest.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -55,6 +56,7 @@
 		736881252D16BBD10005F6B6 = {
 			isa = PBXGroup;
 			children = (
+				B0DD78DC2D648C60007D3C6A /* ModernTest.xctestplan */,
 				736881302D16BBD10005F6B6 /* ModernApp */,
 				736881452D16BC3F0005F6B6 /* ModernAppTests */,
 				7368812F2D16BBD10005F6B6 /* Products */,
