@@ -12,7 +12,7 @@
     - [TimeLimit](Traits/TimeLimitTrait.md) <!-- ✅ -->
     - [Bug](Traits/BugTrait.md) <!-- 🛠️ -->
     - [Issue](Traits/IssueTrait.md) <!-- 🛠️ -->
-    - [Parallelization]()
+    - [Parallelization](Traits/ParallelizationTrait.md) <!-- 🛠️ -->
     - [Hidden]()
     - [Tag]()
 - [Теги везде](tags.md) <!-- 🛠️ -->

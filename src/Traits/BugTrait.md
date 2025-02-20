@@ -180,6 +180,7 @@ func anotherBug() {
 | `.bug("https://bugs.webkit.org/show_bug.cgi?id=79262")` | WebKit Bugzilla |
 | `.bug(id: "FB79262")` | Apple Feedback Assistant |
 | `.bug("rdar://79262")` | Apple Internal Bug System |
+| `.bug("https://opensource.tbank.ru/")`| T-Bank |
 
 <!--
 ### Реализация трейта
