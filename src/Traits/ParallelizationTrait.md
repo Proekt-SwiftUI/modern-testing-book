@@ -24,44 +24,60 @@ func prepare(food: Food) {
 
 ```swift
 @Suite(.serialized)
-struct FoodTruckTests {
-  @Test(arguments: Condiment.allCases)
-  func refill(condiment: Condiment) {
-    // This function will be invoked serially, once per condiment, because the
-    // containing suite has the .serialized trait.
-  }
-
+struct IsolationConfirmation {
+  @Test(arguments: IsolatedData.allCases)
+	func executeWith(data: IsolatedData) async throws {
+		// Выполнение этой функции будет последовательным,
+        // аргумент за аргументом.
+	}
 
   @Test
-  func startEngine() async throws {
-    // This function will not run while refill(condiment:) is running. One test
-    // must end before the other will start.
+  func uniqlyExecute() async throws {
+    // Данная функция не будет запущена до тех пор,
+    // пока executeWith(data:) выполняется. Прежде
+    // чем начать выполнение необходимо дождаться
+    // завершение предыдущей.
   }
+}
+
+extension IsolationConfirmation {
+	@Suite
+	struct NonIsolatedData {
+		// Все функции в этом типе данных будут
+        // выполняться последовательно
+	}
 }
 ```
 
-Когда этот атрибут добавляется к параметризованной тестовой функции, он заставляет тест выполнять свои кейсы последовательно, а не параллельно. При применении к непараметризованной тестовой функции этот атрибут не имеет эффекта. Когда он применяется к тестовому набору (suite), это приводит к тому, что набор выполняет свои тестовые функции и поднаборы последовательно, а не параллельно.
+В примере выше ты применил трейт `.serialized` и все функции с атрибутом `@Test`, включая вложенные типы данных, будут выполняться *последовательно*.
+
 
 > [!IMPORTANT]
 > Трейт `.serialized` применяется рекурсивно. При применении к атрибуту @Suite, любая функция с атрибутом @Test будет выполнятья последовательно, включая вложенные типы данных.
 
-Этот атрибут не влияет на выполнение теста относительно его "соседей" или несвязанных тестов. Он не имеет эффекта, если параллелизация тестов глобально отключена (например, путем передачи флага --no-parallel в команду swift test).
+Применение трейта не влияет на выполнение других типов данных и тестов в других файлах. Эффект будет только на там, где указан `.serialized`.
 
-Обрати внимание, что применение трейта к одиночной глобальной функции не имеет никакого эффекта.
+Другим примером, когда применение трейта не имеет эффекта, послужит пример ниже:
 
 ```swift
-@Test(.serialized)
-func abobus() {
-	#expect("dda" == String(unicodeScalarLiteral: "dd"))
+@Test
+func checkOneString() {
+	let word: String = "Madam"
+	let result = word.filter(\.isLetter).lowercased().reversed()
+
+	#expect(word.lowercased() == String(result))
 }
 ```
 
-Ты получишь предупреждение, если функция не имеет параметров, а атрибут @Test без аргументов.
+Применение трейта к одиночной глобальной функции не имеет никакого эффекта.
+Ты получишь предупреждение, если функция не имеет параметров, а атрибут `@Test` не имеет аргументов.
 
 > ⚠️ Trait '.serialized' has no effect when used with a non-parameterized test function
 
+Если ты передал флаг `--no-parallel` в команду `swift test`, то применение трейта не будет иметь эффекта, посколько ты глобально отключил конкурентное выполнение.
 
-https://developer.apple.com/documentation/testing/parallelization
+> [!NOTE]
+> На момент выхода книги не существует *обратного* трейта, который выполняет тесты *конкурентно*.
 
 ---
 

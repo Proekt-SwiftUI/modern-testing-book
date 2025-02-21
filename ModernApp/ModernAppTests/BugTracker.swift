@@ -28,3 +28,26 @@ func loginInvalidCredentials() async {
 func handleOutput() async {
 	#expect(1 == 2)
 }
+
+@Suite(.serialized)
+struct IsolationConfirmation {
+	func executeAt() async throws {
+		#expect(1 == 1)
+	}
+}
+
+extension IsolationConfirmation {
+	@Suite
+	struct NonIsolatedData {
+		
+	}
+}
+
+
+@Test
+func checkOneString() {
+	let word: String = "Madam"
+	let result = word.filter(\.isLetter).lowercased().reversed()
+
+	#expect(word.lowercased() == String(result))
+}
