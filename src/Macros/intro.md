@@ -48,7 +48,18 @@ func gatherInformation(about person: any Human, currentFn: String = #function) {
 
 **Attached** означает, что макрос прикреплен к определенному типу данных, например, к классу, структуре, свойству или функции. Он не существует самостоятельно (как независимый макрос), а расширяет или модифицирует конкретное выражение.
 
-В Swift такие макросы обычно вызываются с помощью символа `@`, например: `@OptionalSet`.
+В Swift такие макросы обычно вызываются с помощью символа `@`:
+
+```swift
+@Observable
+class ProfileData {
+    let network = NetworkProvider()
+
+	var user: UserProfile?
+	var avatar: NSImage?
+    // ...
+}
+```
 
 Теперь, когда ты введен в курс дела, перейдем к детальном расмотрению основных макросов фреймворка Swift Testing.
 

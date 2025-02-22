@@ -6,7 +6,7 @@
     - [@Test](Macros/macro_test.md) <!-- 🛠️ -->
     - [@Suite](Macros/macro_suite.md) <!-- ✅ -->
     - [Скрытый макрос](Macros/secret_macro.md) <!-- ✅ -->
-- [Трейты](protocol_Trait.md) <!-- 🛠️ -->
+- [Трейты](protocol_Trait.md) <!-- ✅ -->
     - [Comment](Traits/CommentTrait.md) <!-- ✅ -->
     - [Condition]() <!-- че тут делать то ? -->
     - [TimeLimit](Traits/TimeLimitTrait.md) <!-- ✅ -->
