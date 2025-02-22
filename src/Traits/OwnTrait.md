@@ -1,20 +1,10 @@
 # Собственный трейт
 
-/// The testing library defines a number of traits that can be added to test
-/// functions and to test suites. Define your own traits by
-/// creating types that conform to ``TestTrait`` or ``SuiteTrait``:
-///
-/// - term ``TestTrait``: Conform to this type in traits that you add to test
-///   functions.
-/// - term ``SuiteTrait``: Conform to this type in traits that you add to test
-///   suites.
-///
-
 Ранее я упоминал, что ты не ограничен трейтами, которые предоставили инженеры Apple для тебя. Для реализации собственного трейта нужно понять сценарий использования:
 
-1. Трейт будет использоваться только в атрибуте `@Test`
-2. Трейт будет использоваться только в атрибуте `@Suite`
-3. Трейт будет использоваться в обоих случаях: `@Test` и `@Suite`
+1. Трейт будет использоваться [только в атрибуте `@Test`](#Трейт-для-атрибута-Test)
+2. Трейт будет использоваться [только в атрибуте `@Suite`](#Трейт-для-атрибута-Suite)
+3. Трейт будет использоваться [в обоих случаях: `@Test` и `@Suite`](#трейт-для-обоих-случаев)
 
 Предлагаю пойти по порядку и рассмотреть каждый из возможных вариантов.
 
@@ -72,9 +62,8 @@ extension Trait where Self == BacklogTrait {
 }
 ```
 
-Ты добавил несколько перечеслений и указал их в качестве констант в структуре `BacklogTrait`. Последнее, что остается сделать — сделать расширение для `Trait`
-со статическим методом `backlog(...)`.
-
+Ты добавил несколько перечеслений и указал их в качестве констант в структуре `BacklogTrait`. Последнее, что остается сделать — изменить расширение для `Trait`
+заменив свойство на статический метод `backlog(...)`.
 
 Использование:
 
@@ -84,4 +73,77 @@ extension Trait where Self == BacklogTrait {
 	.backlog(app: .release(1.7), feature: .yes)
 )
 func backglogNewRelease() {}
+```
+
+### Трейт для атрибута @Suite
+
+Ты решил, что будет полезным применять атрибут `@Suite` для конкретного типа данных,
+соответсвующим протоколу `@Observation`, чтобы коллеги видели тип данных и быстрее понимали о чем речь.
+
+По аналогии с трейтом для тестов, ты создаешь тип данных соотвестующий `SuiteTrait`:
+
+```swift
+@testable
+import class ModernApp.ProfileData
+
+struct ForDataSuite: SuiteTrait {
+	let observableType: Observable.Type
+}
+
+extension SuiteTrait where Self == ForDataSuite {
+	static func forData(_ data: Observable.Type) -> Self {
+		Self(observableType: data)
+	}
+}
+```
+
+Использование:
+
+```swift
+@Suite(.forData(ProfileData.self))
+struct WholeProfile {
+	// ...
+}
+```
+
+### Трейт для обоих случаев
+
+В Github существует возможность установить владельца кода (code owner) с помощью файла `CODEOWNERS` отвечающего за код в репозитории.
+
+Предлагаю сделать `GithubOwnerTrait` для обоих случаев: `@Suite` и `@Test`.
+
+```swift
+struct GithubOwnerTrait: TestTrait, SuiteTrait {
+	var name: String?
+	var githubUserURL: URL
+}
+
+extension Trait where Self == GithubOwnerTrait {
+	static func githubOwner(_ name: String? = nil, userURL: URL) -> Self {
+		Self(name: name, githubUserURL: userURL)
+	}
+}
+
+extension URL {
+	init(link: String) {
+		self.init(string: link)!
+	}
+}
+```
+
+Реализация не отличается от первых 2 случаев за тем исключением, что ты подписываешь тип данных на 2 протокола `TestTrait` и `SuiteTrait`.
+
+Использование:
+
+```swift
+@Suite(.githubOwner(userURL: URL(link: "github.com/wmorgue")))
+struct SpeedMetrics {
+	@Test(.githubOwner(userURL: URL(link: "github.com/hborla")))
+	func anotherThing() {
+		let duration = Duration.seconds(120)
+		#expect(duration == .seconds(60 * 2))
+	}
+
+	// ...
+}
 ```
