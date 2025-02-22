@@ -1,5 +1,5 @@
 // BacklogTrait.swift
-// Copyright (c) 2025 by Nikita Rossik. Created at 22.12.2024.
+// Copyright (c) 2025 by Nikita Rossik. Created at 1/11/25.
 
 import Testing
 
@@ -24,5 +24,8 @@ extension Trait where Self == BacklogTrait {
 	}
 }
 
-@Test("Беклог для 1.7.0", .backlog(app: .release(1.7), feature: .yes))
+@Test(
+	"Беклог для 1.7.0",
+	.backlog(app: .release(1.7), feature: .yes)
+)
 func backglogNewRelease() {}

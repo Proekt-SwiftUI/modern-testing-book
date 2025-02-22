@@ -1,9 +1,9 @@
 // ProfileData.swift
-// Copyright (c) 2025 by Nikita Rossik. Created at 25.12.2024.
+// Copyright (c) 2025 by Nikita Rossik. Created at 1/11/25.
 
-import Observation
 import class AppKit.NSImage
 import struct Foundation.Date
+import Observation
 
 enum UserProfileError: Error {
 	case networkRequestFailed
@@ -45,12 +45,12 @@ actor NetworkProvider {
 
 		return UserProfile(id: id, firstName: "Nick", lastName: "Rossik")
 	}
-	
-	func updateProfile(with path: ProfilePath) throws -> any Decodable  {
-		return switch path {
+
+	func updateProfile(with path: ProfilePath) throws -> any Decodable {
+		switch path {
 		case .profile: UserProfile(id: 1, firstName: "Nick", lastName: "Rossik")
 		case .edit: EditProfile(firstName: "Updated Name", lastName: "Updated Last")
-		case .delete: DeleteProfile(isDeleted: false, lastActivityTime: 1736336346)
+		case .delete: DeleteProfile(isDeleted: false, lastActivityTime: 1_736_336_346)
 		case .settings: ProfileSettings(saveDate: .now, validSubscription: true, userEnableNotification: false)
 		}
 	}

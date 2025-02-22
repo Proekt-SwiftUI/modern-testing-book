@@ -1,9 +1,5 @@
-//
-//  Tags+ReverseDNS.swift
-//  ModernApp
-//
-//  Created by Nick Rossik on 2/12/25.
-//
+// Tags+ReverseDNS.swift
+// Copyright (c) 2025 by Nikita Rossik. Created at 2/12/25.
 
 import Testing
 

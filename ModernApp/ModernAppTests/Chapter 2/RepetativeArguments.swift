@@ -1,9 +1,5 @@
-//
-//  RepetativeArguments.swift
-//  ModernApp
-//
-//  Created by Nick Rossik on 08.01.2025.
-//
+// RepetativeArguments.swift
+// Copyright (c) 2025 by Nikita Rossik. Created at 2/8/25.
 
 import Testing
 
@@ -13,11 +9,11 @@ import ModernApp
 @Suite(.tags(.cityFinder))
 struct CityFinderTest {
 	let cityFilter: CityFinder
-	
+
 	init(cityFilter: CityFinder = .init(cities: CityFinder.mockData)) {
 		self.cityFilter = cityFilter
 	}
-	
+
 	@Test
 	func compareMoscowSize() async throws {
 		let cities = try await cityFilter.search(by: "Moscow")
@@ -25,9 +21,10 @@ struct CityFinderTest {
 		#expect(moscow.population == 983_000)
 	}
 }
+
 ////	func allPaths() {
 ////		for path in ProfilePath.allCases {
 //////			let value: ProfilePath = try? await network.updateProfile(with: path)
 ////		}
 ////	}
-//}
+// }

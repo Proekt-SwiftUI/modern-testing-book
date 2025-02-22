@@ -1,9 +1,6 @@
-//
-//  ApartmentSearcher.swift
-//  ModernApp
-//
-//  Created by Nick Rossik on 2/13/25.
-//
+// ApartmentSearcher.swift
+// Copyright (c) 2025 by Nikita Rossik. Created at 2/13/25.
+
 import Foundation
 
 enum ApartmentCriteria {
@@ -29,7 +26,7 @@ actor ApartmentSearcher {
 
 	init(criteria: [ApartmentCriteria]) {
 		self.criteria = criteria
-		self.apartments = [
+		apartments = [
 			Apartment(
 				id: 1,
 				type: .single,
@@ -57,14 +54,14 @@ actor ApartmentSearcher {
 				hasBalcony: true,
 				hasParking: false,
 				isAvailable: true
-			)
+			),
 		]
 	}
 }
 
 extension ApartmentSearcher {
 	func result() async -> [Apartment] {
-		return apartments.filter { apartment in
+		apartments.filter { apartment in
 			criteria.contains(apartment.type) && apartment.isAvailable
 		}
 	}

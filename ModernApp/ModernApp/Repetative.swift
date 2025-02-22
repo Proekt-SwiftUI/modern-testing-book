@@ -1,9 +1,5 @@
-//
-//  Repetative.swift
-//  ModernApp
-//
-//  Created by Nick Rossik on 08.01.2025.
-//
+// Repetative.swift
+// Copyright (c) 2025 by Nikita Rossik. Created at 1/11/25.
 
 import Foundation
 

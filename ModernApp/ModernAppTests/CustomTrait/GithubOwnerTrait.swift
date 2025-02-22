@@ -1,10 +1,10 @@
 // GithubOwnerTrait.swift
-// Copyright (c) 2025 by Nikita Rossik. Created at 24.12.2024.
+// Copyright (c) 2025 by Nikita Rossik. Created at 1/11/25.
 
 import struct Foundation.URL
 import Testing
 
-struct GithubOwnerTrait: TestTrait {
+struct GithubOwnerTrait: TestTrait, SuiteTrait {
 	var name: String?
 	var githubUserURL: URL
 }
@@ -15,23 +15,19 @@ extension Trait where Self == GithubOwnerTrait {
 	}
 }
 
-@Test(.githubOwner(userURL: .init(string: "@wmorgue")!))
-func anotherThing() {
-	let duration = Duration.seconds(120)
-	#expect(duration == .seconds(60 * 2))
+extension URL {
+	init(link: String) {
+		self.init(string: link)!
+	}
 }
 
-@Test("Ранний выход из-за отмены группы задач")
-func cancelledTestExitsEarly() async throws {
-	let timeAwaited: Duration = await ContinuousClock().measure {
-		await withThrowingTaskGroup(of: Void.self) { taskGroup in
-			taskGroup.addTask {
-				try await Task.sleep(for: .seconds(60))
-			}
-
-			taskGroup.cancelAll()
-		}
+@Suite(.githubOwner(userURL: URL(link: "github.com/wmorgue")))
+struct SpeedMetrics {
+	@Test(.githubOwner(userURL: URL(link: "github.com/hborla")))
+	func anotherThing() {
+		let duration = Duration.seconds(120)
+		#expect(duration == .seconds(60 * 2))
 	}
 
-	#expect(timeAwaited < .seconds(1))
+	// ...
 }

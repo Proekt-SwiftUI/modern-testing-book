@@ -1,20 +1,14 @@
-//
-//  BugTracker.swift
-//  ModernApp
-//
-//  Created by Nick Rossik on 2/17/25.
-//
+// BugTracker.swift
+// Copyright (c) 2025 by Nikita Rossik. Created at 2/19/25.
 
 import Testing
 
-
-//@Test(.bug("https://example.com/bug/71"))
-//func loginInvalidCredentials() async {
+// @Test(.bug("https://example.com/bug/71"))
+// func loginInvalidCredentials() async {
 //	let profile = UserProfile()
 //	await profile.login(option: .singInWithApple)
 //	#expect(profile.isSuccessLogin)
-//}
-
+// }
 
 @Test(
 	"Вход с неправильными данными",
@@ -38,15 +32,12 @@ struct IsolationConfirmation {
 
 extension IsolationConfirmation {
 	@Suite
-	struct NonIsolatedData {
-		
-	}
+	struct NonIsolatedData {}
 }
-
 
 @Test
 func checkOneString() {
-	let word: String = "Madam"
+	let word = "Madam"
 	let result = word.filter(\.isLetter).lowercased().reversed()
 
 	#expect(word.lowercased() == String(result))

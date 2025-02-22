@@ -1,5 +1,5 @@
 // TestMacroImplementation.swift
-// Copyright (c) 2025 by Nikita Rossik. Created at 30.12.2024.
+// Copyright (c) 2025 by Nikita Rossik. Created at 2/8/25.
 
 import Testing
 
