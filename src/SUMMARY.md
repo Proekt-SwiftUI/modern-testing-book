@@ -8,15 +8,15 @@
     - [Скрытый макрос](Macros/secret_macro.md) <!-- ✅ -->
 - [Трейты](protocol_Trait.md) <!-- 🛠️ -->
     - [Comment](Traits/CommentTrait.md) <!-- ✅ -->
-    - [Condition]()
+    - [Condition]() <!-- че тут делать то ? -->
     - [TimeLimit](Traits/TimeLimitTrait.md) <!-- ✅ -->
     - [Bug](Traits/BugTrait.md) <!-- 🛠️ -->
     - [Issue](Traits/IssueTrait.md) <!-- 🛠️ -->
-    - [Parallelization](Traits/ParallelizationTrait.md) <!-- 🛠️ -->
-    - [Hidden]()
-    - [Tag]()
+    - [Parallelization](Traits/ParallelizationTrait.md) <!-- ✅ -->
+    - [Hidden]() <!-- Упомянуть ? -->
+    - [Tag]() <!-- че тут делать то ? -->
 - [Теги везде](tags.md) <!-- 🛠️ -->
-- [Добавляем собственный трейт]()
+- [Добавляем собственный трейт](Traits/OwnTrait.md) <!-- ✅ -->
 - [Best practice](best_practice_short.md)
 - [Кто управляет тестами](runner.md)
 - [Сравнение с XCTest](compare_xctest_and_modern_aproach.md)
