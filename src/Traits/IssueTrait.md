@@ -12,7 +12,12 @@
 ```swift
 @Test
 func simpleIssue() {
-	Issue.record("Здесь точно ошибка")
+	let electricity = ElectricityStation()
+	
+	guard electricity.highVoltage else {
+	  Issue.record("Слишком высокое напряжение")
+	  return
+	}
 }
 ```
 

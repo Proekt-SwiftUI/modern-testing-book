@@ -29,7 +29,7 @@ func calculateTotal() { }
 <!-- Дать объяснение что такое @testable ? -->
 
 ```swift
-// Мое приложение называется ModerApp
+// Мое приложение называется ModernApp
 @testable
 import ModernApp
 

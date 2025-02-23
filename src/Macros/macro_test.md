@@ -89,7 +89,7 @@ func hasRuntimeVersionCheck() {
   // ...
 }
 
-<!-- TODO: Пример с unavailable -->
+// TODO: Пример с unavailable
 
 // ✅ Используйте атрибут @available для функции или метода
 @Test

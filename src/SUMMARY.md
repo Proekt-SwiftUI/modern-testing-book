@@ -13,11 +13,10 @@
     - [Bug](Traits/BugTrait.md) <!-- 🛠️ -->
     - [Issue](Traits/IssueTrait.md) <!-- 🛠️ -->
     - [Parallelization](Traits/ParallelizationTrait.md) <!-- ✅ -->
-    - [Hidden]() <!-- Упомянуть ? -->
     - [Tag]() <!-- че тут делать то ? -->
 - [Теги везде](tags.md) <!-- 🛠️ -->
 - [Добавляем собственный трейт](Traits/OwnTrait.md) <!-- ✅ -->
-- [Best practice](best_practice_short.md)
+- [Best practice](best_practice_short.md) <!-- 🛠️ -->
 - [Кто управляет тестами](runner.md)
 - [Сравнение с XCTest](compare_xctest_and_modern_aproach.md)
 - [Мета информация и обозначения](xcode_meta.md)
