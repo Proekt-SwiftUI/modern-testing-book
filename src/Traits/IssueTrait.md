@@ -11,7 +11,7 @@
 
 ```swift
 @Test
-func simpleIssue() {
+func checkVoltage() {
 	let electricity = ElectricityStation()
 	
 	guard electricity.highVoltage else {
@@ -25,7 +25,7 @@ func simpleIssue() {
 
 В самом простом варианте информация об ошибке записывается, видна в консоли Xcode и выводится в xctestplan.
 
-[Наглядно](../assets/simple_issue.png)
+![Наглядно](../assets/simple_issue.png)
 
 > [!TIP]
 > Существует только 2 уровня проблемы: ошибка и предупреждение

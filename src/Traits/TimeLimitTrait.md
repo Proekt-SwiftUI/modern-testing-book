@@ -2,19 +2,6 @@
 
 **TimeLimitTrait** — тип данных, ограничивающий время выполнения теста:
 
-```swift
-@available(_clockAPI, *)
-public struct TimeLimitTrait: TestTrait, SuiteTrait  {...}
-
-@available(_clockAPI, *)
-extension Trait where Self == TimeLimitTrait {
-    @_spi(Experimental)
-    public static func timeLimit(_ timeLimit: Duration) -> Self {
-        return Self(timeLimit: timeLimit)
-    }
-}
-```
-
 Тайм-ауты тестов не поддерживают высокую точность и слишком короткие промежутки из-за вариативности в тестовой среде.
 Говоря о слишком коротких промежутках, я имею ввиду секунды, милисекунды, микро и наносекунды.
 Ограничение времени должно быть выражено **только в целых минутах** и составлять не менее 1 минуты.
@@ -59,3 +46,19 @@ func maxTimeLimit() async throws {
 Когда тест или suite не успевают выполнится в установленное время, вызывается ошибка из трейта `Issue.Kind.timeLimitExceeded(timeLimitComponents:)`. В таком случае тест завершается неудачей.
 
 > ❌ Time limit was exceeded: 60.000 seconds
+
+
+### Расширение
+
+```swift
+@available(_clockAPI, *)
+public struct TimeLimitTrait: TestTrait, SuiteTrait  {...}
+
+@available(_clockAPI, *)
+extension Trait where Self == TimeLimitTrait {
+    @_spi(Experimental)
+    public static func timeLimit(_ timeLimit: Duration) -> Self {
+        return Self(timeLimit: timeLimit)
+    }
+}
+```
