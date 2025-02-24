@@ -3,6 +3,14 @@
 Возможно ты задавал себе вопрос: «Кто-то же запускает написанные мной тесты, но кто именно» ?
 В этой главе я дам более точный ответ на заданный вопрос.
 
+Глава про управление тестами разделена на 3 сценария:
+
+1. [Введение в типы данных](#Введение-в-типы-данных)
+2. [Запуск теста](#Запуск-теста)
+3. [Завершение теста и выход](#Завершение-теста-и-выход)
+
+### Введение в типы данных
+
 **Runner** — тип данных отвечающий за выполнение тестов в соответствии с заданой конфигурацией и планом.
 Основная задача — организовать и запустить массив тестов, управлять выполнением и обрабатывать результаты выполнения тестов.
 
@@ -126,7 +134,7 @@ public struct Configuration: Sendable {
 
 ### Запуск теста
 
-Наконец-то ты добрался до сегкции запуска.
+Наконец-то ты добрался до секции запуска.
 Как ты знаешь, в любых язык программирования существует `EntryPoint`.
 Запуск любой программы начинается с точки входа. Это касается и Swift Testing, поскольку
 это тоже программа.
@@ -209,44 +217,34 @@ public struct __ExitTest: Sendable, ~Copyable {
 configuration.exitTestHandler = ExitTest.handlerForEntryPoint()
 ```
 
-Таким образом, каждый из тестов завершается каким-то результатом.
+Таким образом, **каждый из тестов завершается** каким-то результатом.
 И сразу следует спросить, а какой из результатов завершения существует?
 
-Для ответа на этот посмотри на перечисление `ExitCondition`:
+Для ответа на этот вопрос посмотри на перечисление `ExitCondition`:
 
 ```swift
 public enum ExitCondition: Sendable {
-  /// The process terminated successfully with status `EXIT_SUCCESS`.
   public static var success: Self {
-    // Strictly speaking, the C standard treats 0 as a successful exit code and
-    // potentially distinct from EXIT_SUCCESS. To my knowledge, no modern
-    // operating system defines EXIT_SUCCESS to any value other than 0, so the
-    // distinction is academic.
     .exitCode(EXIT_SUCCESS)
   }
 
-  /// The process terminated abnormally with any status other than
-  /// `EXIT_SUCCESS` or with any signal.
   case failure
-  /// `EXIT_SUCCESS` and `EXIT_FAILURE`.
   case exitCode(_ exitCode: CInt)
   case signal(_ signal: CInt)
 }
-
-await #expect(exitsWith: .failure) {
-    exit(EXIT_FAILURE)
-}
-
-await #expect(exitsWith: .success)
-
-await #expect(exitsWith: .exitCode(123)) {
-    await Task.yield()
-    exit(123)
-}
 ```
 
-Помимо runner'a описать «завершение теста и выход»[^1]:
+В самых простых вариантах тест завершается успехом `.success` или неудачей `.failure`.
+Существуют другие варианты выхода из теста один из которых выход с помощью кода выхода, а другой с помощью сигнала.
 
-https://github.com/swiftlang/swift-testing/blob/0e7ce39d197bb51b3e58166be5aa031235bb5580/Sources/Testing/ExitTests/ExitTest.swift
+> Код выхода (возврата) — целое число, возвращаемое программой после ее завершения.
 
-[^1]: adawdawdawda
+Статическое свойство `.success` завершает тест с помощью кода выхода `.exitCode(EXIT_SUCCESS)`.
+В свою очередь `EXIT_SUCCESS` равен нулю:
+
+```c
+#define	EXIT_FAILURE	1
+#define	EXIT_SUCCESS	0
+
+#expect(EXIT_SUCCESS == .zero)
+```
