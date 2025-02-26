@@ -59,15 +59,36 @@
 | Вложенные типы | Не поддерживаются | Поддерживаются |
 
 
-When it comes to suite types, XCTest only supports classes and they must inherit from XCTestCase.
-In Swift Testing, you can use a struct, actor, or class, and a struct is encouraged since it uses
-value semantics and avoids bugs due to unintentional state sharing.
-Suites may be denoted explicitly by the @Suite attribute, although it’s implicit for any type which
-contains test functions or nested suites. It is only required when specifying a display name or other trait.
-To perform logic before each test runs, XCTest offers several setUp methods, but Swift Testing uses
-the type’s initializer for this purpose, and it can be async or throws.
-If you need to perform logic after each test, you can include a de-initializer.
-Deinitializers can only be used when the suite type is an actor or class, and that’s the most common reason to use a reference type instead of a struct for a suite.
+Говоря о типах данных, следует напомнить что `XCTest` поддерживает только классы,
+которые наследуются от `XCTestCase`. В Swift Testing ты можешь использовать стуктуры, акторы и классы.
+Старайтесь использовать структуры по умолчанию, посколько они соответствуют `value` семантики и позволяют
+избегать ошибок с общим состоянием.
+
+К каждому типу данных неявно применяется атрибут `@Suite`. Если ты хочешь задать
+отображаемое имя или использовать трейт, то в таком случае ты можешь применить атрибут `@Suite`.
+
+Для выполнения логики перед каждым запуском в `XCTest` используется метод `setUp(..)`.
+Аналогичным способом в Swift Testing используются инициализаторы данных, которые могут
+быть помечены ключевым словом `async` и/или `throws`. Для добавления логики после
+выполнения ты можешь использовать деинициализатор `deinit {...}`.
+
+> `deinit` можно использовать в акторах и классах. `~Copyable` структуры не поддерживаются Swift Testing,
+хоть и имеет возможность вызвать `deinit`.
+
+```swift
+struct C: ~Copyable {
+  deinit {}
+
+  @Test("Ownership for sheep")
+  func sheepOwner() async throws {
+	  #expect(UnicodeScalar(0x1F411) == "\u{1F411}")
+  }
+}
+```
+
+> ❌ Ошибка — _Noncopyable_ структуры не поддерживаются в Swift Testing.
+
+
 Finally, in Swift Testing, you can group tests into subgroups via nested types.
 
 ### Миграция из XCTest
