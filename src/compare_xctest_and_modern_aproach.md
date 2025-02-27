@@ -12,13 +12,14 @@
 
 ### Сравнение функций
 
-| Критерий | XCTest | Swift Testing |
+![Сравнение функций](assets/Swift%20Testing%20Screenshots/compare_fn.png)
+
+<!-- | Критерий | XCTest | Swift Testing |
 | --- | --- | --- |
 | Объявление | Имя теста начинается со слова `test`| Указываем атрибут `@Test` |
 | Поддерживаемые типы данных | Методы инстанса | Методы инстанса, методы помеченные как static, глобальные функции |
 | Поддержка трейтов | Нет | Да |
-| Конкурентное выполнение | macOS или симулятор | Да |
-
+| Конкурентное выполнение | macOS или симулятор | Да | -->
 
 Тесты в XCTest — это любой метод начинающийся со слова `test`. Напротив, в Swift Testing ты указываешь атрибут `@Test`,
 исключая неоднозначность в намерениях. Библиотека тестирования поддерживает больше вариантов функций: ты можешь использовать
@@ -37,7 +38,7 @@
 Сравнение результатов очень различаются в старом и новом подходах.
 
 **XCTest** использует концепт различных проверок начинающихся с префикса `XCAssert*`.<br>
-**Swift Testing** имеет другой подход — существует только 2 основных макроса `#expect` и `#require`.
+**Swift Testing** имеет другой подход — существует только 2 макроса `#expect` и `#require`.
 
 ![Картинка сравнения 2](assets/Swift%20Testing%20Screenshots/compare_xct_2.png)
 
@@ -50,19 +51,18 @@
 
 ### Сравнение поддерживаемых типов данных
 
-| Критерий | XCTest | Swift Testing |
+![Сравнение типов](assets/Swift%20Testing%20Screenshots/compare_type.png)
+<!-- | Критерий | XCTest | Swift Testing |
 | ----- | :-------- | :--------------------- |
 | Типы данных | class | struct<br>actor<br>class |
 | Объявление | Подкласс XCTestCase | @Suite |
 | Настройка перед выполнением каждого теста | setUp()<br>setUpWithError() throws<br>setUp() async throws| init() async throws |
 | После каждого теста | tearDown()<br>tearDown() async throws<br>tearDownWithError() throws | deinit |
-| Вложенные типы | Не поддерживаются | Поддерживаются |
-
+| Вложенные типы | Не поддерживаются | Поддерживаются | -->
 
 Говоря о типах данных, следует напомнить что `XCTest` поддерживает только классы,
 которые наследуются от `XCTestCase`. В Swift Testing ты можешь использовать стуктуры, акторы и классы.
-Старайтесь использовать структуры по умолчанию, посколько они соответствуют `value` семантики и позволяют
-избегать ошибок с общим состоянием.
+По возможности используй структуры, посколько они соответствуют `value` семантики и позволяют избегать ошибок с общим состоянием.
 
 К каждому типу данных неявно применяется атрибут `@Suite`. Если ты хочешь задать
 отображаемое имя или использовать трейт, то в таком случае ты можешь применить атрибут `@Suite`.
@@ -70,10 +70,9 @@
 Для выполнения логики перед каждым запуском в `XCTest` используется метод `setUp(..)`.
 Аналогичным способом в Swift Testing используются инициализаторы данных, которые могут
 быть помечены ключевым словом `async` и/или `throws`. Для добавления логики после
-выполнения ты можешь использовать деинициализатор `deinit {...}`.
+выполнения теста или типа данных ты можешь использовать деинициализатор `deinit {...}`.
 
-> `deinit` можно использовать в акторах и классах. `~Copyable` структуры не поддерживаются Swift Testing,
-хоть и имеет возможность вызвать `deinit`.
+> `deinit` можно использовать в акторах и классах.<br>`~Copyable` структуры не поддерживаются Swift Testing, хоть и имеют возможность использовать `deinit`.
 
 ```swift
 struct C: ~Copyable {
@@ -88,15 +87,28 @@ struct C: ~Copyable {
 
 > ❌ Ошибка — _Noncopyable_ структуры не поддерживаются в Swift Testing.
 
-
-Finally, in Swift Testing, you can group tests into subgroups via nested types.
+Как я ранее упомянул, ты без каких-либо условий можешь делать вложенные типы данных.
 
 ### Миграция из XCTest
 
-XCTest and Swift Testing tests can co-exist in a single target, so if you choose to migrate, you can do so incrementally and you don’t need to create a new target first. When migrating multiple XCTest methods which have a similar structure, you can consolidate them into one parameterized test as we discussed earlier. For any XCTest classes with only one test method, consider migrating them to a global @Test function. And when naming tests, the word “test” is no longer necessary at the beginning.
+Если ты задумался переписать тесты на современный подход, то у меня хорошие новости — 
+тесты XCTest и Swift Testing могут существовать в одном таргете, поэтому ты можешь
+мигрировать постепенно и без создания нового таргета. Если класс XCTest содержит
+только 1 метод, рекомендую сделать его глобальной функцией с атрибутом @Test, это
+нормальная практика в Swift Testing. При именовании тестов больше не нужен префикс *test*.
 
-Please continue using XCTest for any tests which use UI automation APIs like XCUIApplication or use performance testing APIs like XCTMetric as these are not supported in Swift Testing. You must also use XCTest for any tests which can only be written in Objective-C. You can use Swift Testing to write tests in Swift that validate code written in another language, however. Finally, avoid calling XCTest assertion functions from Swift Testing tests, or the opposite — the #expect macro from XCTests.
+Следует упомянуть о важном недостатке в Swift Testing.
+В новой библиотеке отсутствует возможность создания автоматизации пользовательского
+интерейса `XCUIApplication`, а так же тесты производительности `XCTMetric`.
 
-XCUIApplication не поддерживается (перевести коммент):
+> [!IMPORTANT]
+> XCUIApplication и XCTMetric не поддерживаются в Swift Testing.
 
-https://github.com/swiftlang/swift-testing/issues/516#issuecomment-2201208834
+Помимо этого, продолжай использовать XCTest если тесты написаны могут быть написаны на
+`Objective-C`, поскольку Swift Testing не поддерживает `Objective-C` совсем.
+В конце концов избегай вызова функций из XCTest в функция Swift Testing или ситуации наоборот.
+
+> [!IMPORTANT]
+> Не вызывайте функции из XCTest в Swift Testing.<br>Не вызывайте макросы из Swift Testing в классах XCTest.<br>Не смешивайте старый подход в новом и наоборот.
+
+<!-- https://github.com/swiftlang/swift-testing/issues/516#issuecomment-2201208834 -->

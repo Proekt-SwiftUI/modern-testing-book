@@ -17,8 +17,8 @@
 - [Теги везде](tags.md) <!-- 🛠️ -->
 - [Добавляем собственный трейт](Traits/OwnTrait.md) <!-- ✅ -->
 - [Best practice](best_practice_short.md) <!-- 🛠️ -->
-- [Кто управляет тестами](runner.md)
-- [Сравнение с XCTest](compare_xctest_and_modern_aproach.md)
+- [Кто управляет тестами](runner.md) <!-- ✅ -->
+- [XCTest или Swift Testing](compare_xctest_and_modern_aproach.md) <!-- ✅ -->
 - [Мета информация и обозначения](xcode_meta.md)
 <!-- - [Вывод]() -->
 
