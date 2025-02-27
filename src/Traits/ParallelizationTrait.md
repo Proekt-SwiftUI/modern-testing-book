@@ -7,6 +7,8 @@
 Тесты выполняются *конкурентно* (concurrency) по умолчанию. Это возможно благодаря использованию метода `withTaskGroup(of:returning:body:)` из раздела `Structured concurrency`<a href="#concurrency"><sup>[1]</sup></a>.
 Количество одновременно запущенных тестов управляется в `runtime`.
 
+![Сохранили много времени](../assets/Swift%20Testing%20Screenshots/saved_test_time.png)
+
 ### Последовательное выполнение
 
 Для последовательного выполнения теста с множеством аргументов используйте трейт `.serialized`:
@@ -17,6 +19,8 @@ func prepare(food: Food) {
     // ...
 }
 ```
+
+![Последовательный запуск](../assets/Swift%20Testing%20Screenshots/serial_execution.png)
 
 >  Функция `prepare(food:)` будет выполнять последовательно каждый из аргументов.
 
@@ -82,4 +86,3 @@ func checkOneString() {
 ---
 
 <a name="rfc"><sup>[1]</sup>Познакомится с новым подходом можно в моей книге [Structured Concurrency не магия](https://proekt-swiftui.github.io/sc-book/intro.html).</a>
- 
