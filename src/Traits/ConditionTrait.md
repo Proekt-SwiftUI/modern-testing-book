@@ -1,6 +1,6 @@
 # Условие
 
-**ConditionTrait** — тип данных отвечающий за условие, при котором тест будет или не будет выполнен.
+**ConditionTrait** — это тип данных, который определяет условие, при котором тест будет выполнен или пропущен.
 
 Перед тобой может возникнуть ситуация, когда тест должнен выполниться при определенных условиях.
 Например, тест должен выполняться только на определенной версии ОС или на определенной локали устройства.
@@ -17,7 +17,7 @@
 ```swift
 @Test(.enabled(if: WeatherService.shared.userGrantPermission))
 func weatherPermission() {
-    // ...
+  // ...
 }
 ```
 
@@ -61,15 +61,15 @@ struct WeatherGroup {
 ```swift
 @Test(.disabled("Отключили из-за проблем с производительностью"))
 func asyncSequencePhotos() async {
-    // ...
+  // ...
 }
 ```
 
-Более сложным примером случит пропуск теста с определенными условиями:
+Более сложным примером служит пропуск теста с определенными условиями:
 
 ```swift
 func shuttleReachedAtmosphere(layer: AtmosphereLayer) -> Bool {
-    // ...
+  // ...
 }
 
 @Test(
@@ -86,21 +86,41 @@ func shuttleAboveStratosphere() throws {
 
 ### Комбинирование
 
-Можешь использовать сразу несколько трейтов:
+Ты можешь комбинировать 2 трейта одновременно:
 
 ```swift
 let isEnabledForSomeReason: Bool = true
 
 @Test(
-  .enabled(if: isEnabledForSomeReason),
-  .disabled("Отключили до фикса бага #243"),
-  .bug("243")
+    .enabled(if: isEnabledForSomeReason),
+    .disabled("Отключили до фикса бага #243"),
+	.bug(id: "243")
 )
 func showFastPath() throws {
-    // ...
+	// ...
 }
 ```
 
+При таком комбинировании, оба трейта срабатывают. Тест должен быть выполнен, но из-за указания трейта `.disabled()` он будет отключен по причине указанной в комментарии:
 
+> ❌ Test showFastPath() skipped: "Отключили до фикса бага #243"
+
+
+В противоположном случае, проверка условия в трейте `.enabled(if: isEnabledForSomeReason)` не проходит:
+
+```swift
+let isEnabledForSomeReason: Bool = false
+
+@Test(
+    .enabled(if: isEnabledForSomeReason),
+	.disabled("Отключили до фикса бага #243"),
+	.bug(id: "243")
+)
+func showFastPath() throws {
+	// ...
+}
+```
+
+> ​❌ Test showFastPath() skipped.
 
 https://github.com/swiftlang/swift-testing/blob/main/Sources/Testing/Traits/ConditionTrait.swift
