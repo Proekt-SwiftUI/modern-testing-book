@@ -3,15 +3,15 @@
 
 import Testing
 
- import struct Foundation.UUID
- import struct SwiftUI.Color
+import struct Foundation.UUID
+import struct SwiftUI.Color
 
- struct BestTea: Identifiable {
+struct BestTea: Identifiable {
 	let id = UUID()
 	let name: String
 	let optimalTime: Int
 	let color: Color?
- }
+}
 
 // @Test(.hidden)
 // func simpleIssue() throws {
@@ -43,11 +43,11 @@ func brewTeaCorrect() throws {
 }
 
 // withKnownIssue
- @Test
- func checkGreenTea() {
+@Test
+func checkGreenTea() {
 	let tea = BestTea(name: "Green", optimalTime: 2, color: nil)
 
-	 withKnownIssue {
-		 #expect(tea.color == .red)
+	withKnownIssue {
+		#expect(tea.color == .red)
 	}
- }
+}
