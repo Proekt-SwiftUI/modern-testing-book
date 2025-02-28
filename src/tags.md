@@ -11,7 +11,7 @@
 
 - [Добавление тега в проект](#Добавление-тега-в-проект)
 - [Ошибки добавления тега](#Ошибки-добавления-тега)
-- [Кто отвечает за цвета tag-colors.json][]
+- [Цвет тега][#]
 
 По мере роста проекта или отдельного пакета количество тестов может вырости до сотни или тысячи. Некоторые из этих тестов могут пересекаться, т.е. иметь общие свойства или относится к одной и той же категории. Swift Testing имеет из коробки макрос `@Tag`
 с помощью которого можно группировать тесты.
@@ -91,26 +91,68 @@ extension Tag {
 
 ```swift
 @Tag
-let featureRelease: Self // ❌ Ошибка: Тег должен быть объявлен в расширении Tag
+let featureRelease: Self // ❌ Ошибка: Тег должен быть объявлен в расширении Tag, а не глобально
 
 @Suite
 struct SingleProfile {
 	@Tag
-	var onlySingleProfile: Self // ❌ Ошибка: Тег должен быть объявлен в расширении Tag
+	var onlySingleProfile: Self // ❌ Ошибка: Тег должен быть объявлен в расширении Tag, а не в типе данных
 	// ...
 }
 ```
 
-<!-- https://developer.apple.com/documentation/testing/addingtags
+https://github.com/swiftlang/swift-testing/blob/main/Sources/Testing/Traits/Tags/Tag%2BPredefined.swift
 
+### Цвет тегов
+
+После добавление тега, в панели навигации виден его цвет.
+По умолчанию, библиотека тестирования предоставляет следующие цвета:
+
+1. Красный
+2. Оранжевый
+3. Желтый
+4. Зеленый
+5. Синий
+6. Фиолетовый
+
+![Цвета тегов](assets/tags_color.png)
+
+Xcode предоставляет только один цвет — фиолетовый.
+
+Стоит упомнять о забавном факте в истории Apple.
+Инженеры Apple используют цвета из оригинальной ОС System 7 (1991 г, позже назвали Mac OS 7), поэтому если ты сделал тег одним из имен ниже, то при вызове команды `swift test` цвет тега изменится.
+
+
+```swift
+extension Tag {
+  @Tag
+  static var essential: Self
+}
+
+@Test(.tags(.essential))
+func showTestName() {
+  #expect(Test.current?.displayName == nil)
+}
+```
+
+<!-- https://github.com/swiftlang/swift-testing/issues/985 -->
+
+![System 7](assets/system7_colors.png)
+
+> [!NOTE]
+> Изменение цвета тега не касается Xcode, поскольку эта функция эксперементальная.<br>
+> https://github.com/swiftlang/swift-testing/issues/985
+
+
+<!--
 0. Xcode Test Plan `.xctestplan` file
 1. Добавление тега в проект
 2. Сортировка
 3. Suit
-4. Recommended practice -->
+4. Recommended practice
 
-<!-- ```swift
+
 @attached(accessor)
 @attached(peer)
 public macro Tag() = #externalMacro(module: "TestingMacros", type: "TagMacro")
-``` -->
+-->
