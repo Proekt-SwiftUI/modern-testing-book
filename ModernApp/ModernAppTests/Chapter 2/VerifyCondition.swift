@@ -1,5 +1,5 @@
 // VerifyCondition.swift
-// Copyright (c) 2025 by Nikita Rossik. Created at 2/28/25.
+// Copyright (c) 2025 by Nikita Rossik. Created at 3/1/25.
 
 import Testing
 
@@ -26,7 +26,7 @@ struct WeatherGroup {
 let isEnabledForSomeReason: Bool = true
 
 @Test(
-  .enabled(if: isEnabledForSomeReason),
+	.enabled(if: isEnabledForSomeReason),
 	.disabled("Отключили до фикса бага #243"),
 	.bug(id: "243")
 )
