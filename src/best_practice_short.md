@@ -1,6 +1,6 @@
 # Лучшие практики
 
-Данная глава содержит короткие куски кода, которые ты встречал в книге. Только практические примеры кода с кратким описанием.
+Данная глава содержит примеры кода с коротким пояснением, которые ты встречал в книге.
 
 ### Информация о текущем тесте
 
@@ -23,7 +23,6 @@ func information() throws {
 ### Аргументы вместо цикла for
 
 
-
 ```swift
 enum Planet: CaseIterable {
 	case mercury, venus, earth, gargantua, mars, jupiter, saturn, pluto, uranus, neptune, endurance
@@ -44,9 +43,14 @@ func explorePlanets() {
 }
 ```
 
-> ✘ Test "Планета находится в солнечной системе?" recorded an issue at ManyArguments.<br>Expectation failed: isPlanetInSolarSystem(planet → .gargantua)<br>
-Expectation failed: isPlanetInSolarSystem(planet → .pluto)<br>
-Expectation failed: isPlanetInSolarSystem(planet → .endurance)<br>
+![Аргументы теста](assets/test_arguments.png)
+
+> Test "Планета находится в солнечной системе?" recorded an issue at ManyArguments.<br>
+❌ Expectation failed: isPlanetInSolarSystem(planet → .gargantua)<br>
+❌ Expectation failed: isPlanetInSolarSystem(planet → .pluto)<br>
+❌ Expectation failed: isPlanetInSolarSystem(planet → .endurance)<br>
+
+Вместо цикла `for` используй аргументы в атрибуте `@Test`:
 
 ```swift
 @Test(
@@ -74,8 +78,11 @@ func matchPlanet(planet: Planet) {
 ✘ Test "Планета находится в солнечной системе?" recorded an issue with 1 argument planet → .gargantua at ManyArguments.swift:26:2: Expectation failed: isPlanetInSolarSystem(planet → .gargantua)
 ✘ Test "Планета находится в солнечной системе?" recorded an issue with 1 argument planet → .pluto at ManyArguments.swift:26:2: Expectation failed: isPlanetInSolarSystem(planet → .pluto)
 ​​✘ Test "Планета находится в солнечной системе?" recorded an issue with 1 argument planet → .endurance at ManyArguments.swift:26:2: Expectation failed: isPlanetInSolarSystem(planet → .endurance)
-​✘ Test "Планета находится в солнечной системе?"
 ```
+
+> ❌ Expectation failed: isPlanetInSolarSystem(planet → .gargantua)<br>
+❌ Expectation failed: isPlanetInSolarSystem(planet → .pluto)<br>
+❌ Expectation failed: isPlanetInSolarSystem(planet → .endurance)
 
 ```swift
 @Test(
@@ -152,7 +159,7 @@ func brewTeaCorrect() throws {
 > ✅ **Хорошая практика**<br>
 > Expectation failed:<br>(greenTea → BestTea(id: 32B06194-BCD9-4A4D-AEAA-9ACB3C037D95, name: "Green", optimalTime: 2, color: nil)).color → nil → nil
 
-### withKnownIssue
+### Ожидаемая ошибка *withKnownIssue*
 
 Если ты знаешь, что свойство или метод вызовут ошибку по какой-то причине,
 то можешь использовать специальную функцию `withKnownIssue`, чтобы тест был пройден:
