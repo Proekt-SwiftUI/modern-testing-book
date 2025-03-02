@@ -106,13 +106,13 @@ func showFastPath() throws {
 > ❌ Test showFastPath() skipped: "Отключили до фикса бага #243"
 
 
-В противоположном случае, проверка условия в трейте `.enabled(if: isEnabledForSomeReason)` не проходит:
+В противоположном случае, проверка условия в трейте `.enabled(if: isEnabledForSomeReason)` не проходит и трейты ниже не выполняются:
 
 ```swift
 let isEnabledForSomeReason: Bool = false
 
 @Test(
-    .enabled(if: isEnabledForSomeReason),
+  .enabled(if: isEnabledForSomeReason),
 	.disabled("Отключили до фикса бага #243"),
 	.bug(id: "243")
 )
@@ -122,5 +122,3 @@ func showFastPath() throws {
 ```
 
 > ​❌ Test showFastPath() skipped.
-
-https://github.com/swiftlang/swift-testing/blob/main/Sources/Testing/Traits/ConditionTrait.swift

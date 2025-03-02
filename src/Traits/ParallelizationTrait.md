@@ -65,7 +65,7 @@ extension IsolationConfirmation {
 
 ```swift
 @Test
-func checkOneString() {
+func findPalindrome() {
 	let word: String = "Madam"
 	let result = word.filter(\.isLetter).lowercased().reversed()
 
