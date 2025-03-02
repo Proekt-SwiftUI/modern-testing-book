@@ -13,7 +13,7 @@ import ModernApp
 @Suite
 struct FastApartmentSearcher {
 	// Проверям предложения на рынке и ищем только 2-комнатную квартиру
-	@Test()
+	@Test
 	func availableApartment() async {
 		let roomForOne = ApartmentSearcher(criteria: [.single, .studio])
 		let result = await roomForOne.result()
