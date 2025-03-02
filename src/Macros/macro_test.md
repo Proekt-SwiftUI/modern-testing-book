@@ -344,7 +344,8 @@ func withImmutableValue(value: _const String) -> {
 
 Значения, известные на этапе компиляции (compile-time constant values), — это значения, которые могут быть известны или вычислены во время компиляции и гарантированно не изменяются после её завершения. Использование таких значений может служить различным целям: от обеспечения правил и гарантий безопасности до предоставления пользователям возможности создавать сложные алгоритмы, выполняемые на этапе компиляции.
 
-> https://github.com/swiftlang/swift-evolution/blob/main/proposals/0359-build-time-constant-values.md
+> [!NOTE]
+> Ознакомится более [подробно с _const](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0359-build-time-constant-values.md).
 
 #### Test только для func
 

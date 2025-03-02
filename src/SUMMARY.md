@@ -5,7 +5,8 @@
 - [Детальное знакомство c макросами](Macros/intro.md) <!-- ✅ -->
     - [@Test](Macros/macro_test.md) <!-- 🛠️ -->
     - [@Suite](Macros/macro_suite.md) <!-- ✅ -->
-    - [Скрытый макрос](Macros/secret_macro.md) <!-- ✅ -->
+    - [@Tag](Macros/macro_tag.md) <!-- ✅ -->
+    - [Скрытый макрос #_sourceLocation](Macros/secret_macro.md) <!-- ✅ -->
 - [Трейты](protocol_Trait.md) <!-- ✅ -->
     - [Comment](Traits/CommentTrait.md) <!-- ✅ -->
     - [Condition](Traits/ConditionTrait.md) <!-- ✅ -->
@@ -13,13 +14,13 @@
     - [Bug](Traits/BugTrait.md) <!-- ✅ -->
     - [Issue](Traits/IssueTrait.md) <!-- ✅ -->
     - [Parallelization](Traits/ParallelizationTrait.md) <!-- ✅ -->
-    - [Tag](tags.md) <!-- ✅ -->
+    - [Tag](Traits/TagTrait.md) <!-- 🛠️ -->
 - [Добавляем собственный трейт](Traits/OwnTrait.md) <!-- ✅ -->
-- [Best practice](best_practice_short.md) <!-- 🛠️ -->
+- [Best practice](best_practice_short.md) <!-- ✅ -->
 - [Кто управляет тестами](runner.md) <!-- ✅ -->
-- [XCTest или Swift Testing](compare_xctest_and_modern_aproach.md) <!-- ✅ -->
+- [XCTest или Swift Testing ?](compare_xctest_and_modern_aproach.md) <!-- ✅ -->
 - [Мета информация и обозначения](xcode_meta.md) <!-- 🛠️ -->
-<!-- - [Вывод]() -->
+- [Вместо прощания](in_the_end.md) <!-- ✅ -->
 
 <!-- Предварительный черновик готов ✅ -->
 <!-- Работа в процесса 🛠️ -->

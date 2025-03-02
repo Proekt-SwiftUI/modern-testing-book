@@ -22,6 +22,7 @@ func information() throws {
 
 ### Аргументы вместо цикла for
 
+Первое, что приходит в голову использовать цикл `for` (или функции высшего порядка: map, forEach и т.д.) при работе с перечислением:
 
 ```swift
 enum Planet: CaseIterable {
@@ -43,14 +44,12 @@ func explorePlanets() {
 }
 ```
 
-![Аргументы теста](assets/test_arguments.png)
-
 > Test "Планета находится в солнечной системе?" recorded an issue at ManyArguments.<br>
 ❌ Expectation failed: isPlanetInSolarSystem(planet → .gargantua)<br>
 ❌ Expectation failed: isPlanetInSolarSystem(planet → .pluto)<br>
 ❌ Expectation failed: isPlanetInSolarSystem(planet → .endurance)<br>
 
-Вместо цикла `for` используй аргументы в атрибуте `@Test`:
+Более правильным вариантом будет использование аргументов в атрибуте `@Test` вместо цикла `for` :
 
 ```swift
 @Test(
@@ -61,6 +60,8 @@ func matchPlanet(planet: Planet) {
 	#expect(isPlanetInSolarSystem(planet))
 }
 ```
+
+![Аргументы теста](assets/test_arguments.png)
 
 ```bash
 ◇ Test "Планета находится в солнечной системе?" started.
@@ -177,15 +178,29 @@ func matchAvailableCharger() {
 
 ### Confirmation
 
-Вызов функции `await confirmation(...)` нужно использовать в сценариях, когда некоторое событие происходит во время выполнения теста. `Confirmation` полезно, когда ожидаемое событие происходит:
-
-- В контексте когда ты не можешь приостановить выполнение метода с помощью `await`, например: обработка события или вызов делегата
-- В качестве длительного выполнения `callback`
+При написании тестов возникают ситуации, когда ты хочешь подтвердить выполнение кода, комплишн хендлера или когда ты хочешь проверить вызов делегата.
 
 При вызове `await confirmation(...)` ты передаешь замыкание соответсвующее типу `Confirmation`:
 
 ```swift
+@Test("Вызов метода расчета размера после загрузки")
+func cleanupAfterDownload() async {
+	let downloader = CoreMLDownloader()
 
+	await confirmation() { confirmation in
+		downloader.onCompleteDownload = { _ in confirmation() }
+		_ = await downloader.size(for: CoreMLModel(.fastViT))
+	}
+}
 ```
 
-https://developer.apple.com/documentation/testing/testing-asynchronous-code
+Для подтверждения события, которое не будет выполнено, передай ноль:
+
+```swift
+await confirmation(expectedCount: 0) { confirmation in
+	// ...
+}
+```
+
+> [!NOTE]
+> Используй `await confirmation()` когда хочешь вызвать `callback`.

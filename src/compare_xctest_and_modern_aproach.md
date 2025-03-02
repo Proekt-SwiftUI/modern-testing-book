@@ -1,4 +1,4 @@
-# XCTest или Swift Testing
+# XCTest или Swift Testing ?
 
 Возможно ты писал тесты с помощью XCTest и задумался о переходе на более современный подход. Swift Testing имеет как общие черты с XCTest, так и различия.
 
