@@ -11,12 +11,30 @@ enum Planet: CaseIterable {
 	case mercury, venus, earth, gargantua, mars, jupiter, saturn, pluto, uranus, neptune, endurance
 }
 
-//func isPlanetInSolarSystem(_ planet: Planet) -> Bool {
-//	switch planet {
-//		case .mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune: true
-//		case .pluto, .gargantua, .endurance: false
-//	}
-//}
+extension Planet: CustomTestStringConvertible {
+	var testDescription: String {
+		switch self {
+			case .mercury: "Жаркое место"
+			case .venus: "Экстримальное давление"
+			case .earth: "Безопасная Земля"
+			case .gargantua: "Черная Дыра"
+			case .mars: "Красная планета"
+			case .jupiter: "Газовый гигант"
+			case .saturn: "Властелин колец"
+			case .pluto: "Маленький, но гордый"
+			case .uranus: "Ледяной гигант"
+			case .neptune: "Синий гигант"
+			case .endurance: "Корабль надежды"
+		}
+	}
+}
+
+func isPlanetInSolarSystem(_ planet: Planet) -> Bool {
+	switch planet {
+		case .mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune: true
+		case .pluto, .gargantua, .endurance: false
+	}
+}
 
 struct SpaceStation {
 	let studying: Planet
@@ -55,6 +73,14 @@ struct SpaceStation {
 		guard planet == studying else { return false }
 		return true
 	}
+}
+
+@Test(
+	"Планета находится в солнечной системе?",
+	arguments: Planet.allCases
+)
+func matchPlanet(planet: Planet) {
+	#expect(isPlanetInSolarSystem(planet))
 }
 
 @Test(

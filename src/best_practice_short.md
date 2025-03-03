@@ -85,6 +85,49 @@ func matchPlanet(planet: Planet) {
 ❌ Expectation failed: isPlanetInSolarSystem(planet → .pluto)<br>
 ❌ Expectation failed: isPlanetInSolarSystem(planet → .endurance)
 
+И не забудь реализовать протокол `CustomTestStringConvertible` при работе с параметрами:
+
+```swift
+extension Planet: CustomTestStringConvertible {
+	var testDescription: String {
+		switch self {
+			case .mercury: "Жаркое место"
+			case .venus: "Экстримальное давление"
+			case .earth: "Безопасная Земля"
+			case .gargantua: "Черная Дыра"
+			case .mars: "Красная планета"
+			case .jupiter: "Газовый гигант"
+			case .saturn: "Властелин колец"
+			case .pluto: "Маленький, но гордый"
+			case .uranus: "Ледяной гигант"
+			case .neptune: "Синий гигант"
+			case .endurance: "Корабль надежды"
+		}
+	}
+}
+```
+
+Теперь вместо вывода кейса, ты увидишь описание, которые ты указал выше:
+
+```bash
+# ...
+◇ Passing 1 argument planet → Экстримальное давление to "Планета находится в солнечной системе?"
+◇ Passing 1 argument planet → Маленький, но гордый to "Планета находится в солнечной системе?"
+◇ Passing 1 argument planet → Ледяной гигант to "Планета находится в солнечной системе?"
+◇ Passing 1 argument planet → Синий гигант to "Планета находится в солнечной системе?"
+◇ Passing 1 argument planet → Безопасная Земля to "Планета находится в солнечной системе?"
+​​​​​◇ Passing 1 argument planet → Корабль надежды to "Планета находится в солнечной системе?"
+​​​✘ Test "Планета находится в солнечной системе?" recorded an issue with 1 argument planet → Корабль надежды at ManyArguments.swift:83:2: Expectation failed: isPlanetInSolarSystem(planet → Корабль надежды)
+✘ Test "Планета находится в солнечной системе?" recorded an issue with 1 argument planet → Черная Дыра at ManyArguments.swift:83:2: Expectation failed: isPlanetInSolarSystem(planet → Черная Дыра)
+✘ Test "Планета находится в солнечной системе?" recorded an issue with 1 argument planet → Маленький, но гордый at ManyArguments.swift:83:2: Expectation failed: isPlanetInSolarSystem(planet → Маленький, но гордый)
+```
+
+В навигационном меню тестов ты тоже увидишь имена, заданные раннее:
+
+![CustomTestStringConvertible](assets/with_CustomTestStringConvertible.png)
+
+Помимо перечислений и массивов, аргемунт принимает `ClosedRange`:
+
 ```swift
 @Test(
 	"Исследование планеты за время",
@@ -204,3 +247,55 @@ await confirmation(expectedCount: 0) { confirmation in
 
 > [!NOTE]
 > Используй `await confirmation()` когда хочешь вызвать `callback`.
+
+А теперь к другой ситуации. Часть твоего кода была написана уважаем человеком,
+любящим использовать коллбеки и теперь при переходе на **SC** ты должен оборачивать
+каждый метод с помощью `continuation`:
+
+```swift
+@Test
+func launchRocket() async throws {
+    let rocket = await Rocket.prepareForLaunch()
+
+    try await withCheckedThrowingContinuation { continuation in
+        rocket.launch(with: .systemCheck) { result, error in
+            if let result {
+                continuation.resume(returning: result)
+            } else if let error {
+                continuation.resume(throwing: error)
+            }
+        }
+    }
+}
+```
+
+Swift Testing **автоматически оборачивает синхронный код с коллбеком**, поэтому нет необходимости использовать `withCheckedThrowingContinuation` в тестах.
+
+> [!IMPORTANT]
+> Не используй механизм синхронизации `CheckedContinuation` между синхронным и асинхронным кодом в тестировании!
+
+### Отключай тест, а не комментируй
+
+По привычке ты захочешь закомментировать тело теста, чтобы ничего не выполнялось:
+
+```swift
+@Test("Закомментирую на время фикса #PR-3781")
+func fetchAnotherFlag() {
+// try await Task(priority: .background) {
+//	...
+// }
+}
+```
+
+Однако в библиотеке тестирования закоментированный код будет компилироваться.
+Поэтому лучшей практикой будет пропуск теста, вместо комментария тела:
+
+```swift
+@Test("Закомментирую на время фикса #PR-3781", .disabled())
+func fetchAnotherFlag() {
+	// ...
+}
+```
+
+> [!NOTE]
+> Вместо комментария тела функции используй трейт `.disabled()`

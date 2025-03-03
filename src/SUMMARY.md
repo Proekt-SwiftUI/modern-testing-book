@@ -6,7 +6,7 @@
     - [@Test](Macros/macro_test.md) <!-- 🛠️ -->
     - [@Suite](Macros/macro_suite.md) <!-- ✅ -->
     - [@Tag](Macros/macro_tag.md) <!-- ✅ -->
-    - [Скрытый макрос #_sourceLocation](Macros/secret_macro.md) <!-- ✅ -->
+    - [Скрытый макрос](Macros/secret_macro.md) <!-- ✅ -->
 - [Трейты](protocol_Trait.md) <!-- ✅ -->
     - [Comment](Traits/CommentTrait.md) <!-- ✅ -->
     - [Condition](Traits/ConditionTrait.md) <!-- ✅ -->
@@ -19,7 +19,7 @@
 - [Best practice](best_practice_short.md) <!-- ✅ -->
 - [Кто управляет тестами](runner.md) <!-- ✅ -->
 - [XCTest или Swift Testing ?](compare_xctest_and_modern_aproach.md) <!-- ✅ -->
-- [Мета информация и обозначения](xcode_meta.md) <!-- 🛠️ -->
+- [Мета информация и обозначения](xcode_meta.md) <!-- ✅ -->
 - [Вместо прощания](in_the_end.md) <!-- ✅ -->
 
 <!-- Предварительный черновик готов ✅ -->
