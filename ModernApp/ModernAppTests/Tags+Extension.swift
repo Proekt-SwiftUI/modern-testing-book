@@ -17,4 +17,7 @@ extension Tag {
 
 	@Tag
 	static var weather: Self
+
+	@Tag
+	static var fileSize: Self
 }

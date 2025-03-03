@@ -18,3 +18,14 @@ import Testing
 //
 //	#expect(1 == 1)
 // }
+
+//@globalActor
+//actor ModernActor {
+//	static let shared = ModernActor()
+//}
+//
+//@Test
+//@ModernActor
+//func executeAtModern() {
+//	ModernActor.assertIsolated()
+//}

@@ -5,6 +5,8 @@
 import ModernApp
 
 import Testing
+import struct Foundation.Measurement
+import class Foundation.UnitInformationStorage
 
 @Test
 func calculateTotal() async {
@@ -66,24 +68,25 @@ nonisolated func determineGlobalActor() async {
 //	await MainActor.run {}
 }
 
-// import struct Foundation.Measurement
-// import class Foundation.UnitInformationStorage
-//
-// @Test("Compare data size")
-// func checkSize() {
-//	let fileSize = Measurement<UnitInformationStorage>(value: 2432, unit: .megabytes)
-//
-//	#expect(fileSize.description == "2.4MB")
-// }
-//
-// @Test("Check file size", .timeLimit(.minutes(1)))
-// func checkSizeWithFormatter() {
-//	let fileSize = Measurement<UnitInformationStorage>(value: 2432, unit: .megabytes)
-//	let filter = Measurement<UnitInformationStorage>.FormatStyle(
-//		width: .wide,
-//		locale: .init(identifier: "ru_RU")
-//	)
-//
-//	let formattedResult = filter.format(fileSize)
-//	#expect(formattedResult != "2.4 Мегабайта")
-// }
+
+@Suite(.tags(.fileSize))
+struct AboutFileSize {
+	@Test("Сравниваем размер файла")
+	func checkSize() {
+		let fileSize = Measurement<UnitInformationStorage>(value: 2432, unit: .megabytes)
+
+		#expect(fileSize.description == "2.4MB")
+	}
+
+	@Test("Сравнение еще одного файла")
+	func checkSizeWithFormatter() {
+		let fileSize = Measurement<UnitInformationStorage>(value: 2432, unit: .megabytes)
+		let filter = Measurement<UnitInformationStorage>.FormatStyle(
+			width: .wide,
+			locale: .init(identifier: "ru_RU")
+		)
+
+		let formattedResult = filter.format(fileSize)
+		#expect(formattedResult != "2.4 Мегабайта")
+	}
+}

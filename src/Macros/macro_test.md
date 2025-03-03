@@ -89,8 +89,6 @@ func hasRuntimeVersionCheck() {
   // ...
 }
 
-// TODO: Пример с unavailable
-
 // ✅ Используйте атрибут @available для функции или метода
 @Test
 @available(macOS 15, *)
@@ -98,8 +96,6 @@ func usesNewAPIs() {
   // ...
 }
 ```
-
-<!-- Проверить для типа данных: @available struct NewAPI {...} -->
 
 ![Available attribute](../assets/available.png)
 
@@ -115,112 +111,174 @@ Swift Testing поддерживает создание пользователь
 
 В моём проект я уже использовал теги. Найти их можно в навигационном меню Xcode, а именно в Test Navigator снизу.
 
-<!-- TODO: скриншот тегов -->
+![Теги](../assets/xcode_tags.png)
 
 Чтобы увидеть тесты, к которым применены теги, ты можешь переключиться в новый режим группировки — по тегам.
 
-<!-- TODO: скрин: группировка по тегам -->
+![Группировка по тегам](../assets/group_by_tag.png)
 
-Давайте применим тег к одному из тестов, которые мы писали ранее. Для этого мы добавим трейт `.tags(...)` в атрибут @Test:
+Давайте применим тег к одному из тестов. Для этого мы добавим трейт `.tags(...)` в атрибут @Test:
 
 ```swift
-// пример кода 
+@Test("Сравниваем размер файла", .tags(.fileSize))
+func checkSize() {
+	let fileSize = Measurement<UnitInformationStorage>(value: 2432, unit: .megabytes)
+	
+	#expect(fileSize.description == "2.4MB")
+}
 ```
 
-Этот тест проверяет логику форматирования данных. В этом проекте уже есть другой тест, связанный с форматированием, 
-поэтому давайте добавим тэг `formattingData` и к этому тесту.
+После применения, тег отобразится в Test Navigator под соответствующим тегом.
+Я написал еще один тест, который также проверяет размер файла и добавлю его сюда:
 
-После применения, тэг отобразится в Test Navigator под соответствующим тэгом.
-Я написал еще один тест, который также проверяет форматирование данных, и добавлю его сюда.
-Поскольку оба теста связаны с форматированием информации о видео, давайте сгруппируем их в поднабор.
+```swift
+@Test("Сравнение еще одного файла", .tags(.fileSize))
+func checkSizeWithFormatter() {
+	let fileSize = Measurement<UnitInformationStorage>(value: 2432, unit: .megabytes)
+	let filter = Measurement<UnitInformationStorage>.FormatStyle(
+		width: .wide,
+		locale: .init(identifier: "ru_RU")
+	)
+	
+	let formattedResult = filter.format(fileSize)
+	#expect(formattedResult != "2.4 Мегабайта")
+}
+```
+Поскольку оба теста связаны с размером файла, давай сгруппируем их:
 
-Теперь мы можем переместить тег formattingData на уровень @Suite, чтобы тэг применялся ко всем тестам в этом @Suite. Далее можно удалить теги из каждого отдельного метода с атрибутом @Test, так как он (кто они?) наследуются.
+```swift
+struct AboutFileSize {
+	@Test("Сравниваем размер файла", .tags(.fileSize))
+	func checkSize() {
+		let fileSize = Measurement<UnitInformationStorage>(value: 2432, unit: .megabytes)
 
-Ты можешь ассоциировать теги с тестами, которые имеют общие черты. Например, ты можешь применить общий тег ко всем тестам, которые проверяют определенную функцию или подсистему. Это позволяет запускать все тесты с конкретным тегом, фильтровать их в Test Report и даже видеть аналитические данные, например, когда несколько тестов с одним и тем же тегом начинают падать.
+		#expect(fileSize.description == "2.4MB")
+	}
 
-Теги могут применяться к тестам в разных файлах, типам данных, макросу @Suite и даже использоваться в нескольких проектах.
+	@Test("Сравнение еще одного файла", .tags(.fileSize))
+	func checkSizeWithFormatter() {
+		let fileSize = Measurement<UnitInformationStorage>(value: 2432, unit: .megabytes)
+		let filter = Measurement<UnitInformationStorage>.FormatStyle(
+			width: .wide,
+			locale: .init(identifier: "ru_RU")
+		)
 
-При использовании Swift Testing предпочтительнее использовать теги вместо имен тестов для их включения или исключения из тестового плана. Чтобы добиться наилучших результатов, всегда выбирайте наиболее подходящий тип свойства для каждой ситуации. Не все сценарии должны использовать теги. Например, если вы хотите выразить условие выполнения во время выполнения, используйте .enabled(if ...), как мы обсуждали ранее.
+		let formattedResult = filter.format(fileSize)
+		#expect(formattedResult != "2.4 Мегабайта")
+	}
+}
+```
 
-<!-- TODO Скриншот: Recommended practies -->
+Теперь мы можешь применить тег `fileSize` к атрибуту @Suite, чтобы тег применялся ко всем тестам в этом типе данных. Поскольку теги применяются ко всем вложенным методам, то можно убрать теги из методов:
 
-В главе про @Test я не буду рассказывать о том как создать собсвенный тэг и в целом об этом трейте, только совместное использование.
-Узнать о макросе @Tag можно здесь.
+```swift
+@Suite(.tags(.fileSize))
+struct AboutFileSize {
+	@Test("Сравниваем размер файла")
+	func checkSize() {
+    // ...
+  }
+  // ...
+}
+```
+
+Ты можешь ассоциировать теги с тестами, которые имеют общие черты. Например, ты можешь применить общий тег ко всем тестам, которые проверяют определенную функцию или вложенный тип данных. Это позволяет запускать все тесты с конкретным тегом, фильтровать их в *Test Report* и даже видеть аналитические данные, например, когда несколько тестов с одним и тем же тегом начинают падать.
+
+Теги могут применяться к тестам в разных файлах, типам данных с атрибутом @Suite и даже использоваться в нескольких таргетах.
+
+При использовании Swift Testing предпочтительнее использовать теги вместо имен тестов для их включения или исключения из тестового плана.
+
+О том, как создать собственный тег [прочитай здесь](macro_tag.md).
 
 ### Аргументы
 
-<!-- The last workflow I’d like to show is my favorite. Repeating tests with different arguments each time. 
-Here's an example of why that can be useful.
-In this project there are several tests which check the number of continents that various videos mention.
-Each of them follows a similar pattern: it creates a fresh videoLibrary, looks up a video by name, and then uses the #expect macro to check how many continents it mentions.
+Перед прочтением тонкостей, я бы хотел показать последний процесс связанный с повторением тестов, а именно аргументами.
 
-These tests work, but they're very repetitive and the more videos we add a test for, the harder it will be to maintain them due to all the duplicated code. Also, when using this pattern we’re forced to give each test a unique function name, but these names are hard to read and they might get out-of-sync with the name of the video they're testing. Instead, we can write all of these as a single test using a feature called parameterized testing. Let’s transform this first test into a parameterized one. The first step is to add a parameter to its signature.
-As soon as we do this, an error appears telling us that we must specify the arguments to pass to this test, so let’s fix that.
-For now, let’s include the names of just three videos.
-I like to split arguments over multiple lines so they're easier to read, but you can format them however you like. The last step is to replace the name of the video being looked up with the passed-in argument.
-Since this test now covers multiple videos, let’s generalize its name.
-The full name of this test now includes its parameter label.
-But we can still give it a display name or other traits if we want, by passing them before the arguments. -->
+Предположим, что у тебя есть сервис по достопримечательностям и ты хочешь узнать
+информацию о каждом из них:
 
-Последний рабочий процесс, который я хочу показать, — мой любимый. Повторение тестов с разными аргументами каждый раз.
-Вот пример того, почему это может быть полезно.
-В этом проекте есть несколько тестов, которые проверяют количество континентов, упомянутых в различных видео.
-Каждый из них следует схожей схеме: создается новая библиотека видео, затем выполняется поиск видео по названию, после чего макрос #expect используется для проверки количества континентов, упомянутых в видео.
+```swift
+struct PlaceService {
+	func search(by name: String) async -> Bool {
+		let places: [String] = [
+			"Gullfoss",
+			"Saint Victor",
+			"Vestmannaeyjar",
+			"Skogafoss",
+			"Hong Kong"
+		]
 
-Эти тесты работают, но они слишком однотипны, и чем больше видео мы добавляем для тестирования, тем сложнее их поддерживать из-за дублирующегося кода. Кроме того, при использовании этого подхода нам приходится давать каждому тесту уникальное имя функции, но эти имена трудно читать, и они могут не совпадать с названием тестируемого видео. Вместо этого мы можем записать все эти тесты как один, используя функцию, называемую параметризованным тестированием. Давайте преобразуем этот первый тест в параметризованный.
+		return places.contains(name)
+	}
+}
 
-Первый шаг — добавить параметр в его сигнатуру.
-Как только мы это сделаем, появляется ошибка, сообщающая, что необходимо указать аргументы для передачи в тест. Исправим это.
-Для начала включим названия только трех видео.
-Мне нравится разбивать аргументы на несколько строк, чтобы их было легче читать, но вы можете форматировать их так, как вам удобно.
-Последний шаг — заменить название видео, которое ищется, на переданный аргумент.
-Поскольку этот тест теперь охватывает несколько видео, давайте обобщим его название.
-Полное название этого теста теперь включает метку параметра.
-Однако мы все еще можем задать ему отображаемое имя или другие свойства, если захотим, передав их перед аргументами.
+@Test
+func findPlace() async throws {
+	let places: [String] = [
+		"Gullfoss",
+		"Moscow",
+		"Vestmannaeyjar",
+		"Skogafoss",
+		"Paris",
+		"Borocay",
+		"Hong Kong"
+	]
 
-<!-- Now let's run the test and see how it goes.
-Great! It succeeded, and the Test Navigator shows each individual video below it as if it were a separate test. This structure makes it really easy to add more arguments and expand test coverage. Let’s add all the remaining videos to this list — and even a couple new ones.
-At this point, we can delete the old @Test functions since they're no longer necessary.
-Let's run the test one more time and make sure it's still passing.
-Hm, it looks like one of the new videos we added near the end is causing a failure now. By clicking the argument, we can see details about it, and the expectation which failed. To investigate this problem, it would help to re-run it with the debugger, but I'd prefer to only re-run the argument that failed to save some time. In Xcode 16 we can now run an individual argument by clicking its run button in the Test Navigator. But before we do this, let’s add a breakpoint to the beginning of the test.
-And now let’s re-run it.
-The videoName shown in the debugger is "Scotland Coast”, so we know we’re running this test with exactly the argument we're interested in. From here, we could continue debugging further and identify the reason for the failure. Conceptually, a parameterized test is similar to a single test that is repeated multiple times using a for…in loop. Here’s an example: it has an array of videoNames that it loops over to perform the test. However, using a for...in loop like this has some downsides.
-Parameterized testing allows you see the details of each individual argument clearly in the results. The arguments can be re-run independently for fine-grained debugging. And they can be executed more efficiently by running each argument in parallel, so you can get results more quickly.
-Parameterized tests can be used in even more advanced ways than we saw here, such as by testing all combinations of two sets of inputs.
+	let service = PlaceService()
 
-Whenever you see a test using this pattern, it’s best to transform it into a parameterized test function. Just add a parameter to the function, get rid of the for...in loop, move the arguments up to the @Test attribute, and you’re done! -->
+	for place in places {
+		let result = await service.search(by: place)
+		#expect(result)
+	}
+}
+```
 
-Теперь давайте запустим тест и посмотрим, как он пройдет.
-Отлично! Тест успешно завершился, и в Test Navigator для каждого отдельного видео отображается его собственная запись, как если бы это были отдельные тесты. Такая структура упрощает добавление новых аргументов и расширение охвата тестов. Давайте добавим в этот список все оставшиеся видео, а также пару новых.
-На этом этапе мы можем удалить старые функции с аннотацией @Test, так как они больше не нужны.
-Запустим тест еще раз и убедимся, что он все еще проходит.
+![Ошибка в тесте, но где?](../assets/for_in_error.png)
 
-Хм, похоже, одно из новых видео, добавленных ближе к концу, вызывает ошибку. Нажав на аргумент, мы можем увидеть подробности и узнать, какое ожидание не было выполнено. Чтобы разобраться в проблеме, можно повторно запустить тест с отладчиком, но я бы предпочел перезапустить только тот аргумент, который вызвал сбой, чтобы сэкономить время. В Xcode 16 теперь можно запустить отдельный аргумент, нажав на его кнопку запуска в Test Navigator. Но прежде чем это сделать, давайте установим точку останова в начале теста.
+Тест выше работает, однако использование цикла `for` имеет свои недостатки:
 
-Теперь перезапустим его.
-Имя видео, отображаемое в отладчике — “Scotland Coast”, поэтому мы знаем, что тест выполняется именно с тем аргументом, который нас интересует. Отсюда мы можем продолжить отладку и выяснить причину сбоя.
+1. Ты не можешь видеть результат каждого вызова `#expect(…)` в навигационном меню тестов.
+2. Ты не можешь повторно запустить отдельный тест для одного элемента массива.
+3. Тесты выполняются последовательно.
 
-Концептуально параметризованный тест похож на один тест, который выполняется несколько раз с использованием цикла for…in. Вот пример: в нем есть массив videoNames, который перебирается для выполнения теста. Однако использование цикла for…in имеет свои недостатки.
-Параметризованное тестирование позволяет четко видеть детали каждого отдельного аргумента в результатах. Аргументы можно запускать повторно независимо для точной отладки. Кроме того, их можно выполнять более эффективно, запуская каждый аргумент параллельно, что ускоряет получение результатов.
+Исправим ситуацию и передадим массив в качестве параметра `arguments`:
+
+```swift
+@Test(
+	arguments: [
+		"Gullfoss",
+		"Moscow",
+		"Vestmannaeyjar",
+		"Skogafoss",
+		"Paris",
+		"Borocay",
+		"Hong Kong"
+	]
+)
+func findPlace(place: String) async throws {
+	let service = PlaceService()
+	let result = await service.search(by: place)
+	#expect(result)
+}
+```
+
+Просто добавь параметр в функцию, избавьтесь от цикла `for`, переместите аргументы в атрибут @Test — и готово!
+
+![Better than for in](../assets/better_with_arguments.png)
 
 Параметризованные тесты можно использовать даже в более сложных сценариях, например для тестирования всех комбинаций двух наборов входных данных.
 
-Когда вы видите тест, использующий этот шаблон, лучше преобразовать его в параметризованную тестовую функцию. Просто добавьте параметр в функцию, избавьтесь от цикла for…in, переместите аргументы в аннотацию @Test — и готово!
+![Поддерживаемые типы данных](../assets/supported_arguments.png)
 
----
-
-Давайте рассмотрим работу Swift Testing в командной строке. Вот простой пакет, который я создал с использованием шаблона New Package в Xcode 16. Мы можем запустить тесты этого пакета из Терминала, введя команду swift test.
-Это запускает как тесты XCTest, так и Swift Testing. В консоли отображаются результаты прохождения и сбоев с использованием цветного вывода, а также подробные сообщения об ошибках, аналогичные тем, что показываются в Xcode.
-
-У Swift Testing есть процесс предложений новых функций, и мы обсуждаем его развитие на Swift Forums. Мы приглашаем вас принять участие: предлагать или обсуждать функции, улучшать документацию или сообщать об ошибках. Все вклады приветствуются!
-
-Итак, это Swift Testing. Используйте его мощные функции, такие как ожидания и параметризованное тестирование, чтобы улучшить качество вашего кода; настраивайте тесты с помощью черт и присоединяйтесь к нам на GitHub и форумах, чтобы влиять на будущее этого пакета.
+> [!NOTE]
+> Слишком большой Range `0 ..< .max` может выполняться очень долго или совсем не завершиться.
 
 ### Тонкости
 
 Последний параграф познакомит тебя с особенностями использования макроса `@Test`, которые доступны при детальном чтении исходного кода, который реализует сам макрос. За это отвечает структура данных `TestDeclarationMacro`.
 
-<!-- Дать определение, о чем именно тонкости -->
+Ты написал много методов и один из них изолирован на `MainActor`.
+Поэтому помимо применения атрибута `@Test`, ты можешь применить глобальный актор, чтобы не получить ошибку компиляции на Swift 6:
 
 ```swift
 @Test("Как определить, функция для теста изолирована на глобальном акторе ?")
@@ -231,7 +289,7 @@ func determineGlobalActor() async {
 ```
 
 Для выполнения кода и изоляции на глобальном акторе, можно применить глобальный
-актор к функции. Если изоляция не нужна для всей функции, то можно вызвать
+актор к функции. Если изоляция не нужна для всей функции, то можно изолировать
 только определенный код:
 
 ```swift
@@ -243,27 +301,13 @@ func executeAtGlobalActor() async {
 }
 ```
 
-// How do we call a function if we don't know whether it's `async` or
-// `throws`? Yes, we know if the keywords are on the function, but it could
-// be actor-isolated or otherwise declared in a way that requires the use of
-// `await` without us knowing. Abstract away the need to know by invoking
-// the function along with an expression that always needs `try` and one
-// that always needs `await`, then discard the results of those expressions.
-//
-// We may also need to call init() (although only for instance methods.)
-// Since we can't see the actual init() declaration (and it may be
-// synthesized), we can't know if it's noasync, so we assume it's not.
-//
-// If the function is noasync, we will need to call it from a synchronous
-// context. Although `async` is out of the picture, we still don't know if
-// `try` is needed, so we do the same tuple dance within the closure.
-// Calling the closure requires `try`, hence why we have two `try` keywords.
-//
-// If the function is noasync *and* main-actor-isolated, we'll call through
-// MainActor.run to invoke it. We do not have a general mechanism for
-// detecting isolation to other global actors.
+Да, разработчики подготовили специальный механизм для определения изоляции и выполнения на `MainActor`. Если ты знаешь как реализовать собственный глобальный актор,
+то у меня плохие новости — Swift Testing не умеет определять изоляцию для
+кастомных глобальных актор, только `MainActor`.
 
 ```swift
+// We do not have a general mechanism for detecting isolation to other global actors.
+
 lazy var isMainActorIsolated = !functionDecl.attributes(named: "MainActor", inModuleNamed: "_Concurrency").isEmpty
 var forwardCall: (ExprSyntax) -> ExprSyntax = {
   "try await Testing.__requiringTry(Testing.__requiringAwait(\($0)))"
@@ -283,6 +327,9 @@ if functionDecl.noasyncAttribute != nil {
   }
 }
 ```
+
+> [!NOTE]
+> Swift Testing умеет определять изоляцию только `MainActor`. Поддержки других `@globalActor` нет.
 
 #### Нет необходимости возвращать тип данных
 
@@ -375,11 +422,11 @@ if suiteAttributes.count > 1 {
 
 #### Не приминим для Generics
 
-```swift
+Атрибуты @Test и @Suite не могут быть применены к дженерикам:
 
+```swift
 /// Create a diagnostic message stating that the `@Test` or `@Suite` attribute
 /// cannot be applied to a generic declaration.
-
 static func genericDeclarationNotSupported(_ decl: some SyntaxProtocol, whenUsing attribute: AttributeSyntax, becauseOf genericClause: some SyntaxProtocol, on genericDecl: some SyntaxProtocol) -> Self {
   if Syntax(decl) != Syntax(genericDecl), genericDecl.isProtocol((any DeclGroupSyntax).self) {
       return .containingNodeUnsupported(genericDecl, genericBecauseOf: Syntax(genericClause), whenUsing: attribute, on: decl)
@@ -394,6 +441,17 @@ static func genericDeclarationNotSupported(_ decl: some SyntaxProtocol, whenUsin
   }
 }
 ```
+
+Получаем ошибку компиляции:
+
+```swift
+@Test
+func sumOf<V: Numeric>() {
+  // ...
+}
+```
+
+> ❌ Attribute 'Test' cannot be applied to a generic function
 
 [test_declaration]: https://github.com/swiftlang/swift-testing/blob/main/Sources/TestingMacros/TestDeclarationMacro.swift#L84
 [validate_name_property_report]: ../assets/validateNameProperty_link.png

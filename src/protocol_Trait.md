@@ -73,7 +73,7 @@ public protocol Trait : Sendable {...}
 </details>
 
 
-### Макросы @Test и @Suite более детально
+### Объявление макросов @Test и @Suite
 
 Каждый макрос `@Test` принимает ноль и более трейтов `TestTrait`:
 
