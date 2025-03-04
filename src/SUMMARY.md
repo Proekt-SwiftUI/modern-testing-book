@@ -3,7 +3,7 @@
 - [Введение](welcome.md)  <!-- ✅ -->
 - [Макросы сравнения](basic_macro.md) <!-- ✅ -->
 - [Детальное знакомство c макросами](Macros/intro.md) <!-- ✅ -->
-    - [@Test](Macros/macro_test.md) <!-- 🛠️ -->
+    - [@Test](Macros/macro_test.md) <!-- ✅ -->
     - [@Suite](Macros/macro_suite.md) <!-- ✅ -->
     - [@Tag](Macros/macro_tag.md) <!-- ✅ -->
     - [Скрытый макрос](Macros/secret_macro.md) <!-- ✅ -->

@@ -17,11 +17,20 @@ func logIssueInDifferentPlace(_ comment: Comment?, in fn: @escaping @Sendable ()
 	try await fn()
 }
 
-@Test
-func simpleIssue() {
-	getTestLocation()
-	Issue.record("Здесь точно ошибка")
+struct ElectricityStation {
+	let highVoltage: Bool = false
 }
+
+@Test
+func checkVoltage() {
+	let electricity = ElectricityStation()
+
+	guard electricity.highVoltage else {
+		Issue.record("Слишком высокое напряжение")
+		return
+	}
+}
+
 
 @Test
 func expectIssueSomewhere() async {
