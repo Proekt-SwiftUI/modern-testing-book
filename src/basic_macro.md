@@ -4,7 +4,7 @@
 
 Для начала необходимо создать новый проект или добавить таргет в существующий, указав на Swift Testing.
 
-![Новая система тестирования в Xcode](assets/Swift%20Testing%20Screenshots/init_new_xcode_project.png)
+![Новая система тестирования в Xcode](<assets/Swift Testing Screenshots/init_new_xcode_project.png>)
 
 После создания напишем глобальную функцию, импортировав новый фреймворк `Testing`:
 
@@ -108,7 +108,7 @@ func userHaveCity() async throws {
 }
 ```
 
-> ❌ Expectation failed:<br>profileData.user → UserProfile(id: 1, firstName: "Nick", lastName: "Rossik", email: nil, city: nil).city → nil → nil
+> ❌ Expectation failed:<br/>profileData.user → UserProfile(id: 1, firstName: "Nick", lastName: "Rossik", email: nil, city: nil).city → nil → nil
 
 Город данного пользователя равен `nil`, поэтому тест завершился неудачей. Код ниже, сравнение города и метод `await profileData.updateUserProfile()` не был выполнен.
 

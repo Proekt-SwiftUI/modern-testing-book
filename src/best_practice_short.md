@@ -18,7 +18,7 @@ func information() throws {
 }
 ```
 
-> ❌ Expectation failed:<br>(currentTest.displayName → "Информация о тесте") == nil
+> ❌ Expectation failed:<br/>(currentTest.displayName → "Информация о тесте") == nil
 
 ### Аргументы вместо цикла for
 
@@ -44,10 +44,10 @@ func explorePlanets() {
 }
 ```
 
-> Test "Планета находится в солнечной системе?" recorded an issue at ManyArguments.<br>
-❌ Expectation failed: isPlanetInSolarSystem(planet → .gargantua)<br>
-❌ Expectation failed: isPlanetInSolarSystem(planet → .pluto)<br>
-❌ Expectation failed: isPlanetInSolarSystem(planet → .endurance)<br>
+> Test "Планета находится в солнечной системе?" recorded an issue at ManyArguments.<br/>
+❌ Expectation failed: isPlanetInSolarSystem(planet → .gargantua)<br/>
+❌ Expectation failed: isPlanetInSolarSystem(planet → .pluto)<br/>
+❌ Expectation failed: isPlanetInSolarSystem(planet → .endurance)<br/>
 
 Более правильным вариантом будет использование аргументов в атрибуте `@Test` вместо цикла `for` :
 
@@ -81,8 +81,8 @@ func matchPlanet(planet: Planet) {
 ​​✘ Test "Планета находится в солнечной системе?" recorded an issue with 1 argument planet → .endurance at ManyArguments.swift:26:2: Expectation failed: isPlanetInSolarSystem(planet → .endurance)
 ```
 
-> ❌ Expectation failed: isPlanetInSolarSystem(planet → .gargantua)<br>
-❌ Expectation failed: isPlanetInSolarSystem(planet → .pluto)<br>
+> ❌ Expectation failed: isPlanetInSolarSystem(planet → .gargantua)<br/>
+❌ Expectation failed: isPlanetInSolarSystem(planet → .pluto)<br/>
 ❌ Expectation failed: isPlanetInSolarSystem(planet → .endurance)
 
 И не забудь реализовать протокол `CustomTestStringConvertible` при работе с параметрами:
@@ -184,7 +184,7 @@ func brewTea() {
 }
 ```
 
-> ❌ **Плохая практика**<br>
+> ❌ **Плохая практика**<br/>
 > Макрос `#expect` не сравнил цвет, поведение теста неверное!
 
 На замену `guard` используем макрос `#require`, для распаковки опционального значения.
@@ -200,8 +200,8 @@ func brewTeaCorrect() throws {
 }
 ```
 
-> ✅ **Хорошая практика**<br>
-> Expectation failed:<br>(greenTea → BestTea(id: 32B06194-BCD9-4A4D-AEAA-9ACB3C037D95, name: "Green", optimalTime: 2, color: nil)).color → nil → nil
+> ✅ **Хорошая практика**<br/>
+> Expectation failed:<br/>(greenTea → BestTea(id: 32B06194-BCD9-4A4D-AEAA-9ACB3C037D95, name: "Green", optimalTime: 2, color: nil)).color → nil → nil
 
 ### Ожидаемая ошибка *withKnownIssue*
 

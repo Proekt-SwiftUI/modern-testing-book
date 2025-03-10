@@ -20,7 +20,7 @@ public protocol Trait : Sendable {...}
 
 Инженеры из Apple заранее подготовили определенное количество трейтов для использования.
 
-![Трейты из коробки](assets/Swift%20Testing%20Screenshots/default_traits.png)
+![Трейты из коробки](<assets/Swift Testing Screenshots/default_traits.png>)
 
 Далее в книге ты ознакомишься с каждым из них.
 

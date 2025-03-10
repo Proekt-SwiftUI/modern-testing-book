@@ -1,13 +1,15 @@
 [book]
 authors = ["Nick Rossik"]
+title = "Современное тестирование Swift Testing"
 language = "ru"
 multilingual = false
 src = "src"
-title = "Современное тестирование Swift Testing"
 
 [build]
 build-dir = "docs"
 create-missing = false
 
-
 [preprocessor.alerts]
+
+[output.epub]
+cover-image = "assets/Cover.png"

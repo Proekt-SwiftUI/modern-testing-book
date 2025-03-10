@@ -30,7 +30,7 @@ func availableApartment() async {
 }
 ```
 
-> ❌ Test availableApartment() failed after 0.001 seconds with 1 issue.<br>
+> ❌ Test availableApartment() failed after 0.001 seconds with 1 issue.<br/>
 > ↳ // Проверям апартаменты и ищем только 2-комнатную квартиру
 
 Одиночный комментарий `// Проверям апартаменты и ищем только 2-комнатную квартиру` добавлен к тесту. Тест не прошел проверку, поэтому помимо названия теста в консоли, ты видишь дополнительную информацию о нем.
@@ -63,11 +63,11 @@ struct FastApartmentSearcher {
 }
 ```
 
-> // ❌ Suite FastApartmentSearcher failed after 0.001 seconds with 1 issue.<br>
-/*<br>
+> // ❌ Suite FastApartmentSearcher failed after 0.001 seconds with 1 issue.<br/>
+/*<br/>
 ↳
- Максимально оптимизированный поиск по рынкам РФ и РБ.<br>
- Без дополнительных фильтров.<br>
+ Максимально оптимизированный поиск по рынкам РФ и РБ.<br/>
+ Без дополнительных фильтров.<br/>
 */
 
 Помимо этого атрибуты @Test и @Suite поддерживают другие стили, кроме одиночного:
@@ -102,7 +102,7 @@ func availableApartment() async {
 }
 ```
 
-> ❌ Test availableApartment() failed after 0.001 seconds with 1 issue<br>
+> ❌ Test availableApartment() failed after 0.001 seconds with 1 issue<br/>
 ↳ Проверям апартаменты и ищем только 2-комнатную квартиру
 
 Как ты видишь, в консоли или твоем CI/CD вывод будет различаться, поскольку имя теста и комментарий служат для различных целей. Я не стал указывать третий случай: *имя и комментарий* вместе, поскольку разница будет и так понятна.

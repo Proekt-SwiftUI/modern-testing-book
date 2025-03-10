@@ -54,9 +54,9 @@ func followTheWhiteRabbit() {
 }
 ```
 
-> ◇ Test followTheWhiteRabbit() started.<br><br>
-Запущен тест followTheWhiteRabbit() в файле IssueExample.swift<br>
-Модуль: ModernAppTests<br><br>
+> ◇ Test followTheWhiteRabbit() started.<br/><br/>
+Запущен тест followTheWhiteRabbit() в файле IssueExample.swift<br/>
+Модуль: ModernAppTests<br/><br/>
 > ❌ Expectation failed: "Keanu Beeves" == "Keanu Reeves"
 
 ### Реализация

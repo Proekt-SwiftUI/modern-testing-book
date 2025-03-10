@@ -12,7 +12,7 @@
 
 ### Сравнение функций
 
-![Сравнение функций](assets/Swift%20Testing%20Screenshots/compare_fn.png)
+![Сравнение функций](<assets/Swift Testing Screenshots/compare_fn.png>)
 
 <!-- | Критерий | XCTest | Swift Testing |
 | --- | --- | --- |
@@ -33,31 +33,31 @@
 
 Взгляни на таблицу сравнения:
 
-![Картинка сравнения](assets/Swift%20Testing%20Screenshots/compare_xct_and_macros.png)
+![Картинка сравнения](<assets/Swift Testing Screenshots/compare_xct_and_macros.png>)
 
 Сравнение результатов очень различаются в старом и новом подходах.
 
-**XCTest** использует концепт различных проверок начинающихся с префикса `XCAssert*`.<br>
+**XCTest** использует концепт различных проверок начинающихся с префикса `XCAssert*`.<br/>
 **Swift Testing** имеет другой подход — существует только 2 макроса `#expect` и `#require`.
 
-![Картинка сравнения 2](assets/Swift%20Testing%20Screenshots/compare_xct_2.png)
+![Картинка сравнения 2](<assets/Swift Testing Screenshots/compare_xct_2.png>)
 
 Вместо объявления множества различных проверок достаточно использовать операции сравнения языка Swift в этих макросах. Например, используйте 2 знака равно `==`
 для проверки равенства или оператор больше чем `>` для сравнения 2 значений.
 
-![Картинка сравнения 3](assets/Swift%20Testing%20Screenshots/compare_xct_3.png)
+![Картинка сравнения 3](<assets/Swift Testing Screenshots/compare_xct_3.png>)
 
 Кроме этого, ты можешь использовать оператор `!` (восклицательный знак) для противоположной проверки.
 
 ### Сравнение поддерживаемых типов данных
 
-![Сравнение типов](assets/Swift%20Testing%20Screenshots/compare_type.png)
+![Сравнение типов](<assets/Swift Testing Screenshots/compare_type.png>)
 <!-- | Критерий | XCTest | Swift Testing |
 | ----- | :-------- | :--------------------- |
-| Типы данных | class | struct<br>actor<br>class |
+| Типы данных | class | struct<br/>actor<br/>class |
 | Объявление | Подкласс XCTestCase | @Suite |
-| Настройка перед выполнением каждого теста | setUp()<br>setUpWithError() throws<br>setUp() async throws| init() async throws |
-| После каждого теста | tearDown()<br>tearDown() async throws<br>tearDownWithError() throws | deinit |
+| Настройка перед выполнением каждого теста | setUp()<br/>setUpWithError() throws<br/>setUp() async throws| init() async throws |
+| После каждого теста | tearDown()<br/>tearDown() async throws<br/>tearDownWithError() throws | deinit |
 | Вложенные типы | Не поддерживаются | Поддерживаются | -->
 
 Говоря о типах данных, следует напомнить что `XCTest` поддерживает только классы,
@@ -72,7 +72,7 @@
 быть помечены ключевым словом `async` и/или `throws`. Для добавления логики после
 выполнения теста или типа данных ты можешь использовать деинициализатор `deinit {...}`.
 
-> `deinit` можно использовать в акторах и классах.<br>`~Copyable` структуры не поддерживаются Swift Testing, хоть и имеют возможность использовать `deinit`.
+> `deinit` можно использовать в акторах и классах.<br/>`~Copyable` структуры не поддерживаются Swift Testing, хоть и имеют возможность использовать `deinit`.
 
 ```swift
 struct C: ~Copyable {
@@ -109,6 +109,6 @@ struct C: ~Copyable {
 В конце концов избегай вызова функций из XCTest в функция Swift Testing или вызов макросов в XCTest.
 
 > [!IMPORTANT]
-> Не вызывай функции из XCTest в Swift Testing.<br>Не вызывай макросы из Swift Testing в классах XCTest.<br>Не смешивай старый подход в новом и наоборот.
+> Не вызывай функции из XCTest в Swift Testing.<br/>Не вызывай макросы из Swift Testing в классах XCTest.<br/>Не смешивай старый подход в новом и наоборот.
 
 <!-- https://github.com/swiftlang/swift-testing/issues/516#issuecomment-2201208834 -->

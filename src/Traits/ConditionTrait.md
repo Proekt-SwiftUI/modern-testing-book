@@ -52,7 +52,7 @@ struct WeatherGroup {
 В этом случае тест `nextSevenDays()` и `findSunnyDays()` будут пропущены, поскольку
 не соответствуют условию.
 
-> ❌ Test nextSevenDays() skipped.<br>❌ Test findSunnyDays() skipped.
+> ❌ Test nextSevenDays() skipped.<br/>❌ Test findSunnyDays() skipped.
 
 ### Пропустить выполнение
 
