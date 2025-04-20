@@ -11,5 +11,5 @@ create-missing = false
 
 [preprocessor.alerts]
 
-[output.epub]
-cover-image = "assets/Cover.png"
+# [output.epub]
+# cover-image = "assets/Cover.png"

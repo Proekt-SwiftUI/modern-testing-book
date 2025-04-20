@@ -89,7 +89,7 @@ func hasRuntimeVersionCheck() {
   // ...
 }
 
-// ✅ Используйте атрибут @available для функции или метода
+// ✅ Используй атрибут @available для функции или метода
 @Test
 @available(macOS 15, *)
 func usesNewAPIs() {
@@ -262,7 +262,7 @@ func findPlace(place: String) async throws {
 }
 ```
 
-Просто добавь параметр в функцию, избавьтесь от цикла `for`, переместите аргументы в атрибут @Test — и готово!
+Просто добавь параметр в функцию, избавься от цикла `for`, переместите аргументы в атрибут @Test — и готово!
 
 ![Better than for in](../assets/better_with_arguments.png)
 
@@ -306,8 +306,6 @@ func executeAtGlobalActor() async {
 кастомных глобальных актор, только `MainActor`.
 
 ```swift
-// We do not have a general mechanism for detecting isolation to other global actors.
-
 lazy var isMainActorIsolated = !functionDecl.attributes(named: "MainActor", inModuleNamed: "_Concurrency").isEmpty
 var forwardCall: (ExprSyntax) -> ExprSyntax = {
   "try await Testing.__requiringTry(Testing.__requiringAwait(\($0)))"
@@ -329,7 +327,7 @@ if functionDecl.noasyncAttribute != nil {
 ```
 
 > [!NOTE]
-> Swift Testing умеет определять изоляцию только `MainActor`. Поддержки других `@globalActor` нет.
+> Swift Testing умеет определять изоляцию только `MainActor`. Поддержки других глобальных акторов (`@globalActor`) нет.
 
 #### Нет необходимости возвращать тип данных
 
@@ -400,7 +398,6 @@ func withImmutableValue(value: _const String) -> {
 Или иными словам, ты можешь применить атрибут только для функций или методов:
 
 ```swift
-// The @Test attribute is only supported on function declarations.
 guard let function = declaration.as(FunctionDeclSyntax.self) else {
     diagnostics.append(.attributeNotSupported(testAttribute, on: declaration))
     return false
@@ -412,7 +409,6 @@ guard let function = declaration.as(FunctionDeclSyntax.self) else {
 Да, для кого-то это покажется слишком очевидным, но применить атрибут `@Test` можно только 1 раз:
 
 ```swift
-// Only one @Test attribute is supported.
 let suiteAttributes = function.attributes(named: "Test")
 
 if suiteAttributes.count > 1 {

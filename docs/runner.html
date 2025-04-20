@@ -1,0 +1,488 @@
+<!DOCTYPE HTML>
+<html lang="ru" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Кто управляет тестами - Современное тестирование Swift Testing</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Современное тестирование Swift Testing</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <style>
+.mdbook-alerts {
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  border-left: 0.25em solid var(--mdbook-alerts-color);
+}
+
+.mdbook-alerts > *:first-child {
+  margin-top: 0;
+}
+
+.mdbook-alerts > *:last-child {
+  margin-bottom: 0;
+}
+
+.mdbook-alerts-title {
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  line-height: 1;
+  color: var(--mdbook-alerts-color);
+  text-transform: capitalize;
+}
+
+.mdbook-alerts-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.2em;
+  background-color: currentColor;
+  -webkit-mask: no-repeat center / 100%;
+  mask: no-repeat center / 100%;
+  -webkit-mask-image: var(--mdbook-alerts-icon);
+  mask-image: var(--mdbook-alerts-icon);
+}
+
+.mdbook-alerts-note {
+  --mdbook-alerts-color: rgb(9, 105, 218);
+  /* https://icon-sets.iconify.design/material-symbols/info-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 17q.425 0 .713-.288T13 16v-4q0-.425-.288-.712T12 11q-.425 0-.712.288T11 12v4q0 .425.288.713T12 17m0-8q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12q0-3.35-2.325-5.675T12 4Q8.65 4 6.325 6.325T4 12q0 3.35 2.325 5.675T12 20m0-8"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-tip {
+  --mdbook-alerts-color: rgb(26, 127, 55);
+  /* https://icon-sets.iconify.design/material-symbols/lightbulb-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 22q-.825 0-1.412-.587T10 20h4q0 .825-.587 1.413T12 22m-3-3q-.425 0-.712-.288T8 18q0-.425.288-.712T9 17h6q.425 0 .713.288T16 18q0 .425-.288.713T15 19zm-.75-3q-1.725-1.025-2.738-2.75T4.5 9.5q0-3.125 2.188-5.312T12 2q3.125 0 5.313 2.188T19.5 9.5q0 2.025-1.012 3.75T15.75 16zm.6-2h6.3q1.125-.8 1.738-1.975T17.5 9.5q0-2.3-1.6-3.9T12 4Q9.7 4 8.1 5.6T6.5 9.5q0 1.35.613 2.525T8.85 14M12 14"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-important {
+  --mdbook-alerts-color: rgb(130, 80, 223);
+  /* https://icon-sets.iconify.design/material-symbols/chat-info-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 7q.425 0 .713-.288T13 6q0-.425-.288-.712T12 5q-.425 0-.712.288T11 6q0 .425.288.713T12 7m0 8q.425 0 .713-.288T13 14v-4q0-.425-.288-.712T12 9q-.425 0-.712.288T11 10v4q0 .425.288.713T12 15m-6 3l-2.3 2.3q-.475.475-1.088.213T2 19.575V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18zm-.85-2H20V4H4v13.125zM4 16V4z"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-warning {
+  --mdbook-alerts-color: rgb(154, 103, 0);
+  /* https://icon-sets.iconify.design/material-symbols/warning-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M2.725 21q-.275 0-.5-.137t-.35-.363q-.125-.225-.137-.488t.137-.512l9.25-16q.15-.25.388-.375T12 3q.25 0 .488.125t.387.375l9.25 16q.15.25.138.513t-.138.487q-.125.225-.35.363t-.5.137zm1.725-2h15.1L12 6zM12 18q.425 0 .713-.288T13 17q0-.425-.288-.712T12 16q-.425 0-.712.288T11 17q0 .425.288.713T12 18m0-3q.425 0 .713-.288T13 14v-3q0-.425-.288-.712T12 10q-.425 0-.712.288T11 11v3q0 .425.288.713T12 15m0-2.5"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-caution {
+  --mdbook-alerts-color: rgb(207, 34, 46);
+  /* https://icon-sets.iconify.design/material-symbols/brightness-alert-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.712T12 15q-.425 0-.712.288T11 16q0 .425.288.713T12 17m0-4q.425 0 .713-.288T13 12V8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8v4q0 .425.288.713T12 13m-3.35 7H6q-.825 0-1.412-.587T4 18v-2.65L2.075 13.4q-.275-.3-.425-.662T1.5 12q0-.375.15-.737t.425-.663L4 8.65V6q0-.825.588-1.412T6 4h2.65l1.95-1.925q.3-.275.663-.425T12 1.5q.375 0 .738.15t.662.425L15.35 4H18q.825 0 1.413.588T20 6v2.65l1.925 1.95q.275.3.425.663t.15.737q0 .375-.15.738t-.425.662L20 15.35V18q0 .825-.587 1.413T18 20h-2.65l-1.95 1.925q-.3.275-.662.425T12 22.5q-.375 0-.737-.15t-.663-.425zm.85-2l2.5 2.5l2.5-2.5H18v-3.5l2.5-2.5L18 9.5V6h-3.5L12 3.5L9.5 6H6v3.5L3.5 12L6 14.5V18zm2.5-6"%2F%3E%3C%2Fsvg%3E');
+}
+
+</style>
+<h1 id="Кто-управляет-тестами"><a class="header" href="#Кто-управляет-тестами">Кто управляет тестами?</a></h1>
+<p>Возможно ты задавал себе вопрос: «Кто-то же запускает написанные мной тесты, но кто именно» ?
+В этой главе я дам более точный ответ на заданный вопрос.</p>
+<p>Глава про управление тестами разделена на 3 сценария:</p>
+<ol>
+<li><a href="#%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-%D1%82%D0%B8%D0%BF%D1%8B-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85">Введение в типы данных</a></li>
+<li><a href="#%D0%97%D0%B0%D0%BF%D1%83%D1%81%D0%BA-%D1%82%D0%B5%D1%81%D1%82%D0%B0">Запуск теста</a></li>
+<li><a href="#%D0%97%D0%B0%D0%B2%D0%B5%D1%80%D1%88%D0%B5%D0%BD%D0%B8%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B0-%D0%B8-%D0%B2%D1%8B%D1%85%D0%BE%D0%B4">Завершение теста и выход</a></li>
+</ol>
+<h3 id="Введение-в-типы-данных"><a class="header" href="#Введение-в-типы-данных">Введение в типы данных</a></h3>
+<p><strong>Runner</strong> — тип данных отвечающий за выполнение тестов в соответствии с заданой конфигурацией и планом.
+Основная задача — организовать и запустить массив тестов, управлять выполнением и обрабатывать результаты выполнения тестов.</p>
+<p>Каждый запуск теста состоит из плана, массива тестов и конфигурации. Об этом ты прочитаешь ниже, но в начале рассмотрим все свойства и инициализаторы:</p>
+<pre><code class="language-swift">public struct Runner: Sendable {
+  public var plan: Plan
+  public var tests: [Test] { plan.steps.map(\.test) }
+  public var configuration: Configuration
+
+
+  // 1-ый инит
+  public init(testing tests: [Test], configuration: Configuration = .init()) async {
+    let plan = await Plan(tests: tests, configuration: configuration)
+    self.init(plan: plan, configuration: configuration)
+  }
+  
+  // 2-ой инит
+  public init(plan: Plan, configuration: Configuration = .init()) {
+    self.plan = plan
+    self.configuration = configuration
+  }
+
+  // 3-ий инит
+  public init(configuration: Configuration = .init()) async {
+    let plan = await Plan(configuration: configuration)
+    self.init(plan: plan, configuration: configuration)
+  }
+}
+</code></pre>
+<p><strong>Runner</strong> представляет собой структуру данных c 3 свойствами:</p>
+<ol>
+<li>Свойство <code>plan</code> отвечает за план действий при запуске тестов.</li>
+<li>Свойство <code>tests</code> хранящее массив тестов, которые будут выполнены.</li>
+<li>Свойство <code>configuration</code> отвечающее за настройку для подготовки и запуска тестов.</li>
+</ol>
+<p>Помимо этого существует 3 инициализатора, каждый из которых не обходится без обязательной конфигурации и плана.<br/>Во всех случаях используется конфигурация по умолчанию: <code>Configuration = .init()</code>.</p>
+<div class="mdbook-alerts mdbook-alerts-important">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  important
+</p>
+<p>Ты не можешь создавать собственный план или конфигурацию для передачи в Runner.</p>
+</div>
+<h3 id="План"><a class="header" href="#План">План</a></h3>
+<p><strong>Plan</strong> — тип данных описывающий план для <code>Runner</code>, а именно какие тесты будут запущены, в каком порядке и с каким действием (<code>Action</code>):</p>
+<pre><code class="language-swift">extension Runner {
+  public struct Plan: Sendable {
+    public enum Action: Sendable {
+      public struct RunOptions: Sendable, Codable {
+        // ...
+      }
+      // ...
+    }
+    // ...
+
+    public struct Step: Sendable {
+      public var test: Test
+      public var action: Action
+    }
+  }
+}
+</code></pre>
+<p>Структура <code>Plan</code> представляет собой:</p>
+<ol>
+<li><code>Step</code>: представляет собой шаг в ходе выполнения. Каждый шаг состоит из самого теста, который должен быть выполнен и действия, которое должно быть выполнено для этого теста.</li>
+<li><code>Graph</code>: создает иерархию шагов (Step)</li>
+<li>Другие вспомогательные методы, например: метод отвечающий за рекурсивное применение действий (<code>Action</code>).</li>
+</ol>
+<p>Тип данных <code>Plan</code> структурирует тесты в виде графа:</p>
+<pre><code class="language-swift">var stepGraph: Graph&lt;String, Step?&gt;
+
+public var steps: [Step] {
+    stepGraph
+    .compactMap(\.value)
+    .sorted { $0.test.sourceLocation &lt; $1.test.sourceLocation }
+}
+</code></pre>
+<p>И как я ранее сказал, в каждом плане есть действие, которое требуется сделать с тестом:</p>
+<pre><code class="language-swift">enum Action: Sendable {
+    case run(options: RunOptions)
+    indirect case skip(_ skipInfo: SkipInfo)
+    indirect case recordIssue(_ issue: Issue)
+}
+</code></pre>
+<ul>
+<li><code>Run</code>: тест будет выполнен.</li>
+<li><code>Skip</code>: тест будет пропущен по причине <code>SkipInfo</code>.</li>
+<li><code>RecordIssue</code>: запись проблемы по которой тест не был выполнен.</li>
+</ul>
+<h3 id="Конфигурация"><a class="header" href="#Конфигурация">Конфигурация</a></h3>
+<p><strong>Configuration</strong> — отвечает за настройку и управление поведением тестов.
+Данная структура отвечает за конкурентное или последовательное выполнение тестов, устанавливает ограничение по времени для выполнения тестов, отвечает за политику повторого повторения и другое:</p>
+<pre><code class="language-swift">public struct Configuration: Sendable {
+  public init() {}
+
+  public var isParallelizationEnabled: Bool = true
+  public var repetitionPolicy: RepetitionPolicy = .once
+  public var defaultSynchronousIsolationContext: (any Actor)? = nil
+  public var maximumTestTimeLimit: Duration? { /* ... */ }
+  public var exitTestHandler: ExitTest.Handler = { exitTest in
+    // ...
+  }
+  // ...
+</code></pre>
+<p>Инициализатор пустой, т.е. не содержит свойств для начальной настройки.
+Вручную у тебя нет возможности создать собственную конфигурация для тестов, как я написал ранее.</p>
+<h3 id="Запуск-теста"><a class="header" href="#Запуск-теста">Запуск теста</a></h3>
+<p>Наконец-то ты добрался до секции запуска.
+Как ты знаешь, в любых язык программирования существует <code>EntryPoint</code>.
+Запуск любой программы начинается с точки входа. Это касается и Swift Testing, поскольку
+это тоже программа.</p>
+<blockquote>
+<p>Точка входа (EntryPoint) — адрес в оперативной памяти, с которого начинается
+выполнение программы.</p>
+</blockquote>
+<p>После того, как ты написал свой первый тест и запустил его, происходит следующее:</p>
+<ol>
+<li>Создается конфигурация по умолчанию в методе <code>configurationForEntryPoint(from:)</code></li>
+<li>Запускается <code>Runner</code> с указанной конфигурацией</li>
+<li>Значение <code>runner.tests</code> присвается константе <code>tests</code></li>
+<li>Происходит запуск тестов с помощью метода <code>await runner.run()</code></li>
+</ol>
+<pre><code class="language-swift">public func configurationForEntryPoint(from args: __CommandLineArguments_v0) throws -&gt; Configuration {
+  var configuration = Configuration()
+  configuration.isParallelizationEnabled = args.parallel ?? true
+  // ...
+}
+
+func entryPoint(passing args: __CommandLineArguments_v0?, eventHandler: Event.Handler?) async -&gt; CInt {
+  // ...
+  let tests: [Test]
+
+  var configuration = try configurationForEntryPoint(from: args)
+  let runner = await Runner(configuration: configuration)
+  tests = runner.tests
+  await runner.run()
+}
+
+public func __swiftPMEntryPoint(passing args: __CommandLineArguments_v0? = nil) async -&gt; CInt {
+  #if !SWT_NO_FILE_IO
+  // Ensure that stdout is line- rather than block-buffered. Swift Package
+  // Manager reroutes standard I/O through pipes, so we tend to end up with
+  // block-buffered streams.
+    FileHandle.stdout.withUnsafeCFILEHandle { stdout in
+      _ = setvbuf(stdout, nil, _IOLBF, Int(BUFSIZ))
+    }
+  #endif
+
+  return await entryPoint(passing: args, eventHandler: nil)
+}
+
+await Testing.__swiftPMEntryPoint() as Never
+</code></pre>
+<p>Конечно, на деле запуск тестов не такой простой, как я описал.
+Помимо этого происходят различные проверки и глава о запуске превратится в главу о проверках перед запуском.
+Именно поэтому я намеренно упростил объяснение запуска тестов с помощью <code>EntryPoint</code>.</p>
+<div class="mdbook-alerts mdbook-alerts-note">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  note
+</p>
+<p>Если есть желание ознакомится более подробно, ты всегда можешь прочитать исходный код Swift Testing.</p>
+</div>
+<p>С первым шагом справились и тесты запущены, но возникает следующий вопрос:
+«Как завершить тест упехом или неудачей»?</p>
+<h3 id="Завершение-теста-и-выход"><a class="header" href="#Завершение-теста-и-выход">Завершение теста и выход</a></h3>
+<p>После того, как ты запустил тест, было бы славно его завершить. Для такого случая,
+существует специальный тип данных.</p>
+<p><strong>ExitTest</strong> — тип данных отвечающий за завершение теста.</p>
+<pre><code class="language-swift">public typealias ExitTest = __ExitTest
+
+public struct __ExitTest: Sendable, ~Copyable {
+  // ...
+  static func handlerForEntryPoint() -&gt; Handler {
+    // ...
+  }
+}
+</code></pre>
+<p>В методе конфигурация вызывает метод для выхода из тестов: <code>handlerForEntryPoint()</code></p>
+<pre><code class="language-swift">configuration.exitTestHandler = ExitTest.handlerForEntryPoint()
+</code></pre>
+<p>Таким образом, <strong>каждый из тестов завершается</strong> каким-то результатом.
+И сразу следует спросить, а какой из результатов завершения существует?</p>
+<p>Для ответа на этот вопрос посмотри на перечисление <code>ExitCondition</code>:</p>
+<pre><code class="language-swift">public enum ExitCondition: Sendable {
+  public static var success: Self {
+    .exitCode(EXIT_SUCCESS)
+  }
+
+  case failure
+  case exitCode(_ exitCode: CInt)
+  case signal(_ signal: CInt)
+}
+</code></pre>
+<p>В самых простых вариантах тест завершается успехом <code>.success</code> или неудачей <code>.failure</code>.
+Существуют другие варианты выхода из теста один из которых выход с помощью кода выхода, а другой с помощью сигнала.</p>
+<blockquote>
+<p>Код выхода (возврата) — целое число, возвращаемое программой после ее завершения.</p>
+</blockquote>
+<p>Статическое свойство <code>.success</code> завершает тест с помощью кода выхода <code>.exitCode(EXIT_SUCCESS)</code>.
+В свою очередь <code>EXIT_SUCCESS</code> равен нулю:</p>
+<pre><code class="language-c">#define	EXIT_FAILURE	1
+#define	EXIT_SUCCESS	0
+
+#expect(EXIT_SUCCESS == .zero)
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="best_practice_short.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="compare_xctest_and_modern_aproach.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="best_practice_short.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="compare_xctest_and_modern_aproach.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

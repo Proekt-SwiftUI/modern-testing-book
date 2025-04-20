@@ -1,0 +1,642 @@
+<!DOCTYPE HTML>
+<html lang="ru" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>@Test - Современное тестирование Swift Testing</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Современное тестирование Swift Testing</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <style>
+.mdbook-alerts {
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  border-left: 0.25em solid var(--mdbook-alerts-color);
+}
+
+.mdbook-alerts > *:first-child {
+  margin-top: 0;
+}
+
+.mdbook-alerts > *:last-child {
+  margin-bottom: 0;
+}
+
+.mdbook-alerts-title {
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  line-height: 1;
+  color: var(--mdbook-alerts-color);
+  text-transform: capitalize;
+}
+
+.mdbook-alerts-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.2em;
+  background-color: currentColor;
+  -webkit-mask: no-repeat center / 100%;
+  mask: no-repeat center / 100%;
+  -webkit-mask-image: var(--mdbook-alerts-icon);
+  mask-image: var(--mdbook-alerts-icon);
+}
+
+.mdbook-alerts-note {
+  --mdbook-alerts-color: rgb(9, 105, 218);
+  /* https://icon-sets.iconify.design/material-symbols/info-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 17q.425 0 .713-.288T13 16v-4q0-.425-.288-.712T12 11q-.425 0-.712.288T11 12v4q0 .425.288.713T12 17m0-8q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12q0-3.35-2.325-5.675T12 4Q8.65 4 6.325 6.325T4 12q0 3.35 2.325 5.675T12 20m0-8"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-tip {
+  --mdbook-alerts-color: rgb(26, 127, 55);
+  /* https://icon-sets.iconify.design/material-symbols/lightbulb-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 22q-.825 0-1.412-.587T10 20h4q0 .825-.587 1.413T12 22m-3-3q-.425 0-.712-.288T8 18q0-.425.288-.712T9 17h6q.425 0 .713.288T16 18q0 .425-.288.713T15 19zm-.75-3q-1.725-1.025-2.738-2.75T4.5 9.5q0-3.125 2.188-5.312T12 2q3.125 0 5.313 2.188T19.5 9.5q0 2.025-1.012 3.75T15.75 16zm.6-2h6.3q1.125-.8 1.738-1.975T17.5 9.5q0-2.3-1.6-3.9T12 4Q9.7 4 8.1 5.6T6.5 9.5q0 1.35.613 2.525T8.85 14M12 14"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-important {
+  --mdbook-alerts-color: rgb(130, 80, 223);
+  /* https://icon-sets.iconify.design/material-symbols/chat-info-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 7q.425 0 .713-.288T13 6q0-.425-.288-.712T12 5q-.425 0-.712.288T11 6q0 .425.288.713T12 7m0 8q.425 0 .713-.288T13 14v-4q0-.425-.288-.712T12 9q-.425 0-.712.288T11 10v4q0 .425.288.713T12 15m-6 3l-2.3 2.3q-.475.475-1.088.213T2 19.575V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18zm-.85-2H20V4H4v13.125zM4 16V4z"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-warning {
+  --mdbook-alerts-color: rgb(154, 103, 0);
+  /* https://icon-sets.iconify.design/material-symbols/warning-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M2.725 21q-.275 0-.5-.137t-.35-.363q-.125-.225-.137-.488t.137-.512l9.25-16q.15-.25.388-.375T12 3q.25 0 .488.125t.387.375l9.25 16q.15.25.138.513t-.138.487q-.125.225-.35.363t-.5.137zm1.725-2h15.1L12 6zM12 18q.425 0 .713-.288T13 17q0-.425-.288-.712T12 16q-.425 0-.712.288T11 17q0 .425.288.713T12 18m0-3q.425 0 .713-.288T13 14v-3q0-.425-.288-.712T12 10q-.425 0-.712.288T11 11v3q0 .425.288.713T12 15m0-2.5"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-caution {
+  --mdbook-alerts-color: rgb(207, 34, 46);
+  /* https://icon-sets.iconify.design/material-symbols/brightness-alert-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.712T12 15q-.425 0-.712.288T11 16q0 .425.288.713T12 17m0-4q.425 0 .713-.288T13 12V8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8v4q0 .425.288.713T12 13m-3.35 7H6q-.825 0-1.412-.587T4 18v-2.65L2.075 13.4q-.275-.3-.425-.662T1.5 12q0-.375.15-.737t.425-.663L4 8.65V6q0-.825.588-1.412T6 4h2.65l1.95-1.925q.3-.275.663-.425T12 1.5q.375 0 .738.15t.662.425L15.35 4H18q.825 0 1.413.588T20 6v2.65l1.925 1.95q.275.3.425.663t.15.737q0 .375-.15.738t-.425.662L20 15.35V18q0 .825-.587 1.413T18 20h-2.65l-1.95 1.925q-.3.275-.662.425T12 22.5q-.375 0-.737-.15t-.663-.425zm.85-2l2.5 2.5l2.5-2.5H18v-3.5l2.5-2.5L18 9.5V6h-3.5L12 3.5L9.5 6H6v3.5L3.5 12L6 14.5V18zm2.5-6"%2F%3E%3C%2Fsvg%3E');
+}
+
+</style>
+<h1 id="test"><a class="header" href="#test">@Test(...)</a></h1>
+<p>Глава про макрос @Test разделена на 4 сценария:</p>
+<ol>
+<li><a href="#%D0%A3%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D0%B5-%D0%B8%D0%BB%D0%B8-runtime-condition">Условие</a></li>
+<li><a href="#%D0%9E%D0%B1%D1%89%D0%B8%D0%B5-%D1%85%D0%B0%D1%80%D0%B0%D0%BA%D1%82%D0%B5%D1%80%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B8-%D0%B8%D0%BB%D0%B8-%D1%82%D0%B5%D0%B3%D0%B8">Общие характеристики или теги</a></li>
+<li><a href="#%D0%90%D1%80%D0%B3%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B">Запуск с различными аргументами</a></li>
+<li><a href="#%D0%A2%D0%BE%D0%BD%D0%BA%D0%BE%D1%81%D1%82%D0%B8">Тонкости успользования</a></li>
+</ol>
+<p>Здесь ты столкнешься с распространенными проблемами в тестировании на практике и способы их решени.
+Помимо этого, я расскажу о тонкостях работы макроса.<br/>Прочитать о реализации данного макроса можно в главе о <a href="../protocol_Trait.html">protocol Trait</a>.</p>
+<h3 id="Условие-или-runtime-condition"><a class="header" href="#Условие-или-runtime-condition">Условие или runtime condition</a></h3>
+<p>Во-первых, тесты с условием.
+Некоторые тесты должны выполняться только при определённых обстоятельствах — например, на конкретных устройствах или в определённом окружении (environments).</p>
+<p>Для этого, ты можешь применить трейт условия (<code>ConditionTrait</code>) <code>.enabled(if: ...)</code>:</p>
+<pre><code class="language-swift">@Test(.enabled(if: Backport.isRemoteVersion))
+func backportVersion() async {
+	// ...
+}
+</code></pre>
+<p>Ты передаешь <em>некоторое</em> условие, которое будет оцениваться перед запуском теста и если условие ложно, тест помечается как пропущенный и не выполняется.</p>
+<blockquote>
+<p>→ Test 'backportVersion()' skipped</p>
+</blockquote>
+<p>В других случаях необходимо полностью отключить выполнение теста (чтобы тест никогда не выполнялся). Для этого используй трейт <code>.disabled(...)</code>:</p>
+<pre><code class="language-swift">@Test(.disabled("Известный баг, отключаем до фикса #PR-3781"))
+func fetchFeatureFlag() async {
+  // ...
+}
+</code></pre>
+<blockquote>
+<p>→ Test 'fetchFeatureFlag()' skipped: Известный баг, отключаем до фикса #PR-3781</p>
+</blockquote>
+<p>Использование трейта <code>.disabled(...)</code> является предпочтительнее комментирования тела функции, поскольку в закомментированном состоянии — тело функции компилируется:</p>
+<pre><code class="language-swift">// Избегайте такого способа отключения теста
+@Test("Закомментирую на время фикса #PR-3781")
+func fetchAnotherFlag() {
+// try await Task(priority: .background) {
+//	...
+// }
+}
+</code></pre>
+<p>Тебе может показаться, что одного комментария недостаточно и по-хорошему нужно указать <strong>причину</strong> отключения: баг, ожидание PR (пулл реквеста) или иное условие. Что ж, в дополнение к комментарию ты можешь использовать трейт <code>.bug(...)</code>, чтобы явно указать на проблему:</p>
+<pre><code class="language-swift">@Test(
+	"Проверка валидности поля именя",
+	.disabled("Бекендер исправляет модель"),
+	.bug("https://github.com/issue/7329", "Сломанная валидация имени и модель #7329")
+)
+func validateNameProperty() async throws {
+	// ...
+}
+</code></pre>
+<p>Данный баг будет отображаться в отчете и ты сможешь перейти по ссылке, которая ассоциируется с ним:</p>
+<p><img src="../assets/validateNameProperty_link.png" alt="Отчет в Xcode 16" /></p>
+<p>Когда необходимо запустить тест только на конкретной версии ОС (операционной системы), можешь использовать <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/controlflow#Checking-API-Availability">атрибут @available(...)</a>, чтобы указать на какой версии доступен тест.
+Атрибут <code>@available(...)</code> позволяет понимать, что у теста есть условие, связанное с версией операционной системы и точнее отражать это в результатах.</p>
+<pre><code class="language-swift">@Test
+@available(macOS 15, *)
+func usesNewAPIs() {
+  // ...
+}
+</code></pre>
+<p>Избегайте использования проверки доступности с помощью макросов <code>#available</code> и <code>#unavailable</code>:</p>
+<pre><code class="language-swift">// ❌ Избегайте использования проверки доступности в рантайме с помощью #available и #unavailable
+@Test
+func hasRuntimeVersionCheck() {
+  guard #available(macOS 15, *) else { return }
+  // ...
+}
+
+// ✅ Используй атрибут @available для функции или метода
+@Test
+@available(macOS 15, *)
+func usesNewAPIs() {
+  // ...
+}
+</code></pre>
+<p><img src="../assets/available.png" alt="Available attribute" /></p>
+<blockquote>
+<p>Атрибут @available(...) используется для обозначения доступности типа данных или функции, а макрос #available используется когда необходимо выполнить часть кода только в определенной версии ОС.</p>
+</blockquote>
+<h3 id="Общие-характеристики-или-теги"><a class="header" href="#Общие-характеристики-или-теги">Общие характеристики или теги</a></h3>
+<p>Давай обсудим, как ты можешь объединять тесты, которые имеют общие свойства, даже если они находятся в разных типах данных или файлах.
+Swift Testing поддерживает создание пользовательских тегов для тестов.</p>
+<div class="mdbook-alerts mdbook-alerts-note">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  note
+</p>
+<p>Тег (или тэг) — это ключевое слово для обозначения общих свойств в тестах.</p>
+</div>
+<p>В моём проект я уже использовал теги. Найти их можно в навигационном меню Xcode, а именно в Test Navigator снизу.</p>
+<p><img src="../assets/xcode_tags.png" alt="Теги" /></p>
+<p>Чтобы увидеть тесты, к которым применены теги, ты можешь переключиться в новый режим группировки — по тегам.</p>
+<p><img src="../assets/group_by_tag.png" alt="Группировка по тегам" /></p>
+<p>Давайте применим тег к одному из тестов. Для этого мы добавим трейт <code>.tags(...)</code> в атрибут @Test:</p>
+<pre><code class="language-swift">@Test("Сравниваем размер файла", .tags(.fileSize))
+func checkSize() {
+	let fileSize = Measurement&lt;UnitInformationStorage&gt;(value: 2432, unit: .megabytes)
+	
+	#expect(fileSize.description == "2.4MB")
+}
+</code></pre>
+<p>После применения, тег отобразится в Test Navigator под соответствующим тегом.
+Я написал еще один тест, который также проверяет размер файла и добавлю его сюда:</p>
+<pre><code class="language-swift">@Test("Сравнение еще одного файла", .tags(.fileSize))
+func checkSizeWithFormatter() {
+	let fileSize = Measurement&lt;UnitInformationStorage&gt;(value: 2432, unit: .megabytes)
+	let filter = Measurement&lt;UnitInformationStorage&gt;.FormatStyle(
+		width: .wide,
+		locale: .init(identifier: "ru_RU")
+	)
+	
+	let formattedResult = filter.format(fileSize)
+	#expect(formattedResult != "2.4 Мегабайта")
+}
+</code></pre>
+<p>Поскольку оба теста связаны с размером файла, давай сгруппируем их:</p>
+<pre><code class="language-swift">struct AboutFileSize {
+	@Test("Сравниваем размер файла", .tags(.fileSize))
+	func checkSize() {
+		let fileSize = Measurement&lt;UnitInformationStorage&gt;(value: 2432, unit: .megabytes)
+
+		#expect(fileSize.description == "2.4MB")
+	}
+
+	@Test("Сравнение еще одного файла", .tags(.fileSize))
+	func checkSizeWithFormatter() {
+		let fileSize = Measurement&lt;UnitInformationStorage&gt;(value: 2432, unit: .megabytes)
+		let filter = Measurement&lt;UnitInformationStorage&gt;.FormatStyle(
+			width: .wide,
+			locale: .init(identifier: "ru_RU")
+		)
+
+		let formattedResult = filter.format(fileSize)
+		#expect(formattedResult != "2.4 Мегабайта")
+	}
+}
+</code></pre>
+<p>Теперь мы можешь применить тег <code>fileSize</code> к атрибуту @Suite, чтобы тег применялся ко всем тестам в этом типе данных. Поскольку теги применяются ко всем вложенным методам, то можно убрать теги из методов:</p>
+<pre><code class="language-swift">@Suite(.tags(.fileSize))
+struct AboutFileSize {
+	@Test("Сравниваем размер файла")
+	func checkSize() {
+    // ...
+  }
+  // ...
+}
+</code></pre>
+<p>Ты можешь ассоциировать теги с тестами, которые имеют общие черты. Например, ты можешь применить общий тег ко всем тестам, которые проверяют определенную функцию или вложенный тип данных. Это позволяет запускать все тесты с конкретным тегом, фильтровать их в <em>Test Report</em> и даже видеть аналитические данные, например, когда несколько тестов с одним и тем же тегом начинают падать.</p>
+<p>Теги могут применяться к тестам в разных файлах, типам данных с атрибутом @Suite и даже использоваться в нескольких таргетах.</p>
+<p>При использовании Swift Testing предпочтительнее использовать теги вместо имен тестов для их включения или исключения из тестового плана.</p>
+<p>О том, как создать собственный тег <a href="macro_tag.html">прочитай здесь</a>.</p>
+<h3 id="Аргументы"><a class="header" href="#Аргументы">Аргументы</a></h3>
+<p>Перед прочтением тонкостей, я бы хотел показать последний процесс связанный с повторением тестов, а именно аргументами.</p>
+<p>Предположим, что у тебя есть сервис по достопримечательностям и ты хочешь узнать
+информацию о каждом из них:</p>
+<pre><code class="language-swift">struct PlaceService {
+	func search(by name: String) async -&gt; Bool {
+		let places: [String] = [
+			"Gullfoss",
+			"Saint Victor",
+			"Vestmannaeyjar",
+			"Skogafoss",
+			"Hong Kong"
+		]
+
+		return places.contains(name)
+	}
+}
+
+@Test
+func findPlace() async throws {
+	let places: [String] = [
+		"Gullfoss",
+		"Moscow",
+		"Vestmannaeyjar",
+		"Skogafoss",
+		"Paris",
+		"Borocay",
+		"Hong Kong"
+	]
+
+	let service = PlaceService()
+
+	for place in places {
+		let result = await service.search(by: place)
+		#expect(result)
+	}
+}
+</code></pre>
+<p><img src="../assets/for_in_error.png" alt="Ошибка в тесте, но где?" /></p>
+<p>Тест выше работает, однако использование цикла <code>for</code> имеет свои недостатки:</p>
+<ol>
+<li>Ты не можешь видеть результат каждого вызова <code>#expect(…)</code> в навигационном меню тестов.</li>
+<li>Ты не можешь повторно запустить отдельный тест для одного элемента массива.</li>
+<li>Тесты выполняются последовательно.</li>
+</ol>
+<p>Исправим ситуацию и передадим массив в качестве параметра <code>arguments</code>:</p>
+<pre><code class="language-swift">@Test(
+	arguments: [
+		"Gullfoss",
+		"Moscow",
+		"Vestmannaeyjar",
+		"Skogafoss",
+		"Paris",
+		"Borocay",
+		"Hong Kong"
+	]
+)
+func findPlace(place: String) async throws {
+	let service = PlaceService()
+	let result = await service.search(by: place)
+	#expect(result)
+}
+</code></pre>
+<p>Просто добавь параметр в функцию, избавься от цикла <code>for</code>, переместите аргументы в атрибут @Test — и готово!</p>
+<p><img src="../assets/better_with_arguments.png" alt="Better than for in" /></p>
+<p>Параметризованные тесты можно использовать даже в более сложных сценариях, например для тестирования всех комбинаций двух наборов входных данных.</p>
+<p><img src="../assets/supported_arguments.png" alt="Поддерживаемые типы данных" /></p>
+<div class="mdbook-alerts mdbook-alerts-note">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  note
+</p>
+<p>Слишком большой Range <code>0 ..&lt; .max</code> может выполняться очень долго или совсем не завершиться.</p>
+</div>
+<h3 id="Тонкости"><a class="header" href="#Тонкости">Тонкости</a></h3>
+<p>Последний параграф познакомит тебя с особенностями использования макроса <code>@Test</code>, которые доступны при детальном чтении исходного кода, который реализует сам макрос. За это отвечает структура данных <code>TestDeclarationMacro</code>.</p>
+<p>Ты написал много методов и один из них изолирован на <code>MainActor</code>.
+Поэтому помимо применения атрибута <code>@Test</code>, ты можешь применить глобальный актор, чтобы не получить ошибку компиляции на Swift 6:</p>
+<pre><code class="language-swift">@Test("Как определить, функция для теста изолирована на глобальном акторе ?")
+@MainActor
+func determineGlobalActor() async {
+  // ...
+}
+</code></pre>
+<p>Для выполнения кода и изоляции на глобальном акторе, можно применить глобальный
+актор к функции. Если изоляция не нужна для всей функции, то можно изолировать
+только определенный код:</p>
+<pre><code class="language-swift">@Test
+func executeAtGlobalActor() async {
+  await MainActor.run {
+    // ...
+  }
+}
+</code></pre>
+<p>Да, разработчики подготовили специальный механизм для определения изоляции и выполнения на <code>MainActor</code>. Если ты знаешь как реализовать собственный глобальный актор,
+то у меня плохие новости — Swift Testing не умеет определять изоляцию для
+кастомных глобальных актор, только <code>MainActor</code>.</p>
+<pre><code class="language-swift">lazy var isMainActorIsolated = !functionDecl.attributes(named: "MainActor", inModuleNamed: "_Concurrency").isEmpty
+var forwardCall: (ExprSyntax) -&gt; ExprSyntax = {
+  "try await Testing.__requiringTry(Testing.__requiringAwait(\($0)))"
+}
+
+let forwardInit = forwardCall
+
+if functionDecl.noasyncAttribute != nil {
+  if isMainActorIsolated {
+    forwardCall = {
+      "try await MainActor.run { try Testing.__requiringTry(\($0)) }"
+    }
+  } else {
+    forwardCall = {
+      "try { try Testing.__requiringTry(\($0)) }()"
+    }
+  }
+}
+</code></pre>
+<div class="mdbook-alerts mdbook-alerts-note">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  note
+</p>
+<p>Swift Testing умеет определять изоляцию только <code>MainActor</code>. Поддержки других глобальных акторов (<code>@globalActor</code>) нет.</p>
+</div>
+<h4 id="Нет-необходимости-возвращать-тип-данных"><a class="header" href="#Нет-необходимости-возвращать-тип-данных">Нет необходимости возвращать тип данных</a></h4>
+<p>Если ты внимательно читал код, то обратил внимание что ни одна функция не возвращает конкретный тип данных.
+Указание возвращаемого типа данных не является ошибкой, проверка с помощью макросов выполняется, но в этом случае ты получишь предупреждение:</p>
+<pre><code class="language-swift">@Test
+func checkReturnType() -&gt; any Collection {
+  let collection = Array(1...10)
+  #expect(collection.contains(10))
+
+  return collection
+}
+</code></pre>
+<blockquote>
+<p>⚠️ The result of this function will be discarded during testing</p>
+</blockquote>
+<p>Возможно в будущем, инженеры Apple добавят такую возможность, но на данный момент они не нашли подходящего сценария, при котором необходимо возвращать тип данных.
+Такая проверка возможна с помощью проверки сигнатуры возвращаемого типа:</p>
+<pre><code class="language-swift">if let returnType = function.signature.returnClause?.type, !returnType.isVoid {
+    diagnostics.append(.returnTypeNotSupported(returnType, on: function, whenUsing: testAttribute))
+}
+</code></pre>
+<h4 id="Неподдерживаемые-ключевые-слова"><a class="header" href="#Неподдерживаемые-ключевые-слова">Неподдерживаемые ключевые слова</a></h4>
+<p>На момент выхода книги, в структуре данных <a href="https://github.com/swiftlang/swift-testing/blob/main/Sources/TestingMacros/TestDeclarationMacro.swift#L84">TestDeclarationMacro</a>, которая реализует макрос <code>@Test</code>, существуют неподдерживаемые ключевые слова:</p>
+<pre><code class="language-swift">struct TestDeclarationMacro: PeerMacro, Sendable {
+    // ...
+    // Ключевые слова inout, isolated или _const не поддерживаются.
+    for parameter in parameterList {
+        let invalidSpecifierKeywords: [TokenKind] = [.keyword(.inout), .keyword(.isolated), .keyword(._const),]
+        // ...
+    }
+}
+</code></pre>
+<p>Это легко проверить, создав тест с одним из этих ключевых слов:</p>
+<pre><code class="language-swift">@Test("Проверка не поддерживаемых слов")
+func parameterCanBeSupported(value: isolated (any Actor)? = #isolation) {}
+</code></pre>
+<blockquote>
+<p>❌ Attribute <code>Test</code> cannot be applied to a function with a parameter marked <code>isolated</code></p>
+</blockquote>
+<p>А теперь посмотри на ключевое слово <code>_const</code>:</p>
+<pre><code class="language-swift">func withImmutableValue(value: _const String) -&gt; {
+  value
+}
+</code></pre>
+<p>Значения, известные на этапе компиляции (compile-time constant values), — это значения, которые могут быть известны или вычислены во время компиляции и гарантированно не изменяются после её завершения. Использование таких значений может служить различным целям: от обеспечения правил и гарантий безопасности до предоставления пользователям возможности создавать сложные алгоритмы, выполняемые на этапе компиляции.</p>
+<div class="mdbook-alerts mdbook-alerts-note">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  note
+</p>
+<p>Ознакомится более <a href="https://github.com/swiftlang/swift-evolution/blob/main/proposals/0359-build-time-constant-values.md">подробно с _const</a>.</p>
+</div>
+<h4 id="test-только-для-func"><a class="header" href="#test-только-для-func">Test только для func</a></h4>
+<p>Возможно тебе захочется применить атрибут для теста замыкания, но ничего не выйдет. При сборке таргета с тестами, кнопки запуска не появится.
+Или иными словам, ты можешь применить атрибут только для функций или методов:</p>
+<pre><code class="language-swift">guard let function = declaration.as(FunctionDeclSyntax.self) else {
+    diagnostics.append(.attributeNotSupported(testAttribute, on: declaration))
+    return false
+}
+</code></pre>
+<h4 id="1-атрибут-для-1-функции"><a class="header" href="#1-атрибут-для-1-функции">1 атрибут для 1 функции</a></h4>
+<p>Да, для кого-то это покажется слишком очевидным, но применить атрибут <code>@Test</code> можно только 1 раз:</p>
+<pre><code class="language-swift">let suiteAttributes = function.attributes(named: "Test")
+
+if suiteAttributes.count &gt; 1 {
+    diagnostics.append(.multipleAttributesNotSupported(suiteAttributes, on: declaration))
+}
+</code></pre>
+<h4 id="Не-приминим-для-generics"><a class="header" href="#Не-приминим-для-generics">Не приминим для Generics</a></h4>
+<p>Атрибуты @Test и @Suite не могут быть применены к дженерикам:</p>
+<pre><code class="language-swift">/// Create a diagnostic message stating that the `@Test` or `@Suite` attribute
+/// cannot be applied to a generic declaration.
+static func genericDeclarationNotSupported(_ decl: some SyntaxProtocol, whenUsing attribute: AttributeSyntax, becauseOf genericClause: some SyntaxProtocol, on genericDecl: some SyntaxProtocol) -&gt; Self {
+  if Syntax(decl) != Syntax(genericDecl), genericDecl.isProtocol((any DeclGroupSyntax).self) {
+      return .containingNodeUnsupported(genericDecl, genericBecauseOf: Syntax(genericClause), whenUsing: attribute, on: decl)
+  } else {
+      // Avoid using a syntax node from a lexical context (it won't have source location information.)
+      let syntax = (genericClause.root != decl.root) ? Syntax(decl) : Syntax(genericClause)
+      return Self(
+      syntax: syntax,
+      message: "Attribute \(_macroName(attribute)) cannot be applied to a generic \(_kindString(for: decl))",
+      severity: .error
+      )
+  }
+}
+</code></pre>
+<p>Получаем ошибку компиляции:</p>
+<pre><code class="language-swift">@Test
+func sumOf&lt;V: Numeric&gt;() {
+  // ...
+}
+</code></pre>
+<blockquote>
+<p>❌ Attribute 'Test' cannot be applied to a generic function</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Macros/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../Macros/macro_suite.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Macros/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../Macros/macro_suite.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -159,7 +159,7 @@ func anotherExample() {
   if #unavailable(iOS 15) { }
 }
 
-// ✅ Используйте атрибут @available для функции или метода
+// ✅ Используй атрибут @available для функции или метода
 @Test
 @available(macOS 15, *)
 func usesNewAPIs() {
