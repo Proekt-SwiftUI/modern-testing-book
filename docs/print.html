@@ -1890,9 +1890,9 @@ func availableApartment() async {
 </code></pre>
 <blockquote>
 <p>❌ Test availableApartment() failed after 0.001 seconds with 1 issue.<br/>
-↳ // Проверям апартаменты и ищем только 2-комнатную квартиру</p>
+↳ // Проверям предложения на рынке и ищем только 2-комнатную квартиру</p>
 </blockquote>
-<p>Одиночный комментарий <code>// Проверям апартаменты и ищем только 2-комнатную квартиру</code> добавлен к тесту. Тест не прошел проверку, поэтому помимо названия теста в консоли, ты видишь дополнительную информацию о нем.</p>
+<p>Одиночный комментарий <code>// Проверям предложения на рынке и ищем только 2-комнатную квартиру</code> добавлен к тесту. Тест не прошел проверку, поэтому помимо названия теста в консоли, ты видишь дополнительную информацию о нем.</p>
 <p>Еще одной особенностью является применение комментария к типам данных.
 Без атрибута <code>@Suite</code> блочный комментарий не учитывается в выводе консоли:</p>
 <pre><code class="language-swift">/*
@@ -1951,7 +1951,7 @@ func availableApartment() async {
 </code></pre>
 <blockquote>
 <p>❌ Test availableApartment() failed after 0.001 seconds with 1 issue<br/>
-↳ Проверям апартаменты и ищем только 2-комнатную квартиру</p>
+↳ Проверям предложения на рынке и ищем только 2-комнатную квартиру</p>
 </blockquote>
 <p>Как ты видишь, в консоли или твоем CI/CD вывод будет различаться, поскольку имя теста и комментарий служат для различных целей. Я не стал указывать третий случай: <em>имя и комментарий</em> вместе, поскольку разница будет и так понятна.</p>
 <div class="mdbook-alerts mdbook-alerts-important">
@@ -2238,18 +2238,21 @@ func maxTimeLimit() async throws {
 <blockquote>
 <p>❌ Time limit was exceeded: 60.000 seconds</p>
 </blockquote>
-<h3 id="Расширение"><a class="header" href="#Расширение">Расширение</a></h3>
-<pre><code class="language-swift">@available(_clockAPI, *)
+<!-- ### Расширение
+
+```swift
+@available(_clockAPI, *)
 public struct TimeLimitTrait: TestTrait, SuiteTrait  {...}
 
 @available(_clockAPI, *)
 extension Trait where Self == TimeLimitTrait {
     @_spi(Experimental)
-    public static func timeLimit(_ timeLimit: Duration) -&gt; Self {
+    public static func timeLimit(_ timeLimit: Duration) -> Self {
         return Self(timeLimit: timeLimit)
     }
 }
-</code></pre>
+``` -->
+<!-- я не помню, что я хотел здесь сделать… -->
 <div style="break-before: page; page-break-before: always;"></div><style>
 .mdbook-alerts {
   padding: 8px 16px;
@@ -2705,7 +2708,7 @@ func findPalindrome() {
 <p>На момент выхода книги не существует <em>обратного</em> трейта, который выполняет тесты <em>конкурентно</em>.</p>
 </div>
 <hr />
-<p><a name="rfc"><sup>[1]</sup>Познакомится с новым подходом можно в моей книге <a href="https://proekt-swiftui.github.io/sc-book/intro.html">Structured Concurrency не магия</a>.</a></p>
+<p><a name="concurrency"><sup>[1]</sup>Познакомится с новым подходом можно в моей книге <a href="https://proekt-swiftui.github.io/sc-book/intro.html">Structured Concurrency не магия</a>.</a></p>
 <div style="break-before: page; page-break-before: always;"></div><style>
 .mdbook-alerts {
   padding: 8px 16px;

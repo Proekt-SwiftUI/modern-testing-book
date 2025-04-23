@@ -85,4 +85,4 @@ func findPalindrome() {
 
 ---
 
-<a name="rfc"><sup>[1]</sup>Познакомится с новым подходом можно в моей книге [Structured Concurrency не магия](https://proekt-swiftui.github.io/sc-book/intro.html).</a>
+<a name="concurrency"><sup>[1]</sup>Познакомится с новым подходом можно в моей книге [Structured Concurrency не магия](https://proekt-swiftui.github.io/sc-book/intro.html).</a>

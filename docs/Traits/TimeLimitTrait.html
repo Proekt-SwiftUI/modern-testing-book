@@ -260,18 +260,21 @@ func maxTimeLimit() async throws {
 <blockquote>
 <p>❌ Time limit was exceeded: 60.000 seconds</p>
 </blockquote>
-<h3 id="Расширение"><a class="header" href="#Расширение">Расширение</a></h3>
-<pre><code class="language-swift">@available(_clockAPI, *)
+<!-- ### Расширение
+
+```swift
+@available(_clockAPI, *)
 public struct TimeLimitTrait: TestTrait, SuiteTrait  {...}
 
 @available(_clockAPI, *)
 extension Trait where Self == TimeLimitTrait {
     @_spi(Experimental)
-    public static func timeLimit(_ timeLimit: Duration) -&gt; Self {
+    public static func timeLimit(_ timeLimit: Duration) -> Self {
         return Self(timeLimit: timeLimit)
     }
 }
-</code></pre>
+``` -->
+<!-- я не помню, что я хотел здесь сделать… -->
 
                     </main>
 

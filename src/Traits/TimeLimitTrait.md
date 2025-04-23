@@ -50,7 +50,7 @@ func maxTimeLimit() async throws {
 > ❌ Time limit was exceeded: 60.000 seconds
 
 
-### Расширение
+<!-- ### Расширение
 
 ```swift
 @available(_clockAPI, *)
@@ -63,4 +63,6 @@ extension Trait where Self == TimeLimitTrait {
         return Self(timeLimit: timeLimit)
     }
 }
-```
+``` -->
+
+<!-- я не помню, что я хотел здесь сделать… -->
