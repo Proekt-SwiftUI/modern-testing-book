@@ -3,6 +3,7 @@
 
 import class AppKit.NSImage
 import struct Foundation.Date
+
 import Observation
 
 enum UserProfileError: Error {

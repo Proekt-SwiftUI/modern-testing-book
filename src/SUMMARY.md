@@ -20,6 +20,7 @@
 - [Кто управляет тестами](runner.md) <!-- ✅ -->
 - [XCTest или Swift Testing ?](compare_xctest_and_modern_aproach.md) <!-- ✅ -->
 - [Мета информация и обозначения](xcode_meta.md) <!-- ✅ -->
+- [Почему и когда ?](when_and_why.md) <!-- ✅ -->
 - [Вместо прощания](in_the_end.md) <!-- ✅ -->
 
 <!-- Предварительный черновик готов ✅ -->
