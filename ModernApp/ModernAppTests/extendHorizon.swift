@@ -8,27 +8,27 @@
 import Testing
 import struct Foundation.URL
 
-extension Trait where Self == ConditionTrait {
-	static func skipWhenEmptyProducts(_ comment: Comment? = nil) -> Self {
-		.disabled(if: Products.catalog.isEmpty, comment)
-	}
-
-	static func skip(
-		_ comment: Comment? = nil,
-		condition: @escaping @Sendable () async throws -> Bool
-	) -> Self {
-		.disabled(comment) {
-			try await condition()
-		}
-	}
-}
-
-@Test(.skipWhenEmptyProducts("123123"))
-func adawda() {
-	#expect(throws: CancellationError.self) {
-		Task.isCancelled
-	}
-}
+//extension Trait where Self == ConditionTrait {
+//	static func skipWhenEmptyProducts(_ comment: Comment? = nil) -> Self {
+//		.disabled(if: Products.catalog.isEmpty, comment)
+//	}
+//
+//	static func skip(
+//		_ comment: Comment? = nil,
+//		condition: @escaping @Sendable () async throws -> Bool
+//	) -> Self {
+//		.disabled(comment) {
+//			try await condition()
+//		}
+//	}
+//}
+//
+//@Test(.skipWhenEmptyProducts("123123"))
+//func adawda() {
+//	#expect(throws: CancellationError.self) {
+//		Task.isCancelled
+//	}
+//}
 
 //@Test(.skip("Skip here", condition: {
 //	false
